@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Memo Rack</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Memo">
+<meta name="theme-color" content="#0a0a0c" id="themeColorMeta">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="icon" href="icons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #0d0d12;
+    --surface: #17171f;
+    --surface2: #1c1c26;
+    --border: #2a2a35;
+    --text: #e8e6f0;
+    --muted: #8b8797;
+    --faint: #5c5866;
+    --faintest: #3f3d47;
+    --accent: #e2001a;
+    --accent2: #0a0a0c;
+    --onaccent: #ffffff;
+    --accent-glow: rgba(226,0,26,0.4);
+    --accent-pink: #e2001a;
+    --ink: #0a0a0c;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+    height: 100%;
+    overscroll-behavior: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ---- Brand strip ---- */
+  .brand-strip {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 16px 7px 14px;
+    background: var(--accent);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
+    width: fit-content;
+    margin: 10px 0 0 0;
+  }
+  .brand-text {
+    color: #fff; font-weight: 900; font-style: italic;
+    letter-spacing: 0.06em; font-size: 12px; text-transform: uppercase;
+    transform: skewX(-6deg);
+  }
+  .brand-strip .brand-dot { width: 7px; height: 7px; background: #fff; transform: rotate(45deg); }
+
+  .stripe-divider {
+    height: 5px; margin-top: 10px;
+    background: repeating-linear-gradient(-55deg, var(--accent) 0 10px, var(--accent2) 10px 20px);
+    flex-shrink: 0;
+  }
+
+  /* ---- Header ---- */
+  header { flex-shrink: 0; padding: 0 16px 10px; }
+  .header-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .space-switch {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 2px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    padding: 10px 14px; flex: 1;
+    color: var(--text); font-size: 15px; font-weight: 800;
+    -webkit-appearance: none; appearance: none; min-width: 0;
+    letter-spacing: 0.01em;
+  }
+  .space-switch span#spaceLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dot { width: 10px; height: 10px; flex-shrink: 0; transform: rotate(45deg); }
+  .space-switch .chev { margin-left: auto; color: var(--accent); font-size: 13px; font-weight: 900; }
+  .theme-btn {
+    flex-shrink: 0; width: 46px; height: 46px;
+    background: var(--ink); border: 2px solid var(--accent);
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); font-size: 18px;
+  }
+
+  .cat-scroll { display: flex; gap: 10px; overflow-x: auto; margin-top: 12px; padding: 2px 2px 4px; scrollbar-width: none; }
+  .cat-scroll::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0; display: flex; align-items: center; gap: 6px;
+    padding: 7px 14px;
+    background: var(--surface); border: 2px solid var(--border);
+    color: var(--muted); font-size: 12px; font-weight: 800; white-space: nowrap;
+    transform: skewX(-10deg); letter-spacing: 0.02em;
+  }
+  .chip > * { display: inline-flex; transform: skewX(10deg); }
+  .chip.active { background: var(--accent); color: var(--onaccent); border-color: var(--accent); }
+  .chip .cdot { width: 7px; height: 7px; flex-shrink: 0; }
+  .chip.add { color: var(--faint); border-style: dashed; }
+
+  .search-row {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 2px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    padding: 10px 13px; margin-top: 10px;
+  }
+  .search-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-size: 15px; font-weight: 600; }
+  .search-row input::placeholder { color: var(--faint); font-weight: 500; }
+  .search-row svg { flex-shrink: 0; color: var(--accent); }
+
+  /* ---- List ---- */
+  #list { flex: 1; overflow-y: auto; padding: 12px 16px 100px; -webkit-overflow-scrolling: touch; }
+  .empty { text-align: center; color: var(--faint); font-size: 14px; margin-top: 60px; padding: 0 20px; line-height: 1.6; font-weight: 600; }
+  .card {
+    background: var(--surface); border: 2px solid var(--border); border-left: 5px solid var(--accent);
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    padding: 14px 14px 12px 13px; margin-bottom: 12px; position: relative;
+  }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .card-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .card-title-row .dot { width: 8px; height: 8px; }
+  .card-title { font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pin-btn { flex-shrink: 0; padding: 4px; color: var(--faintest); background: none; border: none; }
+  .pin-btn.pinned { color: var(--accent-pink); }
+  .card-body {
+    font-size: 13px; color: var(--muted); margin-top: 7px; white-space: pre-wrap; line-height: 1.5; font-weight: 500;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-date { margin-top: 9px; font-size: 10px; color: var(--faintest); font-family: ui-monospace, monospace; font-weight: 700; letter-spacing: 0.04em; }
+
+  /* ---- FAB ---- */
+  .fab {
+    position: fixed;
+    right: calc(24px + env(safe-area-inset-right));
+    bottom: calc(26px + env(safe-area-inset-bottom));
+    width: 58px; height: 58px;
+    background: var(--accent); color: var(--onaccent);
+    border: 3px solid var(--ink);
+    transform: rotate(45deg);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 0 var(--ink), 0 8px 20px var(--accent-glow);
+  }
+  .fab svg { transform: rotate(-45deg); }
+  .fab:active { transform: rotate(45deg) scale(0.92); }
+
+  /* ---- Sheets / modals ---- */
+  .sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; z-index: 50; }
+  .sheet-backdrop.open { display: flex; }
+  .sheet {
+    background: var(--surface); border-top: 4px solid var(--accent);
+    clip-path: polygon(0 14px, 6% 0, 100% 0, 100% 100%, 0 100%);
+    width: 100%; max-height: 88dvh; display: flex; flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: 6px;
+  }
+  .sheet-handle { width: 40px; height: 4px; background: var(--faintest); margin: 10px auto 4px; }
+  .sheet-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; border-bottom: 2px solid var(--border); color: var(--text);
+  }
+  .sheet-header strong { font-weight: 900; text-transform: uppercase; letter-spacing: 0.03em; font-size: 14px !important; }
+  .sheet-header select {
+    background: var(--ink); border: 2px solid var(--border); color: var(--text);
+    padding: 7px 10px; font-size: 12px; font-weight: 700;
+    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+  }
+  .icon-btn { background: none; border: none; color: var(--faint); padding: 6px; display: flex; }
+  .icon-btn.danger:active { color: var(--accent); }
+  .icon-btn.pinned { color: var(--accent-pink); }
+  .sheet-body { padding: 16px; overflow-y: auto; flex: 1; }
+  .title-input { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 19px; font-weight: 800; margin-bottom: 10px; }
+  .title-input::placeholder { color: var(--faint); }
+  .content-input { width: 100%; background: transparent; border: none; outline: none; color: var(--muted); font-size: 15px; line-height: 1.6; resize: none; min-height: 40vh; font-weight: 500; }
+  .content-input::placeholder { color: var(--faint); }
+  .field-label { font-size: 12px; color: var(--faint); margin: 14px 0 8px; font-weight: 700; text-transform: uppercase; }
+  .list-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--ink); border: 2px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    padding: 12px; margin-bottom: 9px;
+  }
+  .list-row .dot { width: 9px; height: 9px; }
+  .list-row span.name { flex: 1; font-size: 14px; color: var(--text); font-weight: 700; }
+  .name-input {
+    width: 100%; background: var(--ink); border: 2px solid var(--border); color: var(--text);
+    padding: 12px; font-size: 15px; outline: none; margin-top: 10px; font-weight: 600;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .name-input::placeholder { color: var(--faint); }
+  .palette { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .swatch {
+    width: 30px; height: 30px; border: 2px solid transparent;
+    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .swatch.selected { border-color: var(--text); }
+  .primary-btn {
+    width: 100%; background: var(--accent); color: var(--onaccent); font-weight: 900;
+    font-size: 15px; padding: 14px; border: none; margin-top: 14px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .primary-btn:active { filter: brightness(0.85); }
+  .footer-actions { padding: 14px 16px; border-top: 2px solid var(--border); }
+  .theme-section-title { font-size: 11px; color: var(--accent); margin: 6px 0 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; }
+  .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px; }
+  .theme-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; padding: 0; }
+  .theme-preview {
+    width: 44px; height: 44px; border: 2px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    position: relative; overflow: hidden;
+  }
+  .theme-preview.selected { border-color: var(--accent); border-width: 3px; }
+  .theme-preview .half { position: absolute; top: 0; bottom: 0; width: 50%; }
+  .theme-preview .half.l { left: 0; }
+  .theme-preview .half.r { right: 0; }
+  .theme-label { font-size: 9px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
+  .slot-row {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--ink); border: 2px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    padding: 12px; margin-bottom: 9px;
+  }
+  .slot-info { flex: 1; min-width: 0; }
+  .slot-name { font-size: 14px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .slot-meta { font-size: 11px; color: var(--faint); margin-top: 2px; font-weight: 600; }
+  .slot-actions { display: flex; gap: 2px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="brand-strip"><span class="brand-dot"></span><span class="brand-text">Memo Rack</span></div>
+  <header>
+    <div class="header-row">
+      <button class="space-switch" id="spaceSwitchBtn">
+        <span class="dot" id="spaceDot"></span>
+        <span id="spaceLabel">—</span>
+        <span class="chev">▾</span>
+      </button>
+      <button class="theme-btn" id="themeBtn" aria-label="テーマ">🎨</button>
+      <button class="theme-btn" id="saveLoadBtn" aria-label="セーブ・ロード">💾</button>
+    </div>
+    <div class="cat-scroll" id="catScroll"></div>
+    <div class="search-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="searchInput" placeholder="検索..." />
+    </div>
+  </header>
+  <div class="stripe-divider"></div>
+  <div id="list"></div>
+  <button class="fab" id="fabBtn" aria-label="新規メモ">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+</div>
+
+<div class="sheet-backdrop" id="themeBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><strong>背景テーマ</strong><button class="icon-btn" id="closeThemePicker">✕</button></div>
+    <div class="sheet-body">
+      <div class="theme-section-title">Accent Color</div>
+      <div class="theme-grid" id="accentGrid" style="grid-template-columns:repeat(5, 1fr);"></div>
+      <div class="theme-section-title">Light Mode</div>
+      <div class="theme-grid" id="lightThemeGrid"></div>
+      <div class="theme-section-title">Dark Mode</div>
+      <div class="theme-grid" id="darkThemeGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="saveLoadBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><strong>セーブ / ロード</strong><button class="icon-btn" id="closeSaveLoad">✕</button></div>
+    <div class="sheet-body">
+      <div class="theme-section-title">セーブデータ</div>
+      <div id="slotList"></div>
+      <input class="name-input" id="newSlotName" placeholder="セーブ名（例：8月版）" />
+      <button class="primary-btn" id="saveSlotBtn">現在の状態を保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="spacePickerBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><strong>大枠を選択</strong><button class="icon-btn" id="closeSpacePicker">✕</button></div>
+    <div class="sheet-body" id="spacePickerList"></div>
+    <div class="footer-actions">
+      <button class="primary-btn" id="editSpacesBtn" style="background:var(--surface2);color:var(--text);border:2px solid var(--border);clip-path:polygon(0 0,100% 0,100% 100%,0 100%);">大枠を編集</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="editorBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <select id="catSelect"></select>
+      <div style="display:flex;gap:2px;">
+        <button class="icon-btn" id="pinBtn">📌</button>
+        <button class="icon-btn danger" id="deleteBtn">🗑</button>
+        <button class="icon-btn" id="closeEditor">✕</button>
+      </div>
+    </div>
+    <div class="sheet-body">
+      <input class="title-input" id="titleInput" placeholder="タイトル" />
+      <textarea class="content-input" id="contentInput" placeholder="内容を入力..."></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="catEditorBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><strong id="catEditorTitle">カテゴリを編集</strong><button class="icon-btn" id="closeCatEditor">✕</button></div>
+    <div class="sheet-body">
+      <div id="catEditorList"></div>
+      <input class="name-input" id="newCatName" placeholder="新しいカテゴリ名" />
+      <div class="palette" id="newCatPalette"></div>
+      <button class="primary-btn" id="addCatBtn">追加</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="spaceEditorBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><strong>大枠を編集</strong><button class="icon-btn" id="closeSpaceEditor">✕</button></div>
+    <div class="sheet-body">
+      <div id="spaceEditorList"></div>
+      <input class="name-input" id="newSpaceName" placeholder="新しい大枠名（例：仕事）" />
+      <div class="palette" id="newSpacePalette"></div>
+      <button class="primary-btn" id="addSpaceBtn">追加</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const PALETTE = ['#e2001a','#f2a65a','#5ecbb0','#6fa8dc','#e0c14c','#c07be0','#7fce6b','#4fe0ff'];
+  const STORAGE_KEY = 'memo-rack-data-v1';
+  const SLOTS_KEY = 'memo-rack-slots-v1';
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+
+  const ACCENTS = [
+    { id:'red',  name:'レッド', accent:'#e2001a', accent2:'#0a0a0c', onaccent:'#ffffff', glow:'rgba(226,0,26,0.4)' },
+    { id:'blue', name:'ブルー', accent:'#0d5fe0', accent2:'#4fe0ff', onaccent:'#ffffff', glow:'rgba(13,95,224,0.45)' },
+    { id:'yellow', name:'イエロー', accent:'#f4c400', accent2:'#fde98a', onaccent:'#1a1408', pink:'#ff5fa8', glow:'rgba(244,196,0,0.45)' },
+  ];
+
+  const THEMES = [
+    { id:'dark-void',   mode:'dark',  name:'Void',      bg:'#0d0d12', surface:'#17171f', surface2:'#1c1c26', border:'#2a2a35', text:'#e8e6f0', muted:'#8b8797', faint:'#5c5866', faintest:'#3f3d47' },
+    { id:'dark-navy',   mode:'dark',  name:'Navy',      bg:'#0a0f1a', surface:'#121a29', surface2:'#182234', border:'#22304a', text:'#e6ecf5', muted:'#7f8ba3', faint:'#54607a', faintest:'#38415a' },
+    { id:'dark-forest', mode:'dark',  name:'Forest',    bg:'#0c1310', surface:'#141d18', surface2:'#1a2620', border:'#243830', text:'#e3ede7', muted:'#7fa090', faint:'#526b5f', faintest:'#39493f' },
+    { id:'dark-wine',   mode:'dark',  name:'Wine',      bg:'#140b10', surface:'#1e131b', surface2:'#281a24', border:'#3a2230', text:'#f0e4ea', muted:'#a6849a', faint:'#6e5566', faintest:'#473642' },
+    { id:'dark-slate',  mode:'dark',  name:'Slate',     bg:'#101113', surface:'#1a1c1f', surface2:'#22252a', border:'#2f3237', text:'#e9eaec', muted:'#8f939a', faint:'#5f636b', faintest:'#3d4046' },
+    { id:'light-paper', mode:'light', name:'Paper',     bg:'#f7f5f1', surface:'#ffffff', surface2:'#efe9df', border:'#e4ded3', text:'#2b2822', muted:'#726c60', faint:'#a29c8e', faintest:'#c9c2b3' },
+    { id:'light-cool',  mode:'light', name:'Cool',      bg:'#f3f5f8', surface:'#ffffff', surface2:'#e7ecf2', border:'#dde3ea', text:'#232a33', muted:'#6b7684', faint:'#9aa4b0', faintest:'#c5cdd6' },
+    { id:'light-mint',  mode:'light', name:'Mint',      bg:'#f1f7f4', surface:'#ffffff', surface2:'#e3f0e9', border:'#dbeae2', text:'#20302a', muted:'#5f7d70', faint:'#8fa99c', faintest:'#bdd2c8' },
+    { id:'light-lav',   mode:'light', name:'Lavender',  bg:'#f6f3fa', surface:'#ffffff', surface2:'#ece3f5', border:'#e5dcf1', text:'#2c2438', muted:'#71667e', faint:'#a191ae', faintest:'#cabcd6' },
+    { id:'light-sand',  mode:'light', name:'Sand',      bg:'#faf4ec', surface:'#ffffff', surface2:'#f2e6d3', border:'#ecdcc4', text:'#332a1e', muted:'#7d6c55', faint:'#ab967b', faintest:'#d3c1a3' },
+  ];
+
+  let data = {
+    theme: 'dark-void',
+    accent: 'red',
+    spaces: [
+      { id:'daily', name:'日常', color:'#f2a65a' },
+      { id:'study', name:'勉強', color:'#6fa8dc' },
+      { id:'music', name:'音楽', color:'#e2001a' },
+    ],
+    categories: [
+      { id:'idea', name:'アイデア', color:PALETTE[0], spaceId:'daily' },
+      { id:'todo', name:'TODO', color:PALETTE[1], spaceId:'daily' },
+      { id:'note', name:'ノート', color:PALETTE[2], spaceId:'study' },
+      { id:'ref', name:'参考', color:PALETTE[3], spaceId:'study' },
+      { id:'onsource', name:'音源', color:PALETTE[4], spaceId:'music' },
+      { id:'idea-m', name:'アイデア', color:PALETTE[5], spaceId:'music' },
+    ],
+    memos: [],
+  };
+
+  let state = {
+    activeSpace: 'daily',
+    activeCat: 'all',
+    query: '',
+    editingId: null,
+    editingIsNew: false,
+    draft: null,
+    newCatColor: PALETTE[0],
+    newSpaceColor: PALETTE[0],
+  };
+
+  function load(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.theme) data.theme = parsed.theme;
+        if (parsed.accent) data.accent = parsed.accent;
+        if (parsed.spaces && parsed.spaces.length) data.spaces = parsed.spaces;
+        if (parsed.categories) data.categories = parsed.categories;
+        if (parsed.memos) data.memos = parsed.memos;
+      }
+    } catch(e) {}
+    if (!data.spaces.find(s => s.id === state.activeSpace)) {
+      state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
+    }
+  }
+  function save(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function applyTheme(id){
+    const t = THEMES.find(x => x.id === id) || THEMES[0];
+    const root = document.documentElement.style;
+    root.setProperty('--bg', t.bg);
+    root.setProperty('--surface', t.surface);
+    root.setProperty('--surface2', t.surface2);
+    root.setProperty('--border', t.border);
+    root.setProperty('--text', t.text);
+    root.setProperty('--muted', t.muted);
+    root.setProperty('--faint', t.faint);
+    root.setProperty('--faintest', t.faintest);
+    document.getElementById('themeColorMeta').setAttribute('content', t.bg);
+    data.theme = t.id;
+  }
+
+  function applyAccent(id){
+    const a = ACCENTS.find(x => x.id === id) || ACCENTS[0];
+    const root = document.documentElement.style;
+    root.setProperty('--accent', a.accent);
+    root.setProperty('--accent2', a.accent2);
+    root.setProperty('--onaccent', a.onaccent);
+    root.setProperty('--accent-glow', a.glow);
+    root.setProperty('--accent-pink', a.pink || a.accent);
+    data.accent = a.id;
+  }
+
+  function spaceById(id){ return data.spaces.find(s => s.id === id); }
+  function catById(id){ return data.categories.find(c => c.id === id); }
+  function spaceCategories(){ return data.categories.filter(c => c.spaceId === state.activeSpace); }
+  function spaceMemos(){ return data.memos.filter(m => m.spaceId === state.activeSpace); }
+
+  function filteredMemos(){
+    let list = spaceMemos();
+    if (state.activeCat !== 'all') list = list.filter(m => m.category === state.activeCat);
+    if (state.query.trim()) {
+      const q = state.query.trim().toLowerCase();
+      list = list.filter(m => m.title.toLowerCase().includes(q) || m.content.toLowerCase().includes(q));
+    }
+    return list.slice().sort((a,b) => {
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+      return b.updatedAt - a.updatedAt;
+    });
+  }
+
+  function esc(s){
+    return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmtDate(ts){
+    const d = new Date(ts);
+    return (d.getMonth()+1) + '月' + d.getDate() + '日';
+  }
+  function fmtDateTime(ts){
+    const d = new Date(ts);
+    const h = String(d.getHours()).padStart(2,'0');
+    const mi = String(d.getMinutes()).padStart(2,'0');
+    return (d.getMonth()+1) + '/' + d.getDate() + ' ' + h + ':' + mi;
+  }
+
+  function loadSlots(){
+    try {
+      const raw = localStorage.getItem(SLOTS_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return [];
+  }
+  function saveSlots(slots){
+    try { localStorage.setItem(SLOTS_KEY, JSON.stringify(slots)); } catch(e) {}
+  }
+  function memoCountOf(d){ return (d.memos || []).length; }
+
+  function renderSlotList(){
+    const el = document.getElementById('slotList');
+    const slots = loadSlots();
+    if (!slots.length) {
+      el.innerHTML = `<div style="color:var(--faint);font-size:13px;padding:6px 0 14px;">まだセーブデータがありません</div>`;
+      return;
+    }
+    el.innerHTML = slots.slice().sort((a,b)=>b.savedAt-a.savedAt).map(s => `
+      <div class="slot-row" data-slotrow="${s.id}">
+        <div class="slot-info">
+          <div class="slot-name">${esc(s.name)}</div>
+          <div class="slot-meta">${fmtDateTime(s.savedAt)} ・ ${memoCountOf(s.data)}件</div>
+        </div>
+        <div class="slot-actions">
+          <button class="icon-btn" data-loadslot="${s.id}" title="呼び出す">📥</button>
+          <button class="icon-btn" data-overwriteslot="${s.id}" title="上書き保存">💾</button>
+          <button class="icon-btn danger" data-delslot="${s.id}" title="削除">🗑</button>
+        </div>
+      </div>`).join('');
+
+    el.querySelectorAll('[data-loadslot]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slot = loadSlots().find(s => s.id === btn.dataset.loadslot);
+        if (!slot) return;
+        if (!confirm(`「${slot.name}」を呼び出します。現在の内容は上書きされます。よろしいですか？`)) return;
+        data = JSON.parse(JSON.stringify(slot.data));
+        state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
+        state.activeCat = 'all';
+        applyTheme(data.theme);
+        applyAccent(data.accent);
+        save();
+        closeSheet('saveLoadBackdrop');
+        renderAll();
+      });
+    });
+    el.querySelectorAll('[data-overwriteslot]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slots = loadSlots();
+        const slot = slots.find(s => s.id === btn.dataset.overwriteslot);
+        if (!slot) return;
+        if (!confirm(`「${slot.name}」を現在の内容で上書き保存しますか？`)) return;
+        slot.data = JSON.parse(JSON.stringify(data));
+        slot.savedAt = Date.now();
+        saveSlots(slots);
+        renderSlotList();
+      });
+    });
+    el.querySelectorAll('[data-delslot]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slots = loadSlots();
+        const slot = slots.find(s => s.id === btn.dataset.delslot);
+        if (!slot) return;
+        if (!confirm(`「${slot.name}」を削除しますか？`)) return;
+        saveSlots(slots.filter(s => s.id !== slot.id));
+        renderSlotList();
+      });
+    });
+  }
+
+  function saveCurrentAsSlot(){
+    const input = document.getElementById('newSlotName');
+    const name = input.value.trim();
+    if (!name) return;
+    const slots = loadSlots();
+    slots.push({ id: uid(), name, savedAt: Date.now(), data: JSON.parse(JSON.stringify(data)) });
+    saveSlots(slots);
+    input.value = '';
+    renderSlotList();
+  }
+
+  function openSaveLoad(){ renderSlotList(); openSheet('saveLoadBackdrop'); }
+
+  function renderHeader(){
+    const sp = spaceById(state.activeSpace);
+    document.getElementById('spaceDot').style.background = sp ? sp.color : 'var(--faint)';
+    document.getElementById('spaceLabel').textContent = sp ? sp.name : '大枠がありません';
+
+    const catScroll = document.getElementById('catScroll');
+    const cats = spaceCategories();
+    let html = `<button class="chip ${state.activeCat==='all'?'active':''}" data-cat="all"><span>すべて</span></button>`;
+    cats.forEach(c => {
+      html += `<button class="chip ${state.activeCat===c.id?'active':''}" data-cat="${c.id}"><span class="cdot" style="background:${c.color}"></span><span>${esc(c.name)}</span></button>`;
+    });
+    html += `<button class="chip add" data-action="edit-cats"><span>＋ カテゴリ</span></button>`;
+    catScroll.innerHTML = html;
+    catScroll.querySelectorAll('[data-cat]').forEach(btn => {
+      btn.addEventListener('click', () => { state.activeCat = btn.dataset.cat; renderAll(); });
+    });
+    catScroll.querySelector('[data-action="edit-cats"]').addEventListener('click', openCatEditor);
+  }
+
+  function renderList(){
+    const list = document.getElementById('list');
+    const cats = spaceCategories();
+    const memos = filteredMemos();
+
+    if (!data.spaces.length) {
+      list.innerHTML = `<div class="empty">大枠がありません。大枠を編集してください。</div>`;
+      return;
+    }
+    if (!cats.length) {
+      list.innerHTML = `<div class="empty">このスペースにカテゴリがありません。<br>「＋ カテゴリ」から作成してください。</div>`;
+      return;
+    }
+    if (!memos.length) {
+      list.innerHTML = `<div class="empty">${state.query ? '見つかりませんでした' : 'メモがありません。右下の＋から追加してください。'}</div>`;
+      return;
+    }
+    list.innerHTML = memos.map(m => {
+      const cat = catById(m.category);
+      return `<div class="card" data-id="${m.id}" style="border-left-color:${cat ? cat.color : 'var(--accent)'}">
+        <div class="card-top">
+          <div class="card-title-row">
+            ${cat ? `<span class="dot" style="width:8px;height:8px;background:${cat.color}"></span>` : ''}
+            <span class="card-title">${esc(m.title) || '(無題)'}</span>
+          </div>
+          <button class="pin-btn ${m.pinned?'pinned':''}" data-pin="${m.id}">${m.pinned ? '📌' : '📍'}</button>
+        </div>
+        ${m.content ? `<div class="card-body">${esc(m.content)}</div>` : ''}
+        <div class="card-date">${fmtDate(m.updatedAt)}</div>
+      </div>`;
+    }).join('');
+
+    list.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('[data-pin]')) return;
+        openEditor(card.dataset.id);
+      });
+    });
+    list.querySelectorAll('[data-pin]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const m = data.memos.find(x => x.id === btn.dataset.pin);
+        if (m) { m.pinned = !m.pinned; save(); renderList(); }
+      });
+    });
+  }
+
+  function renderAll(){ renderHeader(); renderList(); }
+
+  function renderThemeGrids(){
+    const lightGrid = document.getElementById('lightThemeGrid');
+    const darkGrid = document.getElementById('darkThemeGrid');
+    function swatchHtml(t){
+      return `<button class="theme-swatch" data-theme="${t.id}">
+        <span class="theme-preview ${data.theme===t.id?'selected':''}">
+          <span class="half l" style="background:${t.bg}"></span>
+          <span class="half r" style="background:${t.surface}"></span>
+        </span>
+        <span class="theme-label">${t.name}</span>
+      </button>`;
+    }
+    lightGrid.innerHTML = THEMES.filter(t=>t.mode==='light').map(swatchHtml).join('');
+    darkGrid.innerHTML = THEMES.filter(t=>t.mode==='dark').map(swatchHtml).join('');
+    [...lightGrid.querySelectorAll('[data-theme]'), ...darkGrid.querySelectorAll('[data-theme]')].forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyTheme(btn.dataset.theme);
+        save();
+        renderThemeGrids();
+      });
+    });
+  }
+  function renderAccentGrid(){
+    const grid = document.getElementById('accentGrid');
+    grid.innerHTML = ACCENTS.map(a => {
+      const stops = a.pink
+        ? `${a.accent} 0 34%, ${a.accent2} 34% 67%, ${a.pink} 67% 100%`
+        : `${a.accent} 0 50%, ${a.accent2} 50% 100%`;
+      return `<button class="theme-swatch" data-accent="${a.id}">
+        <span class="theme-preview ${data.accent===a.id?'selected':''}" style="background:linear-gradient(90deg, ${stops})"></span>
+        <span class="theme-label">${a.name}</span>
+      </button>`;
+    }).join('');
+    grid.querySelectorAll('[data-accent]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyAccent(btn.dataset.accent);
+        save();
+        renderAccentGrid();
+      });
+    });
+  }
+  function openThemePicker(){ renderAccentGrid(); renderThemeGrids(); openSheet('themeBackdrop'); }
+
+  function openSpacePicker(){
+    const listEl = document.getElementById('spacePickerList');
+    listEl.innerHTML = data.spaces.map(s => `
+      <div class="list-row" data-pick="${s.id}">
+        <span class="dot" style="background:${s.color}"></span>
+        <span class="name">${esc(s.name)}</span>
+      </div>`).join('');
+    listEl.querySelectorAll('[data-pick]').forEach(row => {
+      row.addEventListener('click', () => {
+        state.activeSpace = row.dataset.pick;
+        state.activeCat = 'all';
+        closeSheet('spacePickerBackdrop');
+        renderAll();
+      });
+    });
+    openSheet('spacePickerBackdrop');
+  }
+
+  function openEditor(id){
+    let memo;
+    if (id) {
+      memo = data.memos.find(m => m.id === id);
+      state.editingIsNew = false;
+    } else {
+      const cats = spaceCategories();
+      memo = { id: null, title:'', content:'', category: cats[0] ? cats[0].id : '', spaceId: state.activeSpace, pinned:false };
+      state.editingIsNew = true;
+    }
+    state.draft = Object.assign({}, memo);
+    state.editingId = id;
+
+    const catSelect = document.getElementById('catSelect');
+    catSelect.innerHTML = spaceCategories().map(c => `<option value="${c.id}" ${c.id===state.draft.category?'selected':''}>${esc(c.name)}</option>`).join('');
+    document.getElementById('titleInput').value = state.draft.title || '';
+    document.getElementById('contentInput').value = state.draft.content || '';
+    document.getElementById('pinBtn').classList.toggle('pinned', !!state.draft.pinned);
+    document.getElementById('deleteBtn').style.display = state.draft.id ? 'flex' : 'none';
+
+    openSheet('editorBackdrop');
+    setTimeout(() => document.getElementById('titleInput').focus(), 250);
+  }
+
+  function saveDraftAndClose(){
+    const title = document.getElementById('titleInput').value.trim();
+    const content = document.getElementById('contentInput').value.trim();
+    if (!title && !content) { closeSheet('editorBackdrop'); return; }
+    const now = Date.now();
+    if (state.draft.id) {
+      const m = data.memos.find(x => x.id === state.draft.id);
+      Object.assign(m, {
+        title: document.getElementById('titleInput').value,
+        content: document.getElementById('contentInput').value,
+        category: document.getElementById('catSelect').value,
+        pinned: state.draft.pinned,
+        updatedAt: now,
+      });
+    } else {
+      data.memos.push({
+        id: uid(),
+        title: document.getElementById('titleInput').value,
+        content: document.getElementById('contentInput').value,
+        category: document.getElementById('catSelect').value,
+        spaceId: state.activeSpace,
+        pinned: state.draft.pinned,
+        createdAt: now,
+        updatedAt: now,
+      });
+    }
+    save();
+    closeSheet('editorBackdrop');
+    renderAll();
+  }
+
+  function deleteDraft(){
+    if (state.draft.id) {
+      data.memos = data.memos.filter(m => m.id !== state.draft.id);
+      save();
+    }
+    closeSheet('editorBackdrop');
+    renderAll();
+  }
+
+  function renderCatEditorList(){
+    const el = document.getElementById('catEditorList');
+    const cats = spaceCategories();
+    el.innerHTML = cats.map(c => `
+      <div class="list-row" data-catrow="${c.id}">
+        <span class="dot" style="background:${c.color}"></span>
+        <span class="name">${esc(c.name)}</span>
+        <button class="icon-btn danger" data-delcat="${c.id}">🗑</button>
+      </div>`).join('') || `<div style="color:var(--faint);font-size:13px;padding:6px 0;">まだカテゴリがありません</div>`;
+    el.querySelectorAll('[data-delcat]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.delcat;
+        data.categories = data.categories.filter(c => c.id !== id);
+        data.memos = data.memos.filter(m => m.category !== id);
+        if (state.activeCat === id) state.activeCat = 'all';
+        save();
+        renderCatEditorList();
+        renderAll();
+      });
+    });
+  }
+  function openCatEditor(){
+    document.getElementById('catEditorTitle').textContent = 'カテゴリを編集 — ' + (spaceById(state.activeSpace)||{}).name;
+    renderCatEditorList();
+    const pal = document.getElementById('newCatPalette');
+    state.newCatColor = PALETTE[0];
+    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
+    updateCatPaletteSelection();
+    pal.querySelectorAll('[data-color]').forEach(sw => {
+      sw.addEventListener('click', () => { state.newCatColor = sw.dataset.color; updateCatPaletteSelection(); });
+    });
+    document.getElementById('newCatName').value = '';
+    openSheet('catEditorBackdrop');
+  }
+  function updateCatPaletteSelection(){
+    document.querySelectorAll('#newCatPalette .swatch').forEach(sw => {
+      sw.classList.toggle('selected', sw.dataset.color === state.newCatColor);
+    });
+  }
+  function addCategory(){
+    const input = document.getElementById('newCatName');
+    const name = input.value.trim();
+    if (!name) return;
+    data.categories.push({ id: uid(), name, color: state.newCatColor, spaceId: state.activeSpace });
+    save();
+    input.value = '';
+    state.newCatColor = PALETTE[data.categories.length % PALETTE.length];
+    updateCatPaletteSelection();
+    renderCatEditorList();
+    renderAll();
+  }
+
+  function renderSpaceEditorList(){
+    const el = document.getElementById('spaceEditorList');
+    el.innerHTML = data.spaces.map(s => `
+      <div class="list-row" data-spacerow="${s.id}">
+        <span class="dot" style="background:${s.color}"></span>
+        <span class="name">${esc(s.name)}</span>
+        <button class="icon-btn danger" data-delspace="${s.id}" ${data.spaces.length<=1?'disabled style="opacity:.3"':''}>🗑</button>
+      </div>`).join('');
+    el.querySelectorAll('[data-delspace]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (data.spaces.length <= 1) return;
+        const id = btn.dataset.delspace;
+        const catIds = data.categories.filter(c => c.spaceId === id).map(c => c.id);
+        data.categories = data.categories.filter(c => c.spaceId !== id);
+        data.memos = data.memos.filter(m => !catIds.includes(m.category) && m.spaceId !== id);
+        data.spaces = data.spaces.filter(s => s.id !== id);
+        if (state.activeSpace === id) {
+          state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
+          state.activeCat = 'all';
+        }
+        save();
+        renderSpaceEditorList();
+        renderAll();
+      });
+    });
+  }
+  function openSpaceEditor(){
+    renderSpaceEditorList();
+    const pal = document.getElementById('newSpacePalette');
+    state.newSpaceColor = PALETTE[0];
+    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
+    updateSpacePaletteSelection();
+    pal.querySelectorAll('[data-color]').forEach(sw => {
+      sw.addEventListener('click', () => { state.newSpaceColor = sw.dataset.color; updateSpacePaletteSelection(); });
+    });
+    document.getElementById('newSpaceName').value = '';
+    openSheet('spaceEditorBackdrop');
+  }
+  function updateSpacePaletteSelection(){
+    document.querySelectorAll('#newSpacePalette .swatch').forEach(sw => {
+      sw.classList.toggle('selected', sw.dataset.color === state.newSpaceColor);
+    });
+  }
+  function addSpace(){
+    const input = document.getElementById('newSpaceName');
+    const name = input.value.trim();
+    if (!name) return;
+    const id = uid();
+    data.spaces.push({ id, name, color: state.newSpaceColor });
+    save();
+    state.activeSpace = id;
+    state.activeCat = 'all';
+    input.value = '';
+    state.newSpaceColor = PALETTE[data.spaces.length % PALETTE.length];
+    updateSpacePaletteSelection();
+    renderSpaceEditorList();
+    renderAll();
+  }
+
+  function openSheet(id){ document.getElementById(id).classList.add('open'); }
+  function closeSheet(id){ document.getElementById(id).classList.remove('open'); }
+
+  document.getElementById('themeBtn').addEventListener('click', openThemePicker);
+  document.getElementById('closeThemePicker').addEventListener('click', () => closeSheet('themeBackdrop'));
+  document.getElementById('themeBackdrop').addEventListener('click', (e) => { if (e.target.id==='themeBackdrop') closeSheet('themeBackdrop'); });
+
+  document.getElementById('saveLoadBtn').addEventListener('click', openSaveLoad);
+  document.getElementById('closeSaveLoad').addEventListener('click', () => closeSheet('saveLoadBackdrop'));
+  document.getElementById('saveLoadBackdrop').addEventListener('click', (e) => { if (e.target.id==='saveLoadBackdrop') closeSheet('saveLoadBackdrop'); });
+  document.getElementById('saveSlotBtn').addEventListener('click', saveCurrentAsSlot);
+
+  document.getElementById('spaceSwitchBtn').addEventListener('click', openSpacePicker);
+  document.getElementById('closeSpacePicker').addEventListener('click', () => closeSheet('spacePickerBackdrop'));
+  document.getElementById('spacePickerBackdrop').addEventListener('click', (e) => { if (e.target.id==='spacePickerBackdrop') closeSheet('spacePickerBackdrop'); });
+  document.getElementById('editSpacesBtn').addEventListener('click', () => { closeSheet('spacePickerBackdrop'); openSpaceEditor(); });
+
+  document.getElementById('fabBtn').addEventListener('click', () => openEditor(null));
+  document.getElementById('closeEditor').addEventListener('click', saveDraftAndClose);
+  document.getElementById('editorBackdrop').addEventListener('click', (e) => { if (e.target.id==='editorBackdrop') saveDraftAndClose(); });
+  document.getElementById('pinBtn').addEventListener('click', () => {
+    state.draft.pinned = !state.draft.pinned;
+    document.getElementById('pinBtn').classList.toggle('pinned', state.draft.pinned);
+  });
+  document.getElementById('deleteBtn').addEventListener('click', deleteDraft);
+
+  document.getElementById('closeCatEditor').addEventListener('click', () => closeSheet('catEditorBackdrop'));
+  document.getElementById('catEditorBackdrop').addEventListener('click', (e) => { if (e.target.id==='catEditorBackdrop') closeSheet('catEditorBackdrop'); });
+  document.getElementById('addCatBtn').addEventListener('click', addCategory);
+
+  document.getElementById('closeSpaceEditor').addEventListener('click', () => closeSheet('spaceEditorBackdrop'));
+  document.getElementById('spaceEditorBackdrop').addEventListener('click', (e) => { if (e.target.id==='spaceEditorBackdrop') closeSheet('spaceEditorBackdrop'); });
+  document.getElementById('addSpaceBtn').addEventListener('click', addSpace);
+
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    state.query = e.target.value;
+    renderList();
+  });
+
+  load();
+  applyTheme(data.theme);
+  applyAccent(data.accent);
+  renderAll();
+})();
+</script>
+</body>
+</html>
