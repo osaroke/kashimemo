@@ -8,11 +8,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Memo">
 <meta name="theme-color" content="#0a0a0c" id="themeColorMeta">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
-<link rel="icon" href="icons/favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABmJLR0QA/wD/AP+gvaeTAAAAz0lEQVRIiWPksj/CQCIoipJpTpMnUjEzq0ISqRYcv/zpx6//TsYCtLKAJDvItIB4O8i3gEg7KLKAGDsotYCgHVSwAL8d1LEAjx1UswCXHdS0AKsdVLYA0w7qW4BmB00sQLaDhRamQ0DfsiecbEyMZBTXJAEmmprOwMDApBpKbNVBpgUKPjI0tYOJgYGBpnZA44B2diAimUZ2oKQiWtiBnkypbgeWfEBdO7BnNCragTMnU8sOfEUFVewgUBZRbgfhwo5CO4gqTSmxg9jimmw7ABxva93RFrc7AAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAABmJLR0QA/wD/AP+gvaeTAAAEGElEQVR4nO3du21UQRSA4eOVScwCogFiJMhcgCugGySaoBtacEqIRBcI5NCBAyw/1nd278ydmfP6/wom+LTancfZs4ura6FC7/bnP75/uvy4116ITjvtBZju783tl6+/fv6+0V6ITuA4UWYf4DhdWh/gWFVOH+BYW0If4Kgomw9w1JXKBziqy+MDHC0l8QGOxjL4AEd74X2AY1OxfYBja4F9gKNDUX2Ao08hfYCjW/F8gKNnwXyAo3ORfICjf2F8gGNIMXyAY1QBfIBjYN59gGNsrn2AY3h+fYBjRk59gGNSHn2AY17ufIBjar58gGN2jnyAQyEvPsChkwsf4FDLvg9waGbcBziUs+wDHPqZ9QEOE9n0AQ4rGfQBDkNZ8wEOW5nyAQ5z2fEBDosZ8QEOo1nwAQ67qfsAh+l0fYDDeoo+wOEgLR/g8JGKD3C4ab4PcHhqsg9wOGumD3D4a5oPcLhsjg9weG2CD3A4brQPcPhuqA9wuG+cD3BEaJAPcARphA9wxKm7D3CEqq8PcESrow9wBKyXD3DErIsPcIRtuw9wRG6jD3AEb4sPcMSv2Qc4UtTmAxxZavABjkTV+gBHrqp8gCNd632AI2MrfYAjaWt8gCNvJ32AI3XHfYAje0d8gIOKPsBBIgUf4KD7XvoABz124AMc9KynPsBBhz34OLu4utZeDFns/dtzPjlouT//bsFBxcBBxcBBxcBBxcBBxcBBxcBBxcBBxcBBxXav9ufaayCj7S6/fcYHLbZ78+E1PmixnYjggxa7/0KKD3rZ468VfNBBz37K4oOedrjPgQ96aGETDB/0v+UdUnyQHNk+xwcdO1vBR/JOHLzhI3OnT2XxkbZVR/b4yNna+xz4SFjFZR98ZKvuJhg+UlV9TRAfeWq5Q4qPJDVeMMZHhtpvn+MjfJueJuAjdlvfreAjcB0eNeEjan1evOEjZN2eQ+IjXj3fyuIjWJ0fUuMjUv1f2eMjTENGMOAjRqPmc+AjQAOHt+DDe2Mn++DDdcPHPuHDbzNmguHDaZMGxuHDY/OmCeLDXVNHTeLDV7PnkOLDUQpDavHhJZ0Jxvhwkdp4a3zYT3P2OT6MpzwYHx+W0//XBHyYTR+H4MNqJnAIPkxmBYfgw16GcAg+jGULh+DDUuZwCD7MZBGH4MNGRnEIPgxkF4fgQzvTOAQfqlnHIfjQywEOwYdSPnAIPjRyg0PwMT1POAQfc3OGQ/AxMX84BB+zcolD8DElrzgEH+NzjEPwMTjfOAQfI3OPQ/AxrAg4BB9jCoJD8DGgODgEH70LhUPw0bVoOAQf/QqIQ/DRqZg4BB89CotD8LG5yDgEH9sKjkPwsaH4OAQfraXAIfhoKgsOwUd9iXAIPirLhUPwUVM6HIKP1WXEIfhY1x3Q6bFy4SvdTwAAAABJRU5ErkJggg==">
 <style>
   :root {
     --bg: #0d0d12;
@@ -58,11 +55,11 @@
     margin: 10px 0 0 0;
   }
   .brand-text {
-    color: #fff; font-weight: 900; font-style: italic;
+    color: var(--onaccent); font-weight: 900; font-style: italic;
     letter-spacing: 0.06em; font-size: 12px; text-transform: uppercase;
     transform: skewX(-6deg);
   }
-  .brand-strip .brand-dot { width: 7px; height: 7px; background: #fff; transform: rotate(45deg); }
+  .brand-strip .brand-dot { width: 7px; height: 7px; background: var(--onaccent); transform: rotate(45deg); }
 
   .stripe-divider {
     height: 5px; margin-top: 10px;
@@ -129,13 +126,13 @@
   .card-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .card-title-row .dot { width: 8px; height: 8px; }
   .card-title { font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pin-btn { flex-shrink: 0; padding: 4px; color: var(--faintest); background: none; border: none; }
+  .pin-btn { flex-shrink: 0; padding: 4px; color: var(--faint); background: none; border: none; }
   .pin-btn.pinned { color: var(--accent-pink); }
   .card-body {
     font-size: 13px; color: var(--muted); margin-top: 7px; white-space: pre-wrap; line-height: 1.5; font-weight: 500;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .card-date { margin-top: 9px; font-size: 10px; color: var(--faintest); font-family: ui-monospace, monospace; font-weight: 700; letter-spacing: 0.04em; }
+  .card-date { margin-top: 9px; font-size: 10px; color: var(--faint); font-family: ui-monospace, monospace; font-weight: 700; letter-spacing: 0.04em; }
 
   /* ---- FAB ---- */
   .fab {
@@ -169,11 +166,11 @@
   }
   .sheet-header strong { font-weight: 900; text-transform: uppercase; letter-spacing: 0.03em; font-size: 14px !important; }
   .sheet-header select {
-    background: var(--ink); border: 2px solid var(--border); color: var(--text);
+    background: var(--bg); border: 2px solid var(--border); color: var(--text);
     padding: 7px 10px; font-size: 12px; font-weight: 700;
     clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
   }
-  .icon-btn { background: none; border: none; color: var(--faint); padding: 6px; display: flex; }
+  .icon-btn { background: none; border: none; color: var(--muted); padding: 6px; display: flex; }
   .icon-btn.danger:active { color: var(--accent); }
   .icon-btn.pinned { color: var(--accent-pink); }
   .sheet-body { padding: 16px; overflow-y: auto; flex: 1; }
@@ -184,14 +181,14 @@
   .field-label { font-size: 12px; color: var(--faint); margin: 14px 0 8px; font-weight: 700; text-transform: uppercase; }
   .list-row {
     display: flex; align-items: center; gap: 10px;
-    background: var(--ink); border: 2px solid var(--border);
+    background: var(--bg); border: 2px solid var(--border);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     padding: 12px; margin-bottom: 9px;
   }
   .list-row .dot { width: 9px; height: 9px; }
   .list-row span.name { flex: 1; font-size: 14px; color: var(--text); font-weight: 700; }
   .name-input {
-    width: 100%; background: var(--ink); border: 2px solid var(--border); color: var(--text);
+    width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text);
     padding: 12px; font-size: 15px; outline: none; margin-top: 10px; font-weight: 600;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   }
@@ -226,7 +223,7 @@
   .theme-label { font-size: 9px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
   .slot-row {
     display: flex; align-items: center; gap: 8px;
-    background: var(--ink); border: 2px solid var(--border);
+    background: var(--bg); border: 2px solid var(--border);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     padding: 12px; margin-bottom: 9px;
   }
