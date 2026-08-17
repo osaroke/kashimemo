@@ -12,6 +12,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAABmJLR0QA/wD/AP+gvaeTAAAEGElEQVR4nO3du21UQRSA4eOVScwCogFiJMhcgCugGySaoBtacEqIRBcI5NCBAyw/1nd278ydmfP6/wom+LTancfZs4ura6FC7/bnP75/uvy4116ITjvtBZju783tl6+/fv6+0V6ITuA4UWYf4DhdWh/gWFVOH+BYW0If4Kgomw9w1JXKBziqy+MDHC0l8QGOxjL4AEd74X2AY1OxfYBja4F9gKNDUX2Ao08hfYCjW/F8gKNnwXyAo3ORfICjf2F8gGNIMXyAY1QBfIBjYN59gGNsrn2AY3h+fYBjRk59gGNSHn2AY17ufIBjar58gGN2jnyAQyEvPsChkwsf4FDLvg9waGbcBziUs+wDHPqZ9QEOE9n0AQ4rGfQBDkNZ8wEOW5nyAQ5z2fEBDosZ8QEOo1nwAQ67qfsAh+l0fYDDeoo+wOEgLR/g8JGKD3C4ab4PcHhqsg9wOGumD3D4a5oPcLhsjg9weG2CD3A4brQPcPhuqA9wuG+cD3BEaJAPcARphA9wxKm7D3CEqq8PcESrow9wBKyXD3DErIsPcIRtuw9wRG6jD3AEb4sPcMSv2Qc4UtTmAxxZavABjkTV+gBHrqp8gCNd632AI2MrfYAjaWt8gCNvJ32AI3XHfYAje0d8gIOKPsBBIgUf4KD7XvoABz124AMc9KynPsBBhz34OLu4utZeDFns/dtzPjlouT//bsFBxcBBxcBBxcBBxcBBxcBBxcBBxcBBxcBBxXav9ufaayCj7S6/fcYHLbZ78+E1PmixnYjggxa7/0KKD3rZ468VfNBBz37K4oOedrjPgQ96aGETDB/0v+UdUnyQHNk+xwcdO1vBR/JOHLzhI3OnT2XxkbZVR/b4yNna+xz4SFjFZR98ZKvuJhg+UlV9TRAfeWq5Q4qPJDVeMMZHhtpvn+MjfJueJuAjdlvfreAjcB0eNeEjan1evOEjZN2eQ+IjXj3fyuIjWJ0fUuMjUv1f2eMjTENGMOAjRqPmc+AjQAOHt+DDe2Mn++DDdcPHPuHDbzNmguHDaZMGxuHDY/OmCeLDXVNHTeLDV7PnkOLDUQpDavHhJZ0Jxvhwkdp4a3zYT3P2OT6MpzwYHx+W0//XBHyYTR+H4MNqJnAIPkxmBYfgw16GcAg+jGULh+DDUuZwCD7MZBGH4MNGRnEIPgxkF4fgQzvTOAQfqlnHIfjQywEOwYdSPnAIPjRyg0PwMT1POAQfc3OGQ/AxMX84BB+zcolD8DElrzgEH+NzjEPwMTjfOAQfI3OPQ/AxrAg4BB9jCoJD8DGgODgEH70LhUPw0bVoOAQf/QqIQ/DRqZg4BB89CotD8LG5yDgEH9sKjkPwsaH4OAQfraXAIfhoKgsOwUd9iXAIPirLhUPwUVM6HIKP1WXEIfhY1x3Q6bFy4SvdTwAAAABJRU5ErkJggg==">
 <style>
   :root {
+    color-scheme: dark;
     --bg: #0d0d12;
     --surface: #17171f;
     --surface2: #1c1c26;
@@ -422,6 +423,7 @@
   function applyTheme(id){
     const t = THEMES.find(x => x.id === id) || THEMES[0];
     const root = document.documentElement.style;
+    root.setProperty('color-scheme', t.mode === 'light' ? 'light' : 'dark');
     root.setProperty('--bg', t.bg);
     root.setProperty('--surface', t.surface);
     root.setProperty('--surface2', t.surface2);
