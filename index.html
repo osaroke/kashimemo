@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Memo Rack</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -65,8 +65,11 @@
   .stripe-divider {
     height: 5px; margin-top: 10px;
     background: repeating-linear-gradient(-55deg, var(--accent) 0 10px, var(--accent2) 10px 20px);
+    background-size: 200% 100%;
+    animation: stripeSlide 2.6s linear infinite;
     flex-shrink: 0;
   }
+  @keyframes stripeSlide { from { background-position: 0 0; } to { background-position: -56px 0; } }
 
   /* ---- Header ---- */
   header { flex-shrink: 0; padding: 0 16px 10px; }
@@ -84,12 +87,16 @@
   .dot { width: 10px; height: 10px; flex-shrink: 0; transform: rotate(45deg); }
   .space-switch .chev { margin-left: auto; color: var(--accent); font-size: 13px; font-weight: 900; }
   .theme-btn {
-    flex-shrink: 0; width: 46px; height: 46px;
+    flex-shrink: 0; width: 52px; height: 52px;
     background: var(--ink); border: 2px solid var(--accent);
     clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text); font-size: 18px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    color: var(--text);
+    transition: transform 0.12s ease;
   }
+  .theme-btn:active { transform: scale(0.92); }
+  .tbtn-icon { font-size: 16px; line-height: 1; }
+  .tbtn-label { font-size: 8px; font-weight: 800; letter-spacing: 0.02em; color: #fff; text-transform: uppercase; }
 
   .cat-scroll { display: flex; gap: 10px; overflow-x: auto; margin-top: 12px; padding: 2px 2px 4px; scrollbar-width: none; }
   .cat-scroll::-webkit-scrollbar { display: none; }
@@ -99,11 +106,14 @@
     background: var(--surface); border: 2px solid var(--border);
     color: var(--muted); font-size: 12px; font-weight: 800; white-space: nowrap;
     transform: skewX(-10deg); letter-spacing: 0.02em;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
+  .chip:active { transform: skewX(-10deg) scale(0.92); }
   .chip > * { display: inline-flex; transform: skewX(10deg); }
   .chip.active { background: var(--accent); color: var(--onaccent); border-color: var(--accent); }
   .chip .cdot { width: 7px; height: 7px; flex-shrink: 0; }
   .chip.add { color: var(--faint); border-style: dashed; }
+  .chip.ghost { color: var(--muted); border-style: dashed; }
 
   .search-row {
     display: flex; align-items: center; gap: 8px;
@@ -111,24 +121,72 @@
     clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     padding: 10px 13px; margin-top: 10px;
   }
-  .search-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-size: 15px; font-weight: 600; }
+  .search-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-size: 15px; font-weight: 600; min-width: 0; }
   .search-row input::placeholder { color: var(--faint); font-weight: 500; }
   .search-row svg { flex-shrink: 0; color: var(--accent); }
+  .search-row .mini-btn { flex-shrink: 0; background: none; border: none; color: var(--faint); font-size: 15px; padding: 2px 4px; }
+  .search-row .mini-btn.on { color: var(--accent-pink); }
+
+  .tool-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .sort-btn {
+    flex-shrink: 0; display: flex; align-items: center; gap: 5px;
+    background: var(--surface); border: 2px solid var(--border);
+    color: var(--muted); font-size: 11px; font-weight: 800;
+    padding: 6px 11px; transform: skewX(-10deg);
+  }
+  .sort-btn span { display: inline-flex; transform: skewX(10deg); }
 
   /* ---- List ---- */
-  #list { flex: 1; overflow-y: auto; padding: 12px 16px 100px; -webkit-overflow-scrolling: touch; }
-  .empty { text-align: center; color: var(--faint); font-size: 14px; margin-top: 60px; padding: 0 20px; line-height: 1.6; font-weight: 600; }
+  #list { flex: 1; overflow-y: auto; padding: 12px 16px 110px; -webkit-overflow-scrolling: touch; }
+  .empty { text-align: center; color: var(--faint); font-size: 14px; margin-top: 50px; padding: 0 20px; line-height: 1.6; font-weight: 600; }
+  .empty .cta-btn {
+    margin: 16px auto 0; display: block;
+    background: var(--accent); color: var(--onaccent); font-weight: 900;
+    font-size: 13px; padding: 11px 20px; border: none;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .card-wrap { position: relative; margin-bottom: 12px; overflow: hidden; }
+  .card-swipe-actions {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 64px;
+    display: flex; align-items: stretch;
+  }
+  .card-swipe-actions button {
+    width: 64px; border: none; background: var(--accent); color: var(--onaccent);
+    font-size: 20px; display: flex; align-items: center; justify-content: center;
+  }
   .card {
     background: var(--surface); border: 2px solid var(--border); border-left: 5px solid var(--accent);
     clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
-    padding: 14px 14px 12px 13px; margin-bottom: 12px; position: relative;
+    padding: 14px 14px 12px 13px; position: relative;
+    opacity: 0; animation: cardIn 0.32s ease-out forwards;
+    touch-action: pan-y;
   }
+  @keyframes cardIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+  .card.selectable { padding-left: 40px; }
+  .select-badge {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 20px; height: 20px; border: 2px solid var(--border); background: var(--bg);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: var(--onaccent);
+  }
+  .card-wrap.selected .card { border-color: var(--accent); }
+  .card-wrap.selected .select-badge { background: var(--accent); border-color: var(--accent); }
+  .card-space-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 800; color: var(--muted);
+    margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .card-space-tag .dot { width: 6px; height: 6px; }
   .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-  .card-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .card-title-row { display: flex; align-items: center; gap: 6px; min-width: 0; flex-wrap: wrap; }
   .card-title-row .dot { width: 8px; height: 8px; }
+  .card-cats { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
   .card-title { font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pin-btn { flex-shrink: 0; padding: 4px; color: var(--faint); background: none; border: none; }
+  mark.hl { background: var(--accent); color: var(--onaccent); padding: 0 2px; border-radius: 2px; }
+  .pin-btn { flex-shrink: 0; padding: 4px; color: var(--faint); background: none; border: none; transition: transform 0.15s ease; }
   .pin-btn.pinned { color: var(--accent-pink); }
+  .pin-btn.pop { animation: pinPop 0.38s ease; }
+  @keyframes pinPop { 0% { transform: scale(1); } 45% { transform: scale(1.45) rotate(-12deg); } 100% { transform: scale(1); } }
   .card-body {
     font-size: 13px; color: var(--muted); margin-top: 7px; white-space: pre-wrap; line-height: 1.5; font-weight: 500;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
@@ -146,13 +204,58 @@
     transform: rotate(45deg);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 8px 0 var(--ink), 0 8px 20px var(--accent-glow);
+    transition: transform 0.12s ease;
   }
+  .fab::after {
+    content: ''; position: absolute; inset: 0; border: 3px solid var(--accent);
+    opacity: 0; pointer-events: none;
+  }
+  .fab.pulse::after { animation: fabPing 0.5s ease-out; }
+  @keyframes fabPing { from { transform: scale(1); opacity: 0.9; } to { transform: scale(1.9); opacity: 0; } }
   .fab svg { transform: rotate(-45deg); }
-  .fab:active { transform: rotate(45deg) scale(0.92); }
+  .fab:active { transform: rotate(45deg) scale(0.9); }
+
+  /* ---- Select bar ---- */
+  .select-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    background: var(--ink); border-top: 3px solid var(--accent);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    display: flex; align-items: center; gap: 12px;
+    transform: translateY(100%); transition: transform 0.22s cubic-bezier(.22,1,.36,1);
+  }
+  .select-bar.show { transform: translateY(0); }
+  .select-bar button { background: none; border: none; color: #fff; font-size: 14px; font-weight: 800; }
+  .select-bar .sb-count { color: #fff; font-size: 13px; font-weight: 800; flex: 1; }
+  .select-bar .sb-actions { display: flex; gap: 16px; }
+
+  /* ---- Toast ---- */
+  .toast {
+    position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(10px);
+    background: var(--ink); color: #fff; border: 2px solid var(--accent);
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+    padding: 9px 18px; font-size: 12px; font-weight: 800; letter-spacing: 0.02em;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.32s cubic-bezier(.34,1.56,.64,1);
+    z-index: 80; white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .toast button { background: none; border: none; color: var(--accent-pink); font-weight: 900; text-decoration: underline; padding: 0; margin-left: 10px; font-size: 12px; }
+
+  #flashOverlay { position: fixed; inset: 0; z-index: 200; pointer-events: none; opacity: 0; }
+  #flashOverlay.flash { animation: flashFade 0.4s ease-out; }
+  @keyframes flashFade { from { opacity: 0.55; } to { opacity: 0; } }
 
   /* ---- Sheets / modals ---- */
-  .sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; z-index: 50; }
-  .sheet-backdrop.open { display: flex; }
+  .sheet-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    display: flex; align-items: flex-end; z-index: 50;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.22s ease, visibility 0s linear 0.22s;
+  }
+  .sheet-backdrop.open { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.22s ease; }
+  .sheet-backdrop .sheet { transform: translateY(24px); transition: transform 0.26s cubic-bezier(.22,1,.36,1); }
+  .sheet-backdrop.open .sheet { transform: translateY(0); }
   .sheet {
     background: var(--surface); border-top: 4px solid var(--accent);
     clip-path: polygon(0 14px, 6% 0, 100% 0, 100% 100%, 0 100%);
@@ -166,20 +269,18 @@
     padding: 10px 16px; border-bottom: 2px solid var(--border); color: var(--text);
   }
   .sheet-header strong { font-weight: 900; text-transform: uppercase; letter-spacing: 0.03em; font-size: 14px !important; }
-  .sheet-header select {
-    background: var(--bg); border: 2px solid var(--border); color: var(--text);
-    padding: 7px 10px; font-size: 12px; font-weight: 700;
-    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
-  }
-  .icon-btn { background: none; border: none; color: var(--muted); padding: 6px; display: flex; }
+  .icon-btn { background: none; border: none; color: var(--muted); padding: 6px; display: flex; transition: transform 0.12s ease; }
+  .icon-btn:active { transform: scale(0.85); }
   .icon-btn.danger:active { color: var(--accent); }
   .icon-btn.pinned { color: var(--accent-pink); }
+  .icon-btn[hidden] { display: none; }
   .sheet-body { padding: 16px; overflow-y: auto; flex: 1; }
+  .sheet-note { font-size: 12px; color: var(--faint); line-height: 1.6; margin: 0 0 14px; font-weight: 500; }
   .title-input { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 19px; font-weight: 800; margin-bottom: 10px; }
   .title-input::placeholder { color: var(--faint); }
-  .content-input { width: 100%; background: transparent; border: none; outline: none; color: var(--muted); font-size: 15px; line-height: 1.6; resize: none; min-height: 40vh; font-weight: 500; }
+  .content-input { width: 100%; background: transparent; border: none; outline: none; color: var(--muted); font-size: 15px; line-height: 1.6; resize: none; min-height: 26vh; font-weight: 500; }
   .content-input::placeholder { color: var(--faint); }
-  .field-label { font-size: 12px; color: var(--faint); margin: 14px 0 8px; font-weight: 700; text-transform: uppercase; }
+  .field-label { font-size: 11px; color: var(--accent); margin: 16px 0 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; }
   .list-row {
     display: flex; align-items: center; gap: 10px;
     background: var(--bg); border: 2px solid var(--border);
@@ -188,6 +289,9 @@
   }
   .list-row .dot { width: 9px; height: 9px; }
   .list-row span.name { flex: 1; font-size: 14px; color: var(--text); font-weight: 700; }
+  .row-arrows { display: flex; flex-direction: column; gap: 2px; }
+  .row-arrows button { background: none; border: none; color: var(--faint); font-size: 11px; padding: 1px 4px; line-height: 1; }
+  .row-arrows button:disabled { opacity: 0.25; }
   .name-input {
     width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text);
     padding: 12px; font-size: 15px; outline: none; margin-top: 10px; font-weight: 600;
@@ -206,8 +310,15 @@
     font-size: 15px; padding: 14px; border: none; margin-top: 14px;
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
     text-transform: uppercase; letter-spacing: 0.05em;
+    transition: transform 0.12s ease, filter 0.12s ease;
   }
-  .primary-btn:active { filter: brightness(0.85); }
+  .primary-btn:active { filter: brightness(0.85); transform: scale(0.98); }
+  .ghost-btn {
+    background: var(--surface2); color: var(--text); border: 2px solid var(--border);
+    clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+  }
+  .btn-row { display: flex; gap: 10px; }
+  .btn-row .primary-btn { margin-top: 0; flex: 1; }
   .footer-actions { padding: 14px 16px; border-top: 2px solid var(--border); }
   .theme-section-title { font-size: 11px; color: var(--accent); margin: 6px 0 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; }
   .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px; }
@@ -244,13 +355,17 @@
         <span id="spaceLabel">—</span>
         <span class="chev">▾</span>
       </button>
-      <button class="theme-btn" id="themeBtn" aria-label="テーマ">🎨</button>
-      <button class="theme-btn" id="saveLoadBtn" aria-label="セーブ・ロード">💾</button>
+      <button class="theme-btn" id="themeBtn" aria-label="テーマ"><span class="tbtn-icon">🎨</span><span class="tbtn-label">テーマ</span></button>
+      <button class="theme-btn" id="saveLoadBtn" aria-label="セーブ・ロード"><span class="tbtn-icon">💾</span><span class="tbtn-label">セーブ</span></button>
     </div>
     <div class="cat-scroll" id="catScroll"></div>
     <div class="search-row">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <input id="searchInput" placeholder="検索..." />
+      <button class="mini-btn" id="globalSearchBtn" title="全大枠を検索">🌐</button>
+    </div>
+    <div class="tool-row">
+      <button class="sort-btn" id="sortBtn"><span id="sortLabel">並び順: 更新日時</span></button>
     </div>
   </header>
   <div class="stripe-divider"></div>
@@ -258,6 +373,30 @@
   <button class="fab" id="fabBtn" aria-label="新規メモ">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
   </button>
+  <div class="select-bar" id="selectBar">
+    <button id="selectCancelBtn">✕</button>
+    <span class="sb-count" id="selectCount">0件選択中</span>
+    <div class="sb-actions">
+      <button id="selectPinBtn">📌 ピン</button>
+      <button id="selectDeleteBtn">🗑 削除</button>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div id="flashOverlay"></div>
+</div>
+
+<div class="sheet-backdrop" id="confirmBackdrop">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><strong id="confirmTitle">確認</strong></div>
+    <div class="sheet-body">
+      <p id="confirmMessage" style="font-size:14px;line-height:1.7;color:var(--text);font-weight:600;white-space:pre-wrap;"></p>
+      <div class="btn-row">
+        <button class="primary-btn ghost-btn" id="confirmCancelBtn">キャンセル</button>
+        <button class="primary-btn" id="confirmOkBtn">削除</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="sheet-backdrop" id="themeBackdrop">
@@ -265,6 +404,7 @@
     <div class="sheet-handle"></div>
     <div class="sheet-header"><strong>背景テーマ</strong><button class="icon-btn" id="closeThemePicker">✕</button></div>
     <div class="sheet-body">
+      <button type="button" class="chip" id="autoModeToggle" style="margin-bottom:16px;"><span id="autoModeLabel">🔗 端末設定に自動追従：OFF</span></button>
       <div class="theme-section-title">Accent Color</div>
       <div class="theme-grid" id="accentGrid" style="grid-template-columns:repeat(5, 1fr);"></div>
       <div class="theme-section-title">Light Mode</div>
@@ -280,10 +420,19 @@
     <div class="sheet-handle"></div>
     <div class="sheet-header"><strong>セーブ / ロード</strong><button class="icon-btn" id="closeSaveLoad">✕</button></div>
     <div class="sheet-body">
+      <p class="sheet-note">入力内容は常に自動保存されています。ここでは、それとは別に今の状態を名前を付けて保存し、あとから呼び出す（切り替える）ことができます。</p>
       <div class="theme-section-title">セーブデータ</div>
       <div id="slotList"></div>
       <input class="name-input" id="newSlotName" placeholder="セーブ名（例：8月版）" />
       <button class="primary-btn" id="saveSlotBtn">現在の状態を保存</button>
+
+      <div class="theme-section-title" style="margin-top:26px;">バックアップ（端末外に保存）</div>
+      <p class="sheet-note">機種変更やデータ消失に備えて、ファイルとして書き出し・読み込みができます。</p>
+      <div class="btn-row">
+        <button class="primary-btn ghost-btn" id="exportBtn">書き出す</button>
+        <button class="primary-btn ghost-btn" id="importBtn">読み込む</button>
+      </div>
+      <input type="file" id="importFileInput" accept="application/json" style="display:none">
     </div>
   </div>
 </div>
@@ -294,7 +443,7 @@
     <div class="sheet-header"><strong>大枠を選択</strong><button class="icon-btn" id="closeSpacePicker">✕</button></div>
     <div class="sheet-body" id="spacePickerList"></div>
     <div class="footer-actions">
-      <button class="primary-btn" id="editSpacesBtn" style="background:var(--surface2);color:var(--text);border:2px solid var(--border);clip-path:polygon(0 0,100% 0,100% 100%,0 100%);">大枠を編集</button>
+      <button class="primary-btn ghost-btn" id="editSpacesBtn">大枠を編集</button>
     </div>
   </div>
 </div>
@@ -303,8 +452,9 @@
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-header">
-      <select id="catSelect"></select>
+      <strong>メモ</strong>
       <div style="display:flex;gap:2px;">
+        <button class="icon-btn" id="dupBtn" title="複製" hidden>📄</button>
         <button class="icon-btn" id="pinBtn">📌</button>
         <button class="icon-btn danger" id="deleteBtn">🗑</button>
         <button class="icon-btn" id="closeEditor">✕</button>
@@ -313,6 +463,10 @@
     <div class="sheet-body">
       <input class="title-input" id="titleInput" placeholder="タイトル" />
       <textarea class="content-input" id="contentInput" placeholder="内容を入力..."></textarea>
+      <div class="field-label">大枠</div>
+      <div class="cat-scroll" id="editorSpaceChips" style="margin-top:0;"></div>
+      <div class="field-label">カテゴリ（複数選択可）</div>
+      <div class="cat-scroll" id="editorCatChips" style="margin-top:0;"></div>
     </div>
   </div>
 </div>
@@ -373,6 +527,10 @@
   let data = {
     theme: 'dark-void',
     accent: 'red',
+    autoMode: false,
+    lightThemeId: 'light-paper',
+    darkThemeId: 'dark-void',
+    uiState: { lastSpace: 'daily', lastCat: 'all' },
     spaces: [
       { id:'daily', name:'日常', color:'#f2a65a' },
       { id:'study', name:'勉強', color:'#6fa8dc' },
@@ -393,12 +551,88 @@
     activeSpace: 'daily',
     activeCat: 'all',
     query: '',
-    editingId: null,
-    editingIsNew: false,
+    globalSearch: false,
+    sortMode: 'updated',
     draft: null,
     newCatColor: PALETTE[0],
     newSpaceColor: PALETTE[0],
+    selectMode: false,
+    selectedIds: new Set(),
   };
+
+  let toastTimer = null;
+  function showToast(msg){
+    const el = document.getElementById('toast');
+    el.innerHTML = '';
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 1500);
+  }
+  function showUndoToast(msg, onUndo){
+    const el = document.getElementById('toast');
+    clearTimeout(toastTimer);
+    el.innerHTML = '';
+    const span = document.createElement('span');
+    span.textContent = msg;
+    const btn = document.createElement('button');
+    btn.textContent = '元に戻す';
+    btn.addEventListener('click', () => {
+      onUndo();
+      el.classList.remove('show');
+      clearTimeout(toastTimer);
+    }, { once:true });
+    el.appendChild(span);
+    el.appendChild(btn);
+    el.classList.add('show');
+    toastTimer = setTimeout(() => el.classList.remove('show'), 5000);
+  }
+
+  function flashScreen(color){
+    const el = document.getElementById('flashOverlay');
+    el.style.background = color;
+    el.classList.remove('flash');
+    void el.offsetWidth;
+    el.classList.add('flash');
+  }
+
+  // ---------- Custom confirm modal ----------
+  function showConfirm(message, okLabel, onConfirm){
+    document.getElementById('confirmMessage').textContent = message;
+    const okBtn = document.getElementById('confirmOkBtn');
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    okBtn.textContent = okLabel || '削除';
+    openSheet('confirmBackdrop');
+    function cleanup(){
+      okBtn.removeEventListener('click', onOk);
+      cancelBtn.removeEventListener('click', onCancel);
+    }
+    function onOk(){ cleanup(); closeSheet('confirmBackdrop'); onConfirm(); }
+    function onCancel(){ cleanup(); closeSheet('confirmBackdrop'); }
+    okBtn.addEventListener('click', onOk);
+    cancelBtn.addEventListener('click', onCancel);
+  }
+
+  function migrateMemos(){
+    (data.memos || []).forEach(m => {
+      if (!Array.isArray(m.categories)) {
+        m.categories = m.category ? [m.category] : [];
+      }
+      delete m.category;
+    });
+  }
+
+  function persistUiState(){
+    data.uiState = { lastSpace: state.activeSpace, lastCat: state.activeCat };
+  }
+
+  function goToSpace(spaceId, catId){
+    state.activeSpace = spaceId;
+    state.activeCat = catId || 'all';
+    state.globalSearch = false;
+    persistUiState();
+    save();
+  }
 
   function load(){
     try {
@@ -407,17 +641,32 @@
         const parsed = JSON.parse(raw);
         if (parsed.theme) data.theme = parsed.theme;
         if (parsed.accent) data.accent = parsed.accent;
+        if (typeof parsed.autoMode === 'boolean') data.autoMode = parsed.autoMode;
+        if (parsed.lightThemeId) data.lightThemeId = parsed.lightThemeId;
+        if (parsed.darkThemeId) data.darkThemeId = parsed.darkThemeId;
+        if (parsed.uiState) data.uiState = parsed.uiState;
         if (parsed.spaces && parsed.spaces.length) data.spaces = parsed.spaces;
         if (parsed.categories) data.categories = parsed.categories;
         if (parsed.memos) data.memos = parsed.memos;
       }
     } catch(e) {}
-    if (!data.spaces.find(s => s.id === state.activeSpace)) {
-      state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
-    }
+    migrateMemos();
+    const uiSpace = data.uiState && spaceById(data.uiState.lastSpace) ? data.uiState.lastSpace : (data.spaces[0] ? data.spaces[0].id : null);
+    state.activeSpace = uiSpace;
+    state.activeCat = (data.uiState && data.uiState.lastCat) || 'all';
   }
   function save(){
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch(e) {
+      showToast('⚠️ 保存に失敗しました');
+    }
+  }
+
+  function computeEffectiveThemeId(){
+    if (!data.autoMode) return data.theme;
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? (data.darkThemeId || 'dark-void') : (data.lightThemeId || 'light-paper');
   }
 
   function applyTheme(id){
@@ -447,26 +696,56 @@
     data.accent = a.id;
   }
 
+  if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = () => {
+      if (data.autoMode) {
+        applyTheme(computeEffectiveThemeId());
+        renderThemeSheet();
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
+
   function spaceById(id){ return data.spaces.find(s => s.id === id); }
   function catById(id){ return data.categories.find(c => c.id === id); }
-  function spaceCategories(){ return data.categories.filter(c => c.spaceId === state.activeSpace); }
+  function spaceCategories(spaceId){ return data.categories.filter(c => c.spaceId === (spaceId || state.activeSpace)); }
   function spaceMemos(){ return data.memos.filter(m => m.spaceId === state.activeSpace); }
 
-  function filteredMemos(){
-    let list = spaceMemos();
-    if (state.activeCat !== 'all') list = list.filter(m => m.category === state.activeCat);
-    if (state.query.trim()) {
-      const q = state.query.trim().toLowerCase();
-      list = list.filter(m => m.title.toLowerCase().includes(q) || m.content.toLowerCase().includes(q));
-    }
+  function sortList(list){
     return list.slice().sort((a,b) => {
       if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+      if (state.sortMode === 'created') return b.createdAt - a.createdAt;
+      if (state.sortMode === 'title') return (a.title||'').localeCompare(b.title||'', 'ja');
       return b.updatedAt - a.updatedAt;
     });
   }
 
+  function filteredMemos(){
+    let list = state.globalSearch ? data.memos.slice() : spaceMemos();
+    if (!state.globalSearch && state.activeCat !== 'all') {
+      list = list.filter(m => (m.categories||[]).includes(state.activeCat));
+    }
+    if (state.query.trim()) {
+      const q = state.query.trim().toLowerCase();
+      list = list.filter(m => m.title.toLowerCase().includes(q) || m.content.toLowerCase().includes(q));
+    }
+    return sortList(list);
+  }
+
   function esc(s){
     return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function highlightText(text, query){
+    const escaped = esc(text);
+    const q = (query||'').trim();
+    if (!q) return escaped;
+    const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    try {
+      const re = new RegExp('(' + escapedQuery + ')', 'ig');
+      return escaped.replace(re, '<mark class="hl">$1</mark>');
+    } catch(e) { return escaped; }
   }
   function fmtDate(ts){
     const d = new Date(ts);
@@ -479,6 +758,595 @@
     return (d.getMonth()+1) + '/' + d.getDate() + ' ' + h + ':' + mi;
   }
 
+  const SORT_LABELS = { updated:'更新日時', created:'作成日', title:'タイトル' };
+  function cycleSort(){
+    const order = ['updated','created','title'];
+    const idx = order.indexOf(state.sortMode);
+    state.sortMode = order[(idx+1) % order.length];
+    document.getElementById('sortLabel').textContent = '並び順: ' + SORT_LABELS[state.sortMode];
+    renderList();
+  }
+
+  // ---------- Selection mode ----------
+  function enterSelectMode(firstId){
+    state.selectMode = true;
+    state.selectedIds = new Set(firstId ? [firstId] : []);
+    document.getElementById('fabBtn').style.display = 'none';
+    renderList();
+    updateSelectBar();
+  }
+  function exitSelectMode(){
+    state.selectMode = false;
+    state.selectedIds = new Set();
+    document.getElementById('fabBtn').style.display = 'flex';
+    document.getElementById('selectBar').classList.remove('show');
+    renderList();
+  }
+  function toggleSelect(id){
+    if (state.selectedIds.has(id)) state.selectedIds.delete(id);
+    else state.selectedIds.add(id);
+    if (state.selectedIds.size === 0) { exitSelectMode(); return; }
+    renderList();
+    updateSelectBar();
+  }
+  function updateSelectBar(){
+    const bar = document.getElementById('selectBar');
+    document.getElementById('selectCount').textContent = state.selectedIds.size + '件選択中';
+    bar.classList.toggle('show', state.selectMode && state.selectedIds.size > 0);
+  }
+
+  // ---------- Render ----------
+  function renderHeader(){
+    const sp = spaceById(state.activeSpace);
+    document.getElementById('spaceDot').style.background = sp ? sp.color : 'var(--faint)';
+    document.getElementById('spaceLabel').textContent = sp ? sp.name : '大枠がありません';
+
+    const catScroll = document.getElementById('catScroll');
+    document.getElementById('globalSearchBtn').classList.toggle('on', state.globalSearch);
+
+    if (state.globalSearch) {
+      catScroll.innerHTML = `<button class="chip ghost" data-action="exit-global"><span>✕ 全大枠を検索中</span></button>`;
+      catScroll.querySelector('[data-action="exit-global"]').addEventListener('click', () => {
+        state.globalSearch = false; renderAll();
+      });
+      return;
+    }
+
+    const cats = spaceCategories();
+    let html = `<button class="chip ${state.activeCat==='all'?'active':''}" data-cat="all"><span>すべて</span></button>`;
+    cats.forEach(c => {
+      html += `<button class="chip ${state.activeCat===c.id?'active':''}" data-cat="${c.id}"><span class="cdot" style="background:${c.color}"></span><span>${esc(c.name)}</span></button>`;
+    });
+    html += `<button class="chip add" data-action="edit-cats"><span>＋ カテゴリ</span></button>`;
+    catScroll.innerHTML = html;
+    catScroll.querySelectorAll('[data-cat]').forEach(btn => {
+      btn.addEventListener('click', () => { state.activeCat = btn.dataset.cat; persistUiState(); save(); renderAll(); });
+    });
+    catScroll.querySelector('[data-action="edit-cats"]').addEventListener('click', openCatEditor);
+  }
+
+  function renderList(){
+    const list = document.getElementById('list');
+    const cats = state.globalSearch ? [1] : spaceCategories();
+    const memos = filteredMemos();
+
+    if (!data.spaces.length) {
+      list.innerHTML = `<div class="empty">大枠がありません。まずは大枠を作成してください。<button class="cta-btn" id="ctaAddSpace">＋ 大枠を追加</button></div>`;
+      document.getElementById('ctaAddSpace').addEventListener('click', openSpaceEditor);
+      return;
+    }
+    if (!state.globalSearch && !cats.length) {
+      list.innerHTML = `<div class="empty">このスペースにカテゴリがありません。<button class="cta-btn" id="ctaAddCat">＋ カテゴリを追加</button></div>`;
+      document.getElementById('ctaAddCat').addEventListener('click', openCatEditor);
+      return;
+    }
+    if (!memos.length) {
+      list.innerHTML = `<div class="empty">${state.query ? '見つかりませんでした' : 'メモがありません。右下の＋から追加してください。'}</div>`;
+      return;
+    }
+    const q = state.query.trim();
+    list.innerHTML = memos.map((m, idx) => {
+      const memoCats = (m.categories||[]).map(catById).filter(Boolean);
+      const primary = memoCats[0];
+      const sp = state.globalSearch ? spaceById(m.spaceId) : null;
+      const catDots = memoCats.slice(0,3).map(c => `<span class="dot" style="width:8px;height:8px;background:${c.color}" title="${esc(c.name)}"></span>`).join('');
+      const extra = memoCats.length > 3 ? `<span style="font-size:10px;color:var(--faint);font-weight:800;">+${memoCats.length-3}</span>` : '';
+      const delay = Math.min(idx * 30, 240);
+      const titleText = m.title || '(無題)';
+      const titleHtml = q ? highlightText(titleText, q) : esc(titleText);
+      const bodyHtml = m.content ? (q ? highlightText(m.content, q) : esc(m.content)) : '';
+      const selected = state.selectedIds.has(m.id);
+      return `<div class="card-wrap ${selected?'selected':''}" data-wrap="${m.id}">
+        ${!state.selectMode ? `<div class="card-swipe-actions"><button data-swipedel="${m.id}">🗑</button></div>` : ''}
+        <div class="card ${state.selectMode?'selectable':''}" data-id="${m.id}" style="border-left-color:${primary ? primary.color : 'var(--accent)'};animation-delay:${delay}ms">
+          ${state.selectMode ? `<div class="select-badge">${selected?'✓':''}</div>` : ''}
+          ${sp ? `<div class="card-space-tag"><span class="dot" style="background:${sp.color}"></span>${esc(sp.name)}</div>` : ''}
+          <div class="card-top">
+            <div class="card-title-row">
+              <div class="card-cats">${catDots}${extra}</div>
+              <span class="card-title">${titleHtml}</span>
+            </div>
+            ${!state.selectMode ? `<button class="pin-btn ${m.pinned?'pinned':''}" data-pin="${m.id}">${m.pinned ? '📌' : '📍'}</button>` : ''}
+          </div>
+          ${bodyHtml ? `<div class="card-body">${bodyHtml}</div>` : ''}
+          <div class="card-date">${fmtDate(m.updatedAt)}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    list.querySelectorAll('.card-wrap').forEach(wrap => {
+      const id = wrap.dataset.wrap;
+      const card = wrap.querySelector('.card');
+      attachCardGestures(wrap, card, id);
+    });
+    list.querySelectorAll('[data-pin]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const m = data.memos.find(x => x.id === btn.dataset.pin);
+        if (m) {
+          m.pinned = !m.pinned;
+          save();
+          btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
+          setTimeout(renderList, 260);
+        }
+      });
+    });
+    list.querySelectorAll('[data-swipedel]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        instantDeleteMemo(btn.dataset.swipedel);
+      });
+    });
+  }
+
+  function instantDeleteMemo(id){
+    const removed = data.memos.find(m => m.id === id);
+    if (!removed) return;
+    data.memos = data.memos.filter(m => m.id !== id);
+    save();
+    renderAll();
+    showUndoToast('削除しました', () => {
+      data.memos.push(removed);
+      save();
+      renderAll();
+    });
+  }
+
+  // ---------- Card touch: tap / swipe / long-press ----------
+  function attachCardGestures(wrap, card, id){
+    let startX = 0, startY = 0, dx = 0, dragging = false, decided = false, horizontal = false;
+    let openSwipe = false;
+    let longPressTimer = null;
+    let longPressFired = false;
+
+    function clearLP(){ clearTimeout(longPressTimer); longPressTimer = null; }
+
+    card.addEventListener('touchstart', (e) => {
+      if (state.selectMode) return;
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY; dx = 0; dragging = true; decided = false; horizontal = false;
+      longPressFired = false;
+      card.style.transition = 'none';
+      longPressTimer = setTimeout(() => {
+        longPressFired = true;
+        if (navigator.vibrate) navigator.vibrate(12);
+        enterSelectMode(id);
+      }, 550);
+    }, { passive: true });
+
+    card.addEventListener('touchmove', (e) => {
+      if (state.selectMode || !dragging) return;
+      const t = e.touches[0];
+      const ndx = t.clientX - startX;
+      const ndy = t.clientY - startY;
+      if (!decided) {
+        if (Math.abs(ndx) > 6 || Math.abs(ndy) > 6) {
+          decided = true;
+          horizontal = Math.abs(ndx) > Math.abs(ndy);
+          if (horizontal || Math.abs(ndy) > 6) clearLP();
+        } else return;
+      }
+      if (!horizontal) return;
+      dx = ndx;
+      const base = openSwipe ? -64 : 0;
+      const pos = Math.min(0, Math.max(-64, base + dx));
+      card.style.transform = `translateX(${pos}px)`;
+    }, { passive: true });
+
+    function onTouchEnd(){
+      clearLP();
+      if (!dragging) return;
+      dragging = false;
+      card.style.transition = 'transform 0.2s ease';
+      if (horizontal) {
+        const base = openSwipe ? -64 : 0;
+        const pos = Math.min(0, Math.max(-64, base + dx));
+        openSwipe = pos < -32;
+        card.style.transform = openSwipe ? 'translateX(-64px)' : 'translateX(0)';
+      }
+    }
+    card.addEventListener('touchend', onTouchEnd);
+    card.addEventListener('touchcancel', onTouchEnd);
+
+    card.addEventListener('click', () => {
+      if (longPressFired) { longPressFired = false; return; }
+      if (horizontal && Math.abs(dx) > 6) return;
+      if (state.selectMode) { toggleSelect(id); return; }
+      const m = data.memos.find(x => x.id === id);
+      if (state.globalSearch && m) {
+        state.globalSearch = false;
+        goToSpace(m.spaceId, 'all');
+      }
+      openEditor(id);
+    });
+  }
+
+  function renderAll(){ renderHeader(); renderList(); }
+
+  // ---------- Theme / Accent sheet ----------
+  function renderThemeGrids(){
+    const lightGrid = document.getElementById('lightThemeGrid');
+    const darkGrid = document.getElementById('darkThemeGrid');
+    function swatchHtml(t){
+      const isSelected = (t.mode === 'light' ? data.lightThemeId : data.darkThemeId) === t.id;
+      return `<button class="theme-swatch" data-theme="${t.id}">
+        <span class="theme-preview ${isSelected?'selected':''}">
+          <span class="half l" style="background:${t.bg}"></span>
+          <span class="half r" style="background:${t.surface}"></span>
+        </span>
+        <span class="theme-label">${t.name}</span>
+      </button>`;
+    }
+    lightGrid.innerHTML = THEMES.filter(t=>t.mode==='light').map(swatchHtml).join('');
+    darkGrid.innerHTML = THEMES.filter(t=>t.mode==='dark').map(swatchHtml).join('');
+    [...lightGrid.querySelectorAll('[data-theme]'), ...darkGrid.querySelectorAll('[data-theme]')].forEach(btn => {
+      btn.addEventListener('click', () => {
+        const t = THEMES.find(x => x.id === btn.dataset.theme);
+        if (!t) return;
+        if (t.mode === 'light') data.lightThemeId = t.id; else data.darkThemeId = t.id;
+        if (!data.autoMode) applyTheme(t.id);
+        else applyTheme(computeEffectiveThemeId());
+        save();
+        renderThemeGrids();
+        flashScreen(t.bg);
+      });
+    });
+  }
+  function renderAccentGrid(){
+    const grid = document.getElementById('accentGrid');
+    grid.innerHTML = ACCENTS.map(a => {
+      const stops = a.pink
+        ? `${a.accent} 0 34%, ${a.accent2} 34% 67%, ${a.pink} 67% 100%`
+        : `${a.accent} 0 50%, ${a.accent2} 50% 100%`;
+      return `<button class="theme-swatch" data-accent="${a.id}">
+        <span class="theme-preview ${data.accent===a.id?'selected':''}" style="background:linear-gradient(90deg, ${stops})"></span>
+        <span class="theme-label">${a.name}</span>
+      </button>`;
+    }).join('');
+    grid.querySelectorAll('[data-accent]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const a = ACCENTS.find(x => x.id === btn.dataset.accent);
+        applyAccent(btn.dataset.accent);
+        save();
+        renderAccentGrid();
+        if (a) flashScreen(a.accent);
+      });
+    });
+  }
+  function renderThemeSheet(){
+    renderAccentGrid();
+    renderThemeGrids();
+    document.getElementById('autoModeLabel').textContent = '🔗 端末設定に自動追従：' + (data.autoMode ? 'ON' : 'OFF');
+    document.getElementById('autoModeToggle').classList.toggle('active', data.autoMode);
+  }
+  function openThemePicker(){ renderThemeSheet(); openSheet('themeBackdrop'); }
+
+  function openSpacePicker(){
+    const listEl = document.getElementById('spacePickerList');
+    listEl.innerHTML = data.spaces.map(s => `
+      <div class="list-row" data-pick="${s.id}">
+        <span class="dot" style="background:${s.color}"></span>
+        <span class="name">${esc(s.name)}</span>
+      </div>`).join('');
+    listEl.querySelectorAll('[data-pick]').forEach(row => {
+      row.addEventListener('click', () => {
+        goToSpace(row.dataset.pick, 'all');
+        closeSheet('spacePickerBackdrop');
+        renderAll();
+      });
+    });
+    openSheet('spacePickerBackdrop');
+  }
+
+  // ---------- Memo editor ----------
+  function openEditor(id){
+    let memo;
+    if (id) {
+      memo = data.memos.find(m => m.id === id);
+    } else {
+      memo = { id: null, title:'', content:'', categories: [], spaceId: state.activeSpace, pinned:false };
+    }
+    state.draft = { id: memo.id, title: memo.title, content: memo.content, categories: (memo.categories||[]).slice(), spaceId: memo.spaceId, pinned: memo.pinned };
+
+    document.getElementById('titleInput').value = state.draft.title || '';
+    document.getElementById('contentInput').value = state.draft.content || '';
+    document.getElementById('pinBtn').classList.toggle('pinned', !!state.draft.pinned);
+    document.getElementById('deleteBtn').style.display = state.draft.id ? 'flex' : 'none';
+    document.getElementById('dupBtn').hidden = !state.draft.id;
+
+    renderEditorSpaceChips();
+    renderEditorCatChips();
+
+    openSheet('editorBackdrop');
+    setTimeout(() => document.getElementById('titleInput').focus(), 250);
+  }
+
+  function renderEditorSpaceChips(){
+    const el = document.getElementById('editorSpaceChips');
+    el.innerHTML = data.spaces.map(s => `
+      <button type="button" class="chip ${state.draft.spaceId===s.id?'active':''}" data-espace="${s.id}">
+        <span class="cdot" style="background:${s.color}"></span><span>${esc(s.name)}</span>
+      </button>`).join('');
+    el.querySelectorAll('[data-espace]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (state.draft.spaceId === btn.dataset.espace) return;
+        state.draft.spaceId = btn.dataset.espace;
+        state.draft.categories = [];
+        renderEditorSpaceChips();
+        renderEditorCatChips();
+      });
+    });
+  }
+
+  function renderEditorCatChips(){
+    const el = document.getElementById('editorCatChips');
+    const cats = spaceCategories(state.draft.spaceId);
+    if (!cats.length) {
+      el.innerHTML = `<button type="button" class="chip ghost" id="editorAddCatShortcut"><span>＋ カテゴリを作成</span></button>`;
+      document.getElementById('editorAddCatShortcut').addEventListener('click', () => {
+        state.activeSpace = state.draft.spaceId;
+        openCatEditor();
+      });
+      return;
+    }
+    el.innerHTML = cats.map(c => `
+      <button type="button" class="chip ${state.draft.categories.includes(c.id)?'active':''}" data-ecat="${c.id}">
+        <span class="cdot" style="background:${c.color}"></span><span>${esc(c.name)}</span>
+      </button>`).join('');
+    el.querySelectorAll('[data-ecat]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cid = btn.dataset.ecat;
+        const i = state.draft.categories.indexOf(cid);
+        if (i === -1) state.draft.categories.push(cid); else state.draft.categories.splice(i,1);
+        renderEditorCatChips();
+      });
+    });
+  }
+
+  function saveDraftAndClose(){
+    const title = document.getElementById('titleInput').value.trim();
+    const content = document.getElementById('contentInput').value.trim();
+    if (!title && !content) { closeSheet('editorBackdrop'); return; }
+    const now = Date.now();
+    if (state.draft.id) {
+      const m = data.memos.find(x => x.id === state.draft.id);
+      Object.assign(m, {
+        title: document.getElementById('titleInput').value,
+        content: document.getElementById('contentInput').value,
+        categories: state.draft.categories.slice(),
+        spaceId: state.draft.spaceId,
+        pinned: state.draft.pinned,
+        updatedAt: now,
+      });
+    } else {
+      data.memos.push({
+        id: uid(),
+        title: document.getElementById('titleInput').value,
+        content: document.getElementById('contentInput').value,
+        categories: state.draft.categories.slice(),
+        spaceId: state.draft.spaceId,
+        pinned: state.draft.pinned,
+        createdAt: now,
+        updatedAt: now,
+      });
+    }
+    save();
+    showToast('保存しました');
+    closeSheet('editorBackdrop');
+    if (state.draft.spaceId !== state.activeSpace) {
+      goToSpace(state.draft.spaceId, 'all');
+    }
+    renderAll();
+  }
+
+  function deleteDraft(){
+    if (!state.draft.id) { closeSheet('editorBackdrop'); return; }
+    const id = state.draft.id;
+    closeSheet('editorBackdrop');
+    instantDeleteMemo(id);
+  }
+
+  function duplicateDraft(){
+    if (!state.draft.id) return;
+    const original = data.memos.find(m => m.id === state.draft.id);
+    if (!original) return;
+    const now = Date.now();
+    const copy = {
+      id: uid(),
+      title: original.title ? original.title + ' のコピー' : '',
+      content: original.content || '',
+      categories: (original.categories||[]).slice(),
+      spaceId: original.spaceId,
+      pinned: false,
+      createdAt: now,
+      updatedAt: now,
+    };
+    data.memos.push(copy);
+    save();
+    showToast('複製しました');
+    closeSheet('editorBackdrop');
+    renderAll();
+    setTimeout(() => openEditor(copy.id), 260);
+  }
+
+  // ---------- Category editor ----------
+  function renderCatEditorList(){
+    const el = document.getElementById('catEditorList');
+    const cats = spaceCategories();
+    el.innerHTML = cats.map((c,i) => `
+      <div class="list-row" data-catrow="${c.id}">
+        <div class="row-arrows">
+          <button data-catup="${c.id}" ${i===0?'disabled':''}>▲</button>
+          <button data-catdown="${c.id}" ${i===cats.length-1?'disabled':''}>▼</button>
+        </div>
+        <span class="dot" style="background:${c.color}"></span>
+        <span class="name">${esc(c.name)}</span>
+        <button class="icon-btn danger" data-delcat="${c.id}">🗑</button>
+      </div>`).join('') || `<div style="color:var(--faint);font-size:13px;padding:6px 0;">まだカテゴリがありません</div>`;
+    el.querySelectorAll('[data-delcat]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.delcat;
+        const cat = catById(id);
+        showConfirm(`カテゴリ「${cat ? cat.name : ''}」を削除しますか？\nこのカテゴリが付いたメモは残りますが、タグが外れます。`, '削除', () => {
+          data.categories = data.categories.filter(c => c.id !== id);
+          data.memos.forEach(m => { m.categories = (m.categories||[]).filter(cid => cid !== id); });
+          if (state.activeCat === id) state.activeCat = 'all';
+          save();
+          showToast('カテゴリを削除しました');
+          renderCatEditorList();
+          renderAll();
+        });
+      });
+    });
+    el.querySelectorAll('[data-catup]').forEach(btn => btn.addEventListener('click', () => { moveCategory(btn.dataset.catup, -1); }));
+    el.querySelectorAll('[data-catdown]').forEach(btn => btn.addEventListener('click', () => { moveCategory(btn.dataset.catdown, 1); }));
+  }
+  function moveCategory(id, dir){
+    const subset = spaceCategories();
+    const pos = subset.findIndex(c => c.id === id);
+    const swapPos = pos + dir;
+    if (pos === -1 || swapPos < 0 || swapPos >= subset.length) return;
+    const neighborId = subset[swapPos].id;
+    const iA = data.categories.findIndex(c => c.id === id);
+    const iB = data.categories.findIndex(c => c.id === neighborId);
+    [data.categories[iA], data.categories[iB]] = [data.categories[iB], data.categories[iA]];
+    save();
+    renderCatEditorList();
+    renderHeader();
+  }
+  function openCatEditor(){
+    document.getElementById('catEditorTitle').textContent = 'カテゴリを編集 — ' + (spaceById(state.activeSpace)||{}).name;
+    renderCatEditorList();
+    const pal = document.getElementById('newCatPalette');
+    state.newCatColor = PALETTE[0];
+    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
+    updateCatPaletteSelection();
+    pal.querySelectorAll('[data-color]').forEach(sw => {
+      sw.addEventListener('click', () => { state.newCatColor = sw.dataset.color; updateCatPaletteSelection(); });
+    });
+    document.getElementById('newCatName').value = '';
+    openSheet('catEditorBackdrop');
+  }
+  function updateCatPaletteSelection(){
+    document.querySelectorAll('#newCatPalette .swatch').forEach(sw => {
+      sw.classList.toggle('selected', sw.dataset.color === state.newCatColor);
+    });
+  }
+  function addCategory(){
+    const input = document.getElementById('newCatName');
+    const name = input.value.trim();
+    if (!name) return;
+    data.categories.push({ id: uid(), name, color: state.newCatColor, spaceId: state.activeSpace });
+    save();
+    showToast('カテゴリを追加しました');
+    input.value = '';
+    state.newCatColor = PALETTE[data.categories.length % PALETTE.length];
+    updateCatPaletteSelection();
+    renderCatEditorList();
+    renderAll();
+  }
+
+  // ---------- Space editor ----------
+  function renderSpaceEditorList(){
+    const el = document.getElementById('spaceEditorList');
+    el.innerHTML = data.spaces.map((s,i) => `
+      <div class="list-row" data-spacerow="${s.id}">
+        <div class="row-arrows">
+          <button data-spup="${s.id}" ${i===0?'disabled':''}>▲</button>
+          <button data-spdown="${s.id}" ${i===data.spaces.length-1?'disabled':''}>▼</button>
+        </div>
+        <span class="dot" style="background:${s.color}"></span>
+        <span class="name">${esc(s.name)}</span>
+        <button class="icon-btn danger" data-delspace="${s.id}" ${data.spaces.length<=1?'disabled style="opacity:.3"':''}>🗑</button>
+      </div>`).join('');
+    el.querySelectorAll('[data-delspace]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (data.spaces.length <= 1) return;
+        const id = btn.dataset.delspace;
+        const sp = spaceById(id);
+        const catIds = data.categories.filter(c => c.spaceId === id).map(c => c.id);
+        const memoCount = data.memos.filter(m => m.spaceId === id).length;
+        showConfirm(`大枠「${sp ? sp.name : ''}」を削除しますか？\nカテゴリ${catIds.length}件・メモ${memoCount}件も一緒に削除されます。この操作は取り消せません。`, '削除', () => {
+          data.categories = data.categories.filter(c => c.spaceId !== id);
+          data.memos = data.memos.filter(m => m.spaceId !== id);
+          data.spaces = data.spaces.filter(s => s.id !== id);
+          if (state.activeSpace === id) {
+            state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
+            state.activeCat = 'all';
+            persistUiState();
+          }
+          save();
+          showToast('大枠を削除しました');
+          renderSpaceEditorList();
+          renderAll();
+        });
+      });
+    });
+    el.querySelectorAll('[data-spup]').forEach(btn => btn.addEventListener('click', () => moveSpace(btn.dataset.spup, -1)));
+    el.querySelectorAll('[data-spdown]').forEach(btn => btn.addEventListener('click', () => moveSpace(btn.dataset.spdown, 1)));
+  }
+  function moveSpace(id, dir){
+    const i = data.spaces.findIndex(s => s.id === id);
+    const j = i + dir;
+    if (i === -1 || j < 0 || j >= data.spaces.length) return;
+    [data.spaces[i], data.spaces[j]] = [data.spaces[j], data.spaces[i]];
+    save();
+    renderSpaceEditorList();
+  }
+  function openSpaceEditor(){
+    renderSpaceEditorList();
+    const pal = document.getElementById('newSpacePalette');
+    state.newSpaceColor = PALETTE[0];
+    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
+    updateSpacePaletteSelection();
+    pal.querySelectorAll('[data-color]').forEach(sw => {
+      sw.addEventListener('click', () => { state.newSpaceColor = sw.dataset.color; updateSpacePaletteSelection(); });
+    });
+    document.getElementById('newSpaceName').value = '';
+    openSheet('spaceEditorBackdrop');
+  }
+  function updateSpacePaletteSelection(){
+    document.querySelectorAll('#newSpacePalette .swatch').forEach(sw => {
+      sw.classList.toggle('selected', sw.dataset.color === state.newSpaceColor);
+    });
+  }
+  function addSpace(){
+    const input = document.getElementById('newSpaceName');
+    const name = input.value.trim();
+    if (!name) return;
+    const id = uid();
+    data.spaces.push({ id, name, color: state.newSpaceColor });
+    save();
+    showToast('大枠を追加しました');
+    goToSpace(id, 'all');
+    input.value = '';
+    state.newSpaceColor = PALETTE[data.spaces.length % PALETTE.length];
+    updateSpacePaletteSelection();
+    renderSpaceEditorList();
+    renderAll();
+  }
+
+  // ---------- Save / Load slots ----------
   function loadSlots(){
     try {
       const raw = localStorage.getItem(SLOTS_KEY);
@@ -487,7 +1355,11 @@
     return [];
   }
   function saveSlots(slots){
-    try { localStorage.setItem(SLOTS_KEY, JSON.stringify(slots)); } catch(e) {}
+    try {
+      localStorage.setItem(SLOTS_KEY, JSON.stringify(slots));
+    } catch(e) {
+      showToast('⚠️ 保存に失敗しました');
+    }
   }
   function memoCountOf(d){ return (d.memos || []).length; }
 
@@ -515,15 +1387,20 @@
       btn.addEventListener('click', () => {
         const slot = loadSlots().find(s => s.id === btn.dataset.loadslot);
         if (!slot) return;
-        if (!confirm(`「${slot.name}」を呼び出します。現在の内容は上書きされます。よろしいですか？`)) return;
-        data = JSON.parse(JSON.stringify(slot.data));
-        state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
-        state.activeCat = 'all';
-        applyTheme(data.theme);
-        applyAccent(data.accent);
-        save();
-        closeSheet('saveLoadBackdrop');
-        renderAll();
+        showConfirm(`「${slot.name}」を呼び出します。現在の内容は上書きされます。`, '呼び出す', () => {
+          data = JSON.parse(JSON.stringify(slot.data));
+          migrateMemos();
+          const uiSpace = data.uiState && spaceById(data.uiState.lastSpace) ? data.uiState.lastSpace : (data.spaces[0] ? data.spaces[0].id : null);
+          state.activeSpace = uiSpace;
+          state.activeCat = (data.uiState && data.uiState.lastCat) || 'all';
+          state.globalSearch = false;
+          applyTheme(computeEffectiveThemeId());
+          applyAccent(data.accent);
+          save();
+          showToast('呼び出しました');
+          closeSheet('saveLoadBackdrop');
+          renderAll();
+        });
       });
     });
     el.querySelectorAll('[data-overwriteslot]').forEach(btn => {
@@ -531,11 +1408,13 @@
         const slots = loadSlots();
         const slot = slots.find(s => s.id === btn.dataset.overwriteslot);
         if (!slot) return;
-        if (!confirm(`「${slot.name}」を現在の内容で上書き保存しますか？`)) return;
-        slot.data = JSON.parse(JSON.stringify(data));
-        slot.savedAt = Date.now();
-        saveSlots(slots);
-        renderSlotList();
+        showConfirm(`「${slot.name}」を現在の内容で上書き保存しますか？`, '上書き保存', () => {
+          slot.data = JSON.parse(JSON.stringify(data));
+          slot.savedAt = Date.now();
+          saveSlots(slots);
+          showToast('上書き保存しました');
+          renderSlotList();
+        });
       });
     });
     el.querySelectorAll('[data-delslot]').forEach(btn => {
@@ -543,9 +1422,11 @@
         const slots = loadSlots();
         const slot = slots.find(s => s.id === btn.dataset.delslot);
         if (!slot) return;
-        if (!confirm(`「${slot.name}」を削除しますか？`)) return;
-        saveSlots(slots.filter(s => s.id !== slot.id));
-        renderSlotList();
+        showConfirm(`「${slot.name}」を削除しますか？`, '削除', () => {
+          saveSlots(slots.filter(s => s.id !== slot.id));
+          showToast('セーブデータを削除しました');
+          renderSlotList();
+        });
       });
     });
   }
@@ -557,341 +1438,119 @@
     const slots = loadSlots();
     slots.push({ id: uid(), name, savedAt: Date.now(), data: JSON.parse(JSON.stringify(data)) });
     saveSlots(slots);
+    showToast('セーブしました');
     input.value = '';
     renderSlotList();
   }
 
   function openSaveLoad(){ renderSlotList(); openSheet('saveLoadBackdrop'); }
 
-  function renderHeader(){
-    const sp = spaceById(state.activeSpace);
-    document.getElementById('spaceDot').style.background = sp ? sp.color : 'var(--faint)';
-    document.getElementById('spaceLabel').textContent = sp ? sp.name : '大枠がありません';
-
-    const catScroll = document.getElementById('catScroll');
-    const cats = spaceCategories();
-    let html = `<button class="chip ${state.activeCat==='all'?'active':''}" data-cat="all"><span>すべて</span></button>`;
-    cats.forEach(c => {
-      html += `<button class="chip ${state.activeCat===c.id?'active':''}" data-cat="${c.id}"><span class="cdot" style="background:${c.color}"></span><span>${esc(c.name)}</span></button>`;
-    });
-    html += `<button class="chip add" data-action="edit-cats"><span>＋ カテゴリ</span></button>`;
-    catScroll.innerHTML = html;
-    catScroll.querySelectorAll('[data-cat]').forEach(btn => {
-      btn.addEventListener('click', () => { state.activeCat = btn.dataset.cat; renderAll(); });
-    });
-    catScroll.querySelector('[data-action="edit-cats"]').addEventListener('click', openCatEditor);
-  }
-
-  function renderList(){
-    const list = document.getElementById('list');
-    const cats = spaceCategories();
-    const memos = filteredMemos();
-
-    if (!data.spaces.length) {
-      list.innerHTML = `<div class="empty">大枠がありません。大枠を編集してください。</div>`;
-      return;
-    }
-    if (!cats.length) {
-      list.innerHTML = `<div class="empty">このスペースにカテゴリがありません。<br>「＋ カテゴリ」から作成してください。</div>`;
-      return;
-    }
-    if (!memos.length) {
-      list.innerHTML = `<div class="empty">${state.query ? '見つかりませんでした' : 'メモがありません。右下の＋から追加してください。'}</div>`;
-      return;
-    }
-    list.innerHTML = memos.map(m => {
-      const cat = catById(m.category);
-      return `<div class="card" data-id="${m.id}" style="border-left-color:${cat ? cat.color : 'var(--accent)'}">
-        <div class="card-top">
-          <div class="card-title-row">
-            ${cat ? `<span class="dot" style="width:8px;height:8px;background:${cat.color}"></span>` : ''}
-            <span class="card-title">${esc(m.title) || '(無題)'}</span>
-          </div>
-          <button class="pin-btn ${m.pinned?'pinned':''}" data-pin="${m.id}">${m.pinned ? '📌' : '📍'}</button>
-        </div>
-        ${m.content ? `<div class="card-body">${esc(m.content)}</div>` : ''}
-        <div class="card-date">${fmtDate(m.updatedAt)}</div>
-      </div>`;
-    }).join('');
-
-    list.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('[data-pin]')) return;
-        openEditor(card.dataset.id);
-      });
-    });
-    list.querySelectorAll('[data-pin]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const m = data.memos.find(x => x.id === btn.dataset.pin);
-        if (m) { m.pinned = !m.pinned; save(); renderList(); }
-      });
-    });
-  }
-
-  function renderAll(){ renderHeader(); renderList(); }
-
-  function renderThemeGrids(){
-    const lightGrid = document.getElementById('lightThemeGrid');
-    const darkGrid = document.getElementById('darkThemeGrid');
-    function swatchHtml(t){
-      return `<button class="theme-swatch" data-theme="${t.id}">
-        <span class="theme-preview ${data.theme===t.id?'selected':''}">
-          <span class="half l" style="background:${t.bg}"></span>
-          <span class="half r" style="background:${t.surface}"></span>
-        </span>
-        <span class="theme-label">${t.name}</span>
-      </button>`;
-    }
-    lightGrid.innerHTML = THEMES.filter(t=>t.mode==='light').map(swatchHtml).join('');
-    darkGrid.innerHTML = THEMES.filter(t=>t.mode==='dark').map(swatchHtml).join('');
-    [...lightGrid.querySelectorAll('[data-theme]'), ...darkGrid.querySelectorAll('[data-theme]')].forEach(btn => {
-      btn.addEventListener('click', () => {
-        applyTheme(btn.dataset.theme);
-        save();
-        renderThemeGrids();
-      });
-    });
-  }
-  function renderAccentGrid(){
-    const grid = document.getElementById('accentGrid');
-    grid.innerHTML = ACCENTS.map(a => {
-      const stops = a.pink
-        ? `${a.accent} 0 34%, ${a.accent2} 34% 67%, ${a.pink} 67% 100%`
-        : `${a.accent} 0 50%, ${a.accent2} 50% 100%`;
-      return `<button class="theme-swatch" data-accent="${a.id}">
-        <span class="theme-preview ${data.accent===a.id?'selected':''}" style="background:linear-gradient(90deg, ${stops})"></span>
-        <span class="theme-label">${a.name}</span>
-      </button>`;
-    }).join('');
-    grid.querySelectorAll('[data-accent]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        applyAccent(btn.dataset.accent);
-        save();
-        renderAccentGrid();
-      });
-    });
-  }
-  function openThemePicker(){ renderAccentGrid(); renderThemeGrids(); openSheet('themeBackdrop'); }
-
-  function openSpacePicker(){
-    const listEl = document.getElementById('spacePickerList');
-    listEl.innerHTML = data.spaces.map(s => `
-      <div class="list-row" data-pick="${s.id}">
-        <span class="dot" style="background:${s.color}"></span>
-        <span class="name">${esc(s.name)}</span>
-      </div>`).join('');
-    listEl.querySelectorAll('[data-pick]').forEach(row => {
-      row.addEventListener('click', () => {
-        state.activeSpace = row.dataset.pick;
-        state.activeCat = 'all';
-        closeSheet('spacePickerBackdrop');
-        renderAll();
-      });
-    });
-    openSheet('spacePickerBackdrop');
-  }
-
-  function openEditor(id){
-    let memo;
-    if (id) {
-      memo = data.memos.find(m => m.id === id);
-      state.editingIsNew = false;
-    } else {
-      const cats = spaceCategories();
-      memo = { id: null, title:'', content:'', category: cats[0] ? cats[0].id : '', spaceId: state.activeSpace, pinned:false };
-      state.editingIsNew = true;
-    }
-    state.draft = Object.assign({}, memo);
-    state.editingId = id;
-
-    const catSelect = document.getElementById('catSelect');
-    catSelect.innerHTML = spaceCategories().map(c => `<option value="${c.id}" ${c.id===state.draft.category?'selected':''}>${esc(c.name)}</option>`).join('');
-    document.getElementById('titleInput').value = state.draft.title || '';
-    document.getElementById('contentInput').value = state.draft.content || '';
-    document.getElementById('pinBtn').classList.toggle('pinned', !!state.draft.pinned);
-    document.getElementById('deleteBtn').style.display = state.draft.id ? 'flex' : 'none';
-
-    openSheet('editorBackdrop');
-    setTimeout(() => document.getElementById('titleInput').focus(), 250);
-  }
-
-  function saveDraftAndClose(){
-    const title = document.getElementById('titleInput').value.trim();
-    const content = document.getElementById('contentInput').value.trim();
-    if (!title && !content) { closeSheet('editorBackdrop'); return; }
-    const now = Date.now();
-    if (state.draft.id) {
-      const m = data.memos.find(x => x.id === state.draft.id);
-      Object.assign(m, {
-        title: document.getElementById('titleInput').value,
-        content: document.getElementById('contentInput').value,
-        category: document.getElementById('catSelect').value,
-        pinned: state.draft.pinned,
-        updatedAt: now,
-      });
-    } else {
-      data.memos.push({
-        id: uid(),
-        title: document.getElementById('titleInput').value,
-        content: document.getElementById('contentInput').value,
-        category: document.getElementById('catSelect').value,
-        spaceId: state.activeSpace,
-        pinned: state.draft.pinned,
-        createdAt: now,
-        updatedAt: now,
-      });
-    }
-    save();
-    closeSheet('editorBackdrop');
-    renderAll();
-  }
-
-  function deleteDraft(){
-    if (state.draft.id) {
-      data.memos = data.memos.filter(m => m.id !== state.draft.id);
-      save();
-    }
-    closeSheet('editorBackdrop');
-    renderAll();
-  }
-
-  function renderCatEditorList(){
-    const el = document.getElementById('catEditorList');
-    const cats = spaceCategories();
-    el.innerHTML = cats.map(c => `
-      <div class="list-row" data-catrow="${c.id}">
-        <span class="dot" style="background:${c.color}"></span>
-        <span class="name">${esc(c.name)}</span>
-        <button class="icon-btn danger" data-delcat="${c.id}">🗑</button>
-      </div>`).join('') || `<div style="color:var(--faint);font-size:13px;padding:6px 0;">まだカテゴリがありません</div>`;
-    el.querySelectorAll('[data-delcat]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.delcat;
-        data.categories = data.categories.filter(c => c.id !== id);
-        data.memos = data.memos.filter(m => m.category !== id);
-        if (state.activeCat === id) state.activeCat = 'all';
-        save();
-        renderCatEditorList();
-        renderAll();
-      });
-    });
-  }
-  function openCatEditor(){
-    document.getElementById('catEditorTitle').textContent = 'カテゴリを編集 — ' + (spaceById(state.activeSpace)||{}).name;
-    renderCatEditorList();
-    const pal = document.getElementById('newCatPalette');
-    state.newCatColor = PALETTE[0];
-    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
-    updateCatPaletteSelection();
-    pal.querySelectorAll('[data-color]').forEach(sw => {
-      sw.addEventListener('click', () => { state.newCatColor = sw.dataset.color; updateCatPaletteSelection(); });
-    });
-    document.getElementById('newCatName').value = '';
-    openSheet('catEditorBackdrop');
-  }
-  function updateCatPaletteSelection(){
-    document.querySelectorAll('#newCatPalette .swatch').forEach(sw => {
-      sw.classList.toggle('selected', sw.dataset.color === state.newCatColor);
-    });
-  }
-  function addCategory(){
-    const input = document.getElementById('newCatName');
-    const name = input.value.trim();
-    if (!name) return;
-    data.categories.push({ id: uid(), name, color: state.newCatColor, spaceId: state.activeSpace });
-    save();
-    input.value = '';
-    state.newCatColor = PALETTE[data.categories.length % PALETTE.length];
-    updateCatPaletteSelection();
-    renderCatEditorList();
-    renderAll();
-  }
-
-  function renderSpaceEditorList(){
-    const el = document.getElementById('spaceEditorList');
-    el.innerHTML = data.spaces.map(s => `
-      <div class="list-row" data-spacerow="${s.id}">
-        <span class="dot" style="background:${s.color}"></span>
-        <span class="name">${esc(s.name)}</span>
-        <button class="icon-btn danger" data-delspace="${s.id}" ${data.spaces.length<=1?'disabled style="opacity:.3"':''}>🗑</button>
-      </div>`).join('');
-    el.querySelectorAll('[data-delspace]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (data.spaces.length <= 1) return;
-        const id = btn.dataset.delspace;
-        const catIds = data.categories.filter(c => c.spaceId === id).map(c => c.id);
-        data.categories = data.categories.filter(c => c.spaceId !== id);
-        data.memos = data.memos.filter(m => !catIds.includes(m.category) && m.spaceId !== id);
-        data.spaces = data.spaces.filter(s => s.id !== id);
-        if (state.activeSpace === id) {
-          state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
-          state.activeCat = 'all';
+  // ---------- Backup export / import ----------
+  function exportData(){
+    const payload = JSON.stringify(data, null, 2);
+    const filename = 'memo-rack-backup-' + new Date().toISOString().slice(0,10) + '.json';
+    const blob = new Blob([payload], { type: 'application/json' });
+    if (navigator.canShare && navigator.share) {
+      try {
+        const file = new File([blob], filename, { type: 'application/json' });
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: 'Memo Rack Backup' }).catch(() => {});
+          return;
         }
-        save();
-        renderSpaceEditorList();
-        renderAll();
-      });
-    });
-  }
-  function openSpaceEditor(){
-    renderSpaceEditorList();
-    const pal = document.getElementById('newSpacePalette');
-    state.newSpaceColor = PALETTE[0];
-    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
-    updateSpacePaletteSelection();
-    pal.querySelectorAll('[data-color]').forEach(sw => {
-      sw.addEventListener('click', () => { state.newSpaceColor = sw.dataset.color; updateSpacePaletteSelection(); });
-    });
-    document.getElementById('newSpaceName').value = '';
-    openSheet('spaceEditorBackdrop');
-  }
-  function updateSpacePaletteSelection(){
-    document.querySelectorAll('#newSpacePalette .swatch').forEach(sw => {
-      sw.classList.toggle('selected', sw.dataset.color === state.newSpaceColor);
-    });
-  }
-  function addSpace(){
-    const input = document.getElementById('newSpaceName');
-    const name = input.value.trim();
-    if (!name) return;
-    const id = uid();
-    data.spaces.push({ id, name, color: state.newSpaceColor });
-    save();
-    state.activeSpace = id;
-    state.activeCat = 'all';
-    input.value = '';
-    state.newSpaceColor = PALETTE[data.spaces.length % PALETTE.length];
-    updateSpacePaletteSelection();
-    renderSpaceEditorList();
-    renderAll();
+      } catch(e) {}
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    showToast('書き出しました');
   }
 
+  function importDataFromFile(file){
+    const reader = new FileReader();
+    reader.onload = () => {
+      let parsed;
+      try {
+        parsed = JSON.parse(reader.result);
+      } catch(e) {
+        showToast('⚠️ 読み込みに失敗しました');
+        return;
+      }
+      if (!parsed || !Array.isArray(parsed.spaces)) {
+        showToast('⚠️ 形式が正しくありません');
+        return;
+      }
+      showConfirm('バックアップを読み込みます。現在の内容は上書きされます。', '読み込む', () => {
+        data = parsed;
+        migrateMemos();
+        if (typeof data.autoMode !== 'boolean') data.autoMode = false;
+        data.lightThemeId = data.lightThemeId || 'light-paper';
+        data.darkThemeId = data.darkThemeId || 'dark-void';
+        const uiSpace = data.uiState && spaceById(data.uiState.lastSpace) ? data.uiState.lastSpace : (data.spaces[0] ? data.spaces[0].id : null);
+        state.activeSpace = uiSpace;
+        state.activeCat = (data.uiState && data.uiState.lastCat) || 'all';
+        state.globalSearch = false;
+        applyTheme(computeEffectiveThemeId());
+        applyAccent(data.accent || 'red');
+        save();
+        showToast('読み込みました');
+        closeSheet('saveLoadBackdrop');
+        renderAll();
+      });
+    };
+    reader.readAsText(file);
+  }
+
+  // ---------- Sheet helpers ----------
   function openSheet(id){ document.getElementById(id).classList.add('open'); }
   function closeSheet(id){ document.getElementById(id).classList.remove('open'); }
 
+  // ---------- Wire up ----------
   document.getElementById('themeBtn').addEventListener('click', openThemePicker);
   document.getElementById('closeThemePicker').addEventListener('click', () => closeSheet('themeBackdrop'));
   document.getElementById('themeBackdrop').addEventListener('click', (e) => { if (e.target.id==='themeBackdrop') closeSheet('themeBackdrop'); });
+  document.getElementById('autoModeToggle').addEventListener('click', () => {
+    data.autoMode = !data.autoMode;
+    if (data.autoMode) applyTheme(computeEffectiveThemeId());
+    save();
+    renderThemeSheet();
+  });
 
   document.getElementById('saveLoadBtn').addEventListener('click', openSaveLoad);
   document.getElementById('closeSaveLoad').addEventListener('click', () => closeSheet('saveLoadBackdrop'));
   document.getElementById('saveLoadBackdrop').addEventListener('click', (e) => { if (e.target.id==='saveLoadBackdrop') closeSheet('saveLoadBackdrop'); });
   document.getElementById('saveSlotBtn').addEventListener('click', saveCurrentAsSlot);
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+  document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFileInput').click());
+  document.getElementById('importFileInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) importDataFromFile(file);
+    e.target.value = '';
+  });
 
   document.getElementById('spaceSwitchBtn').addEventListener('click', openSpacePicker);
   document.getElementById('closeSpacePicker').addEventListener('click', () => closeSheet('spacePickerBackdrop'));
   document.getElementById('spacePickerBackdrop').addEventListener('click', (e) => { if (e.target.id==='spacePickerBackdrop') closeSheet('spacePickerBackdrop'); });
   document.getElementById('editSpacesBtn').addEventListener('click', () => { closeSheet('spacePickerBackdrop'); openSpaceEditor(); });
 
-  document.getElementById('fabBtn').addEventListener('click', () => openEditor(null));
+  document.getElementById('fabBtn').addEventListener('click', (e) => {
+    e.currentTarget.classList.remove('pulse');
+    void e.currentTarget.offsetWidth;
+    e.currentTarget.classList.add('pulse');
+    openEditor(null);
+  });
   document.getElementById('closeEditor').addEventListener('click', saveDraftAndClose);
   document.getElementById('editorBackdrop').addEventListener('click', (e) => { if (e.target.id==='editorBackdrop') saveDraftAndClose(); });
-  document.getElementById('pinBtn').addEventListener('click', () => {
+  document.getElementById('pinBtn').addEventListener('click', (e) => {
     state.draft.pinned = !state.draft.pinned;
-    document.getElementById('pinBtn').classList.toggle('pinned', state.draft.pinned);
+    e.currentTarget.classList.toggle('pinned', state.draft.pinned);
+    e.currentTarget.classList.remove('pop'); void e.currentTarget.offsetWidth; e.currentTarget.classList.add('pop');
   });
   document.getElementById('deleteBtn').addEventListener('click', deleteDraft);
+  document.getElementById('dupBtn').addEventListener('click', duplicateDraft);
 
   document.getElementById('closeCatEditor').addEventListener('click', () => closeSheet('catEditorBackdrop'));
   document.getElementById('catEditorBackdrop').addEventListener('click', (e) => { if (e.target.id==='catEditorBackdrop') closeSheet('catEditorBackdrop'); });
@@ -905,10 +1564,35 @@
     state.query = e.target.value;
     renderList();
   });
+  document.getElementById('globalSearchBtn').addEventListener('click', () => {
+    state.globalSearch = !state.globalSearch;
+    renderAll();
+  });
+  document.getElementById('sortBtn').addEventListener('click', cycleSort);
+
+  document.getElementById('selectCancelBtn').addEventListener('click', exitSelectMode);
+  document.getElementById('selectPinBtn').addEventListener('click', () => {
+    const ids = [...state.selectedIds];
+    const allPinned = ids.every(id => { const m = data.memos.find(x=>x.id===id); return m && m.pinned; });
+    ids.forEach(id => { const m = data.memos.find(x=>x.id===id); if (m) m.pinned = !allPinned; });
+    save();
+    showToast(allPinned ? 'ピン留めを解除しました' : 'ピン留めしました');
+    exitSelectMode();
+  });
+  document.getElementById('selectDeleteBtn').addEventListener('click', () => {
+    const ids = [...state.selectedIds];
+    showConfirm(`選択した${ids.length}件のメモを削除しますか？この操作は取り消せません。`, '削除', () => {
+      data.memos = data.memos.filter(m => !ids.includes(m.id));
+      save();
+      showToast(ids.length + '件削除しました');
+      exitSelectMode();
+    });
+  });
 
   load();
-  applyTheme(data.theme);
+  applyTheme(computeEffectiveThemeId());
   applyAccent(data.accent);
+  document.getElementById('sortLabel').textContent = '並び順: ' + SORT_LABELS[state.sortMode];
   renderAll();
 })();
 </script>
