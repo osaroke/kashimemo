@@ -3,1598 +3,556 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Memo Rack</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Memo">
-<meta name="theme-color" content="#0a0a0c" id="themeColorMeta">
-<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABmJLR0QA/wD/AP+gvaeTAAAAz0lEQVRIiWPksj/CQCIoipJpTpMnUjEzq0ISqRYcv/zpx6//TsYCtLKAJDvItIB4O8i3gEg7KLKAGDsotYCgHVSwAL8d1LEAjx1UswCXHdS0AKsdVLYA0w7qW4BmB00sQLaDhRamQ0DfsiecbEyMZBTXJAEmmprOwMDApBpKbNVBpgUKPjI0tYOJgYGBpnZA44B2diAimUZ2oKQiWtiBnkypbgeWfEBdO7BnNCragTMnU8sOfEUFVewgUBZRbgfhwo5CO4gqTSmxg9jimmw7ABxva93RFrc7AAAAAElFTkSuQmCC">
-<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAABmJLR0QA/wD/AP+gvaeTAAAEGElEQVR4nO3du21UQRSA4eOVScwCogFiJMhcgCugGySaoBtacEqIRBcI5NCBAyw/1nd278ydmfP6/wom+LTancfZs4ura6FC7/bnP75/uvy4116ITjvtBZju783tl6+/fv6+0V6ITuA4UWYf4DhdWh/gWFVOH+BYW0If4Kgomw9w1JXKBziqy+MDHC0l8QGOxjL4AEd74X2AY1OxfYBja4F9gKNDUX2Ao08hfYCjW/F8gKNnwXyAo3ORfICjf2F8gGNIMXyAY1QBfIBjYN59gGNsrn2AY3h+fYBjRk59gGNSHn2AY17ufIBjar58gGN2jnyAQyEvPsChkwsf4FDLvg9waGbcBziUs+wDHPqZ9QEOE9n0AQ4rGfQBDkNZ8wEOW5nyAQ5z2fEBDosZ8QEOo1nwAQ67qfsAh+l0fYDDeoo+wOEgLR/g8JGKD3C4ab4PcHhqsg9wOGumD3D4a5oPcLhsjg9weG2CD3A4brQPcPhuqA9wuG+cD3BEaJAPcARphA9wxKm7D3CEqq8PcESrow9wBKyXD3DErIsPcIRtuw9wRG6jD3AEb4sPcMSv2Qc4UtTmAxxZavABjkTV+gBHrqp8gCNd632AI2MrfYAjaWt8gCNvJ32AI3XHfYAje0d8gIOKPsBBIgUf4KD7XvoABz124AMc9KynPsBBhz34OLu4utZeDFns/dtzPjlouT//bsFBxcBBxcBBxcBBxcBBxcBBxcBBxcBBxcBBxXav9ufaayCj7S6/fcYHLbZ78+E1PmixnYjggxa7/0KKD3rZ468VfNBBz37K4oOedrjPgQ96aGETDB/0v+UdUnyQHNk+xwcdO1vBR/JOHLzhI3OnT2XxkbZVR/b4yNna+xz4SFjFZR98ZKvuJhg+UlV9TRAfeWq5Q4qPJDVeMMZHhtpvn+MjfJueJuAjdlvfreAjcB0eNeEjan1evOEjZN2eQ+IjXj3fyuIjWJ0fUuMjUv1f2eMjTENGMOAjRqPmc+AjQAOHt+DDe2Mn++DDdcPHPuHDbzNmguHDaZMGxuHDY/OmCeLDXVNHTeLDV7PnkOLDUQpDavHhJZ0Jxvhwkdp4a3zYT3P2OT6MpzwYHx+W0//XBHyYTR+H4MNqJnAIPkxmBYfgw16GcAg+jGULh+DDUuZwCD7MZBGH4MNGRnEIPgxkF4fgQzvTOAQfqlnHIfjQywEOwYdSPnAIPjRyg0PwMT1POAQfc3OGQ/AxMX84BB+zcolD8DElrzgEH+NzjEPwMTjfOAQfI3OPQ/AxrAg4BB9jCoJD8DGgODgEH70LhUPw0bVoOAQf/QqIQ/DRqZg4BB89CotD8LG5yDgEH9sKjkPwsaH4OAQfraXAIfhoKgsOwUd9iXAIPirLhUPwUVM6HIKP1WXEIfhY1x3Q6bFy4SvdTwAAAABJRU5ErkJggg==">
+<meta name="theme-color" content="#0e0f1f">
+<title>ことばあつめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Klee+One:wght@600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    color-scheme: dark;
-    --bg: #0d0d12;
-    --surface: #17171f;
-    --surface2: #1c1c26;
-    --border: #2a2a35;
-    --text: #e8e6f0;
-    --muted: #8b8797;
-    --faint: #5c5866;
-    --faintest: #3f3d47;
-    --accent: #e2001a;
-    --accent2: #0a0a0c;
-    --onaccent: #ffffff;
-    --accent-glow: rgba(226,0,26,0.4);
-    --accent-pink: #e2001a;
-    --ink: #0a0a0c;
-  }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body {
-    margin: 0; padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-    height: 100%;
-    overscroll-behavior: none;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  #app {
-    display: flex;
-    flex-direction: column;
-    height: 100dvh;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* ---- Brand strip ---- */
-  .brand-strip {
-    display: flex; align-items: center; gap: 8px;
-    padding: 7px 16px 7px 14px;
-    background: var(--accent);
-    clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
-    width: fit-content;
-    margin: 10px 0 0 0;
-  }
-  .brand-text {
-    color: var(--onaccent); font-weight: 900; font-style: italic;
-    letter-spacing: 0.06em; font-size: 12px; text-transform: uppercase;
-    transform: skewX(-6deg);
-  }
-  .brand-strip .brand-dot { width: 7px; height: 7px; background: var(--onaccent); transform: rotate(45deg); }
-
-  .stripe-divider {
-    height: 5px; margin-top: 10px;
-    background: repeating-linear-gradient(-55deg, var(--accent) 0 10px, var(--accent2) 10px 20px);
-    background-size: 200% 100%;
-    animation: stripeSlide 2.6s linear infinite;
-    flex-shrink: 0;
-  }
-  @keyframes stripeSlide { from { background-position: 0 0; } to { background-position: -56px 0; } }
-
-  /* ---- Header ---- */
-  header { flex-shrink: 0; padding: 0 16px 10px; }
-  .header-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
-  .space-switch {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--surface); border: 2px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-    padding: 10px 14px; flex: 1;
-    color: var(--text); font-size: 15px; font-weight: 800;
-    -webkit-appearance: none; appearance: none; min-width: 0;
-    letter-spacing: 0.01em;
-  }
-  .space-switch span#spaceLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .dot { width: 10px; height: 10px; flex-shrink: 0; transform: rotate(45deg); }
-  .space-switch .chev { margin-left: auto; color: var(--accent); font-size: 13px; font-weight: 900; }
-  .theme-btn {
-    flex-shrink: 0; width: 52px; height: 52px;
-    background: var(--ink); border: 2px solid var(--accent);
-    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-    color: var(--text);
-    transition: transform 0.12s ease;
-  }
-  .theme-btn:active { transform: scale(0.92); }
-  .tbtn-icon { font-size: 16px; line-height: 1; }
-  .tbtn-label { font-size: 8px; font-weight: 800; letter-spacing: 0.02em; color: #fff; text-transform: uppercase; }
-
-  .cat-scroll { display: flex; gap: 10px; overflow-x: auto; margin-top: 12px; padding: 2px 2px 4px; scrollbar-width: none; }
-  .cat-scroll::-webkit-scrollbar { display: none; }
-  .chip {
-    flex-shrink: 0; display: flex; align-items: center; gap: 6px;
-    padding: 7px 14px;
-    background: var(--surface); border: 2px solid var(--border);
-    color: var(--muted); font-size: 12px; font-weight: 800; white-space: nowrap;
-    transform: skewX(-10deg); letter-spacing: 0.02em;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-  }
-  .chip:active { transform: skewX(-10deg) scale(0.92); }
-  .chip > * { display: inline-flex; transform: skewX(10deg); }
-  .chip.active { background: var(--accent); color: var(--onaccent); border-color: var(--accent); }
-  .chip .cdot { width: 7px; height: 7px; flex-shrink: 0; }
-  .chip.add { color: var(--faint); border-style: dashed; }
-  .chip.ghost { color: var(--muted); border-style: dashed; }
-
-  .search-row {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--surface); border: 2px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-    padding: 10px 13px; margin-top: 10px;
-  }
-  .search-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-size: 15px; font-weight: 600; min-width: 0; }
-  .search-row input::placeholder { color: var(--faint); font-weight: 500; }
-  .search-row svg { flex-shrink: 0; color: var(--accent); }
-  .search-row .mini-btn { flex-shrink: 0; background: none; border: none; color: var(--faint); font-size: 15px; padding: 2px 4px; }
-  .search-row .mini-btn.on { color: var(--accent-pink); }
-
-  .tool-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-  .sort-btn {
-    flex-shrink: 0; display: flex; align-items: center; gap: 5px;
-    background: var(--surface); border: 2px solid var(--border);
-    color: var(--muted); font-size: 11px; font-weight: 800;
-    padding: 6px 11px; transform: skewX(-10deg);
-  }
-  .sort-btn span { display: inline-flex; transform: skewX(10deg); }
-
-  /* ---- List ---- */
-  #list { flex: 1; overflow-y: auto; padding: 12px 16px 110px; -webkit-overflow-scrolling: touch; }
-  .empty { text-align: center; color: var(--faint); font-size: 14px; margin-top: 50px; padding: 0 20px; line-height: 1.6; font-weight: 600; }
-  .empty .cta-btn {
-    margin: 16px auto 0; display: block;
-    background: var(--accent); color: var(--onaccent); font-weight: 900;
-    font-size: 13px; padding: 11px 20px; border: none;
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-    text-transform: uppercase; letter-spacing: 0.04em;
-  }
-  .card-wrap { position: relative; margin-bottom: 12px; overflow: hidden; }
-  .card-swipe-actions {
-    position: absolute; top: 0; right: 0; bottom: 0; width: 64px;
-    display: flex; align-items: stretch;
-  }
-  .card-swipe-actions button {
-    width: 64px; border: none; background: var(--accent); color: var(--onaccent);
-    font-size: 20px; display: flex; align-items: center; justify-content: center;
-  }
-  .card {
-    background: var(--surface); border: 2px solid var(--border); border-left: 5px solid var(--accent);
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
-    padding: 14px 14px 12px 13px; position: relative;
-    opacity: 0; animation: cardIn 0.32s ease-out forwards;
-    touch-action: pan-y;
-  }
-  @keyframes cardIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-  .card.selectable { padding-left: 40px; }
-  .select-badge {
-    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-    width: 20px; height: 20px; border: 2px solid var(--border); background: var(--bg);
-    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: var(--onaccent);
-  }
-  .card-wrap.selected .card { border-color: var(--accent); }
-  .card-wrap.selected .select-badge { background: var(--accent); border-color: var(--accent); }
-  .card-space-tag {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 10px; font-weight: 800; color: var(--muted);
-    margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.03em;
-  }
-  .card-space-tag .dot { width: 6px; height: 6px; }
-  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-  .card-title-row { display: flex; align-items: center; gap: 6px; min-width: 0; flex-wrap: wrap; }
-  .card-title-row .dot { width: 8px; height: 8px; }
-  .card-cats { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
-  .card-title { font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  mark.hl { background: var(--accent); color: var(--onaccent); padding: 0 2px; border-radius: 2px; }
-  .pin-btn { flex-shrink: 0; padding: 4px; color: var(--faint); background: none; border: none; transition: transform 0.15s ease; }
-  .pin-btn.pinned { color: var(--accent-pink); }
-  .pin-btn.pop { animation: pinPop 0.38s ease; }
-  @keyframes pinPop { 0% { transform: scale(1); } 45% { transform: scale(1.45) rotate(-12deg); } 100% { transform: scale(1); } }
-  .card-body {
-    font-size: 13px; color: var(--muted); margin-top: 7px; white-space: pre-wrap; line-height: 1.5; font-weight: 500;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .card-date { margin-top: 9px; font-size: 10px; color: var(--faint); font-family: ui-monospace, monospace; font-weight: 700; letter-spacing: 0.04em; }
-
-  /* ---- FAB ---- */
-  .fab {
-    position: fixed;
-    right: calc(24px + env(safe-area-inset-right));
-    bottom: calc(26px + env(safe-area-inset-bottom));
-    width: 58px; height: 58px;
-    background: var(--accent); color: var(--onaccent);
-    border: 3px solid var(--ink);
-    transform: rotate(45deg);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 0 var(--ink), 0 8px 20px var(--accent-glow);
-    transition: transform 0.12s ease;
-  }
-  .fab::after {
-    content: ''; position: absolute; inset: 0; border: 3px solid var(--accent);
-    opacity: 0; pointer-events: none;
-  }
-  .fab.pulse::after { animation: fabPing 0.5s ease-out; }
-  @keyframes fabPing { from { transform: scale(1); opacity: 0.9; } to { transform: scale(1.9); opacity: 0; } }
-  .fab svg { transform: rotate(-45deg); }
-  .fab:active { transform: rotate(45deg) scale(0.9); }
-
-  /* ---- Select bar ---- */
-  .select-bar {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    background: var(--ink); border-top: 3px solid var(--accent);
-    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-    display: flex; align-items: center; gap: 12px;
-    transform: translateY(100%); transition: transform 0.22s cubic-bezier(.22,1,.36,1);
-  }
-  .select-bar.show { transform: translateY(0); }
-  .select-bar button { background: none; border: none; color: #fff; font-size: 14px; font-weight: 800; }
-  .select-bar .sb-count { color: #fff; font-size: 13px; font-weight: 800; flex: 1; }
-  .select-bar .sb-actions { display: flex; gap: 16px; }
-
-  /* ---- Toast ---- */
-  .toast {
-    position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom));
-    transform: translateX(-50%) translateY(10px);
-    background: var(--ink); color: #fff; border: 2px solid var(--accent);
-    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-    padding: 9px 18px; font-size: 12px; font-weight: 800; letter-spacing: 0.02em;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.32s cubic-bezier(.34,1.56,.64,1);
-    z-index: 80; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-  .toast button { background: none; border: none; color: var(--accent-pink); font-weight: 900; text-decoration: underline; padding: 0; margin-left: 10px; font-size: 12px; }
-
-  #flashOverlay { position: fixed; inset: 0; z-index: 200; pointer-events: none; opacity: 0; }
-  #flashOverlay.flash { animation: flashFade 0.4s ease-out; }
-  @keyframes flashFade { from { opacity: 0.55; } to { opacity: 0; } }
-
-  /* ---- Sheets / modals ---- */
-  .sheet-backdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-    display: flex; align-items: flex-end; z-index: 50;
-    opacity: 0; visibility: hidden; pointer-events: none;
-    transition: opacity 0.22s ease, visibility 0s linear 0.22s;
-  }
-  .sheet-backdrop.open { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.22s ease; }
-  .sheet-backdrop .sheet { transform: translateY(24px); transition: transform 0.26s cubic-bezier(.22,1,.36,1); }
-  .sheet-backdrop.open .sheet { transform: translateY(0); }
-  .sheet {
-    background: var(--surface); border-top: 4px solid var(--accent);
-    clip-path: polygon(0 14px, 6% 0, 100% 0, 100% 100%, 0 100%);
-    width: 100%; max-height: 88dvh; display: flex; flex-direction: column;
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-top: 6px;
-  }
-  .sheet-handle { width: 40px; height: 4px; background: var(--faintest); margin: 10px auto 4px; }
-  .sheet-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 16px; border-bottom: 2px solid var(--border); color: var(--text);
-  }
-  .sheet-header strong { font-weight: 900; text-transform: uppercase; letter-spacing: 0.03em; font-size: 14px !important; }
-  .icon-btn { background: none; border: none; color: var(--muted); padding: 6px; display: flex; transition: transform 0.12s ease; }
-  .icon-btn:active { transform: scale(0.85); }
-  .icon-btn.danger:active { color: var(--accent); }
-  .icon-btn.pinned { color: var(--accent-pink); }
-  .icon-btn[hidden] { display: none; }
-  .sheet-body { padding: 16px; overflow-y: auto; flex: 1; }
-  .sheet-note { font-size: 12px; color: var(--faint); line-height: 1.6; margin: 0 0 14px; font-weight: 500; }
-  .title-input { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 19px; font-weight: 800; margin-bottom: 10px; }
-  .title-input::placeholder { color: var(--faint); }
-  .content-input { width: 100%; background: transparent; border: none; outline: none; color: var(--muted); font-size: 15px; line-height: 1.6; resize: none; min-height: 26vh; font-weight: 500; }
-  .content-input::placeholder { color: var(--faint); }
-  .field-label { font-size: 11px; color: var(--accent); margin: 16px 0 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; }
-  .list-row {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--bg); border: 2px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    padding: 12px; margin-bottom: 9px;
-  }
-  .list-row .dot { width: 9px; height: 9px; }
-  .list-row span.name { flex: 1; font-size: 14px; color: var(--text); font-weight: 700; }
-  .row-arrows { display: flex; flex-direction: column; gap: 2px; }
-  .row-arrows button { background: none; border: none; color: var(--faint); font-size: 11px; padding: 1px 4px; line-height: 1; }
-  .row-arrows button:disabled { opacity: 0.25; }
-  .name-input {
-    width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text);
-    padding: 12px; font-size: 15px; outline: none; margin-top: 10px; font-weight: 600;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-  .name-input::placeholder { color: var(--faint); }
-  .palette { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-  .swatch {
-    width: 30px; height: 30px; border: 2px solid transparent;
-    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .swatch.selected { border-color: var(--text); }
-  .primary-btn {
-    width: 100%; background: var(--accent); color: var(--onaccent); font-weight: 900;
-    font-size: 15px; padding: 14px; border: none; margin-top: 14px;
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
-    text-transform: uppercase; letter-spacing: 0.05em;
-    transition: transform 0.12s ease, filter 0.12s ease;
-  }
-  .primary-btn:active { filter: brightness(0.85); transform: scale(0.98); }
-  .ghost-btn {
-    background: var(--surface2); color: var(--text); border: 2px solid var(--border);
-    clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
-  }
-  .btn-row { display: flex; gap: 10px; }
-  .btn-row .primary-btn { margin-top: 0; flex: 1; }
-  .footer-actions { padding: 14px 16px; border-top: 2px solid var(--border); }
-  .theme-section-title { font-size: 11px; color: var(--accent); margin: 6px 0 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; }
-  .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px; }
-  .theme-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; padding: 0; }
-  .theme-preview {
-    width: 44px; height: 44px; border: 2px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-    position: relative; overflow: hidden;
-  }
-  .theme-preview.selected { border-color: var(--accent); border-width: 3px; }
-  .theme-preview .half { position: absolute; top: 0; bottom: 0; width: 50%; }
-  .theme-preview .half.l { left: 0; }
-  .theme-preview .half.r { right: 0; }
-  .theme-label { font-size: 9px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
-  .slot-row {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--bg); border: 2px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    padding: 12px; margin-bottom: 9px;
-  }
-  .slot-info { flex: 1; min-width: 0; }
-  .slot-name { font-size: 14px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .slot-meta { font-size: 11px; color: var(--faint); margin-top: 2px; font-weight: 600; }
-  .slot-actions { display: flex; gap: 2px; flex-shrink: 0; }
+:root{
+  --bg:#0e0f1f; --bg2:#15172b; --card:#1c1f38; --card2:#242847;
+  --line:#2f3458; --text:#e9e6f5; --sub:#9a98b8; --dim:#6b6a8c;
+  --gold:#f2c879; --pink:#f29ab6; --blue:#8fb8ff; --mint:#8fe0c8;
+  --n:#8fb8ff; --r:#f29ab6; --sr:#f2c879;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-size:15px;line-height:1.6}
+body{background:radial-gradient(ellipse at 20% -10%,#2a2456 0%,transparent 55%),radial-gradient(ellipse at 110% 30%,#1d2b4f 0%,transparent 50%),var(--bg);min-height:100vh;background-attachment:fixed}
+button{font-family:inherit;color:inherit;border:none;background:none;cursor:pointer}
+input,textarea,select{font-family:inherit;font-size:16px;color:var(--text);background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;outline:none}
+input:focus,textarea:focus{border-color:var(--pink)}
+textarea{resize:vertical;min-height:64px}
+header{padding:calc(env(safe-area-inset-top) + 14px) 18px 6px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-family:"Klee One",serif;font-size:20px;margin:0;letter-spacing:.08em}
+header h1 span{color:var(--gold)}
+.lvchip{font-size:12px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 10px;color:var(--sub)}
+.lvchip b{color:var(--gold)}
+main{padding:6px 16px calc(env(safe-area-inset-bottom) + 96px);max-width:560px;margin:0 auto}
+.view{display:none}.view.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sec{font-size:12px;color:var(--sub);letter-spacing:.12em;margin:18px 4px 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+/* お題カード */
+.topic{position:relative;overflow:hidden;border-radius:22px;padding:22px 20px 18px;background:linear-gradient(145deg,#262a52,#1a1c36);border:1px solid var(--line)}
+.topic::after{content:"";position:absolute;inset:-40% -20% auto auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(242,154,182,.18),transparent 70%)}
+.topic.R{border-color:rgba(242,154,182,.55)}
+.topic.SR{border-color:rgba(242,200,121,.7);box-shadow:0 0 28px rgba(242,200,121,.15)}
+.rar{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;letter-spacing:.1em}
+.rar.N{background:rgba(143,184,255,.15);color:var(--n)}
+.rar.R{background:rgba(242,154,182,.15);color:var(--r)}
+.rar.SR{background:rgba(242,200,121,.18);color:var(--sr)}
+.topic .lbl{font-size:12px;color:var(--sub);margin-top:10px}
+.topic .ttl{font-family:"Klee One",serif;font-size:26px;line-height:1.4;margin:4px 0 14px;position:relative;z-index:1}
+.dots{display:flex;gap:8px;align-items:center}
+.dot{width:30px;height:30px;border-radius:50%;border:1.5px dashed var(--dim);display:grid;place-items:center;font-size:14px;color:var(--dim)}
+.dot.on{border:none;background:linear-gradient(135deg,var(--pink),var(--gold));color:#1a1530}
+.topic .row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:8px}
+.btn{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:9px 14px;font-size:14px}
+.btn.main{background:linear-gradient(135deg,var(--pink),#e88aa8);color:#24132a;border:none;font-weight:700}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#e8b45c);color:#2a1f0c;border:none;font-weight:700}
+.btn:disabled{opacity:.4}
+.btn.full{width:100%;padding:13px;font-size:15px}
+.cleared{font-size:13px;color:var(--gold)}
+/* ことばリスト */
+.w{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px}
+.w .t{font-size:18px;font-weight:700}
+.w .y{font-size:12px;color:var(--sub);margin-left:6px}
+.w .m{font-size:13px;color:var(--sub);margin-top:4px;white-space:pre-wrap}
+.w .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.chip{font-size:11px;padding:2px 9px;border-radius:99px;background:var(--card2);color:var(--sub);border:1px solid var(--line)}
+.chip.v{color:var(--mint);border-color:rgba(143,224,200,.3)}
+.chip.tag{color:var(--pink);border-color:rgba(242,154,182,.3)}
+.chip.tp{color:var(--blue);border-color:rgba(143,184,255,.3)}
+.w .ops{margin-left:auto;display:flex;gap:4px}
+.w .ops button{font-size:12px;color:var(--dim);padding:2px 6px}
+.empty{color:var(--dim);text-align:center;padding:24px 8px;font-size:14px}
+/* タグ選択 */
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tg{font-size:13px;padding:6px 12px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--sub)}
+.tg.on{background:rgba(242,154,182,.18);border-color:var(--pink);color:var(--pink)}
+/* 図鑑 */
+.zk{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.zc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;min-height:92px;text-align:left;display:flex;flex-direction:column;gap:4px}
+.zc .zt{font-size:14px;font-weight:700;line-height:1.4}
+.zc .zn{font-size:12px;color:var(--sub);margin-top:auto}
+.zc.lock{opacity:.35}
+.zc.lock .zt{filter:blur(3px)}
+.prog{height:6px;border-radius:99px;background:var(--bg2);overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:99px}
+/* さがす */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.flabel{font-size:12px;color:var(--sub);margin:0 2px 4px}
+/* 合成 */
+.seed{font-family:"Klee One",serif;font-size:24px;text-align:center;padding:26px 12px;line-height:1.5}
+.seedsrc{text-align:center;font-size:12px;color:var(--sub);margin-top:-12px;margin-bottom:12px}
+/* きろく */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.st{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.st b{display:block;font-size:22px;color:var(--gold)}
+.st span{font-size:11px;color:var(--sub)}
+.xpbar{height:10px;border-radius:99px;background:var(--bg2);overflow:hidden;margin:8px 0 4px}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink),var(--gold));border-radius:99px;transition:width .5s}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.cal .h{font-size:11px;color:var(--dim)}
+.cal .d{aspect-ratio:1;border-radius:10px;display:grid;place-items:center;font-size:12px;color:var(--dim);background:var(--bg2);position:relative}
+.cal .d.some{color:var(--text);background:var(--card2)}
+.cal .d.clr{background:linear-gradient(135deg,rgba(242,154,182,.35),rgba(242,200,121,.35));color:#fff}
+.cal .d.clr::after{content:"✿";position:absolute;font-size:9px;top:1px;right:4px;color:var(--gold)}
+.cal .d.today{outline:1.5px solid var(--pink)}
+.calnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.calnav button{font-size:18px;padding:0 10px;color:var(--sub)}
+.bars .b{display:grid;grid-template-columns:76px 1fr 28px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.bars .b .tr{height:10px;background:var(--bg2);border-radius:99px;overflow:hidden}
+.bars .b .tr i{display:block;height:100%;background:var(--pink);border-radius:99px}
+.bars .b em{font-style:normal;color:var(--sub);text-align:right;font-size:12px}
+details{margin-top:10px}
+summary{cursor:pointer;color:var(--sub);font-size:13px}
+/* タブバー */
+nav{position:fixed;left:0;right:0;bottom:0;background:rgba(14,15,31,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:6px 6px calc(env(safe-area-inset-bottom) + 6px);z-index:20}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10px;color:var(--dim);padding:6px 0}
+nav button .ic{font-size:20px;line-height:1.2;filter:grayscale(1);opacity:.6}
+nav button.on{color:var(--pink)}
+nav button.on .ic{filter:none;opacity:1}
+.fab{position:fixed;right:18px;bottom:calc(env(safe-area-inset-bottom) + 76px);width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--gold));color:#24132a;font-size:30px;font-weight:700;box-shadow:0 8px 24px rgba(242,154,182,.35);z-index:21;display:grid;place-items:center}
+/* モーダル */
+.ov{position:fixed;inset:0;background:rgba(6,6,16,.7);display:none;align-items:flex-end;justify-content:center;z-index:30}
+.ov.on{display:flex}
+.sheet{background:var(--bg2);border:1px solid var(--line);border-bottom:none;border-radius:24px 24px 0 0;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:18px 18px calc(env(safe-area-inset-bottom) + 18px);animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h2{font-size:17px;margin:0 0 12px;font-family:"Klee One",serif}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:12px;color:var(--sub);margin:0 2px 4px}
+.preview{font-size:13px;color:var(--mint);margin:6px 2px 0;min-height:1.4em}
+.sheet .acts{display:flex;gap:8px;margin-top:6px}
+.sheet .acts .btn{flex:1;padding:12px}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 14px);transform:translateX(-50%) translateY(-80px);background:var(--card2);border:1px solid var(--gold);color:var(--text);padding:10px 18px;border-radius:99px;font-size:14px;z-index:40;transition:transform .3s;white-space:nowrap}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.hint{font-size:12px;color:var(--dim);margin-top:6px}
+.lvup{position:fixed;inset:0;display:none;place-items:center;z-index:50;background:rgba(6,6,16,.75)}
+.lvup.on{display:grid}
+.lvup div{text-align:center;font-family:"Klee One",serif;animation:pop .5s ease}
+.lvup b{display:block;font-size:46px;color:var(--gold);text-shadow:0 0 24px rgba(242,200,121,.5)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:none;opacity:1}}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="brand-strip"><span class="brand-dot"></span><span class="brand-text">Memo Rack</span></div>
-  <header>
-    <div class="header-row">
-      <button class="space-switch" id="spaceSwitchBtn">
-        <span class="dot" id="spaceDot"></span>
-        <span id="spaceLabel">—</span>
-        <span class="chev">▾</span>
-      </button>
-      <button class="theme-btn" id="themeBtn" aria-label="テーマ"><span class="tbtn-icon">🎨</span><span class="tbtn-label">テーマ</span></button>
-      <button class="theme-btn" id="saveLoadBtn" aria-label="セーブ・ロード"><span class="tbtn-icon">💾</span><span class="tbtn-label">セーブ</span></button>
-    </div>
-    <div class="cat-scroll" id="catScroll"></div>
-    <div class="search-row">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="searchInput" placeholder="検索..." />
-      <button class="mini-btn" id="globalSearchBtn" title="全大枠を検索">🌐</button>
-    </div>
-    <div class="tool-row">
-      <button class="sort-btn" id="sortBtn"><span id="sortLabel">並び順: 更新日時</span></button>
-    </div>
-  </header>
-  <div class="stripe-divider"></div>
-  <div id="list"></div>
-  <button class="fab" id="fabBtn" aria-label="新規メモ">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
-  </button>
-  <div class="select-bar" id="selectBar">
-    <button id="selectCancelBtn">✕</button>
-    <span class="sb-count" id="selectCount">0件選択中</span>
-    <div class="sb-actions">
-      <button id="selectPinBtn">📌 ピン</button>
-      <button id="selectDeleteBtn">🗑 削除</button>
-    </div>
-  </div>
-  <div class="toast" id="toast"></div>
-  <div id="flashOverlay"></div>
-</div>
+<header>
+  <h1>ことば<span>あつめ</span></h1>
+  <div class="lvchip">Lv.<b id="hLv">1</b> ・ 連続 <b id="hSt">0</b>日</div>
+</header>
 
-<div class="sheet-backdrop" id="confirmBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header"><strong id="confirmTitle">確認</strong></div>
-    <div class="sheet-body">
-      <p id="confirmMessage" style="font-size:14px;line-height:1.7;color:var(--text);font-weight:600;white-space:pre-wrap;"></p>
-      <div class="btn-row">
-        <button class="primary-btn ghost-btn" id="confirmCancelBtn">キャンセル</button>
-        <button class="primary-btn" id="confirmOkBtn">削除</button>
+<main>
+  <!-- きょう -->
+  <section class="view on" id="v-today">
+    <div class="sec">きょうのお題</div>
+    <div class="topic" id="topicCard"></div>
+    <div class="sec">きょう拾ったことば</div>
+    <div id="todayList"></div>
+  </section>
+
+  <!-- ずかん -->
+  <section class="view" id="v-zukan">
+    <div class="sec">お題ずかん</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span>出会ったお題</span><span id="zkCount"></span></div>
+      <div class="prog" style="margin-top:8px"><i id="zkProg"></i></div>
+    </div>
+    <div class="zk" id="zkGrid"></div>
+  </section>
+
+  <!-- さがす -->
+  <section class="view" id="v-search">
+    <div class="sec">ことばをさがす</div>
+    <div class="card">
+      <input id="qText" placeholder="ことば・メモで検索">
+      <div class="frow" style="margin-top:8px">
+        <div><div class="flabel">音数</div>
+          <select id="qMora"><option value="">すべて</option></select></div>
+        <div><div class="flabel">母音の終わり（例：あう）</div>
+          <input id="qVowel" placeholder="あう"></div>
       </div>
+      <div class="flabel">気持ちタグ</div>
+      <div class="tags" id="qTags"></div>
     </div>
-  </div>
-</div>
+    <div class="sec" id="qCount"></div>
+    <div id="qList"></div>
+  </section>
 
-<div class="sheet-backdrop" id="themeBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header"><strong>背景テーマ</strong><button class="icon-btn" id="closeThemePicker">✕</button></div>
-    <div class="sheet-body">
-      <button type="button" class="chip" id="autoModeToggle" style="margin-bottom:16px;"><span id="autoModeLabel">🔗 端末設定に自動追従：OFF</span></button>
-      <div class="theme-section-title">Accent Color</div>
-      <div class="theme-grid" id="accentGrid" style="grid-template-columns:repeat(5, 1fr);"></div>
-      <div class="theme-section-title">Light Mode</div>
-      <div class="theme-grid" id="lightThemeGrid"></div>
-      <div class="theme-section-title">Dark Mode</div>
-      <div class="theme-grid" id="darkThemeGrid"></div>
-    </div>
-  </div>
-</div>
-
-<div class="sheet-backdrop" id="saveLoadBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header"><strong>セーブ / ロード</strong><button class="icon-btn" id="closeSaveLoad">✕</button></div>
-    <div class="sheet-body">
-      <p class="sheet-note">入力内容は常に自動保存されています。ここでは、それとは別に今の状態を名前を付けて保存し、あとから呼び出す（切り替える）ことができます。</p>
-      <div class="theme-section-title">セーブデータ</div>
-      <div id="slotList"></div>
-      <input class="name-input" id="newSlotName" placeholder="セーブ名（例：8月版）" />
-      <button class="primary-btn" id="saveSlotBtn">現在の状態を保存</button>
-
-      <div class="theme-section-title" style="margin-top:26px;">バックアップ（端末外に保存）</div>
-      <p class="sheet-note">機種変更やデータ消失に備えて、ファイルとして書き出し・読み込みができます。</p>
-      <div class="btn-row">
-        <button class="primary-btn ghost-btn" id="exportBtn">書き出す</button>
-        <button class="primary-btn ghost-btn" id="importBtn">読み込む</button>
+  <!-- ごうせい -->
+  <section class="view" id="v-mix">
+    <div class="sec">ことば合成</div>
+    <div class="card">
+      <div class="seed" id="seedText">ボタンを押すと、<br>拾ったことばが混ざるよ</div>
+      <div class="seedsrc" id="seedSrc"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn main full" id="mixBtn">合成する</button>
+        <button class="btn" id="keepBtn" disabled style="white-space:nowrap">✿ とっておく</button>
       </div>
-      <input type="file" id="importFileInput" accept="application/json" style="display:none">
+      <div class="hint">2つ以上ことばを拾うと合成できるよ。気に入った組み合わせは「とっておく」で保存。</div>
     </div>
-  </div>
-</div>
+    <div class="sec">とっておいたタネ</div>
+    <div id="seedList"></div>
+  </section>
 
-<div class="sheet-backdrop" id="spacePickerBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header"><strong>大枠を選択</strong><button class="icon-btn" id="closeSpacePicker">✕</button></div>
-    <div class="sheet-body" id="spacePickerList"></div>
-    <div class="footer-actions">
-      <button class="primary-btn ghost-btn" id="editSpacesBtn">大枠を編集</button>
-    </div>
-  </div>
-</div>
-
-<div class="sheet-backdrop" id="editorBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header">
-      <strong>メモ</strong>
-      <div style="display:flex;gap:2px;">
-        <button class="icon-btn" id="dupBtn" title="複製" hidden>📄</button>
-        <button class="icon-btn" id="pinBtn">📌</button>
-        <button class="icon-btn danger" id="deleteBtn">🗑</button>
-        <button class="icon-btn" id="closeEditor">✕</button>
+  <!-- きろく -->
+  <section class="view" id="v-log">
+    <div class="sec">レベル</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:22px;font-family:'Klee One',serif">Lv.<span id="lLv" style="color:var(--gold)"></span> <span id="lTitle" style="font-size:14px;color:var(--sub)"></span></div>
+        <div style="font-size:12px;color:var(--sub)" id="lXp"></div>
       </div>
+      <div class="xpbar"><i id="lBar"></i></div>
     </div>
-    <div class="sheet-body">
-      <input class="title-input" id="titleInput" placeholder="タイトル" />
-      <textarea class="content-input" id="contentInput" placeholder="内容を入力..."></textarea>
-      <div class="field-label">大枠</div>
-      <div class="cat-scroll" id="editorSpaceChips" style="margin-top:0;"></div>
-      <div class="field-label">カテゴリ（複数選択可）</div>
-      <div class="cat-scroll" id="editorCatChips" style="margin-top:0;"></div>
+    <div class="sec">これまで</div>
+    <div class="stats">
+      <div class="st"><b id="sWords">0</b><span>拾ったことば</span></div>
+      <div class="st"><b id="sDays">0</b><span>クリアした日</span></div>
+      <div class="st"><b id="sBest">0</b><span>最長連続</span></div>
+    </div>
+    <div class="sec">スタンプカレンダー</div>
+    <div class="card">
+      <div class="calnav"><button id="calPrev">‹</button><b id="calTitle"></b><button id="calNext">›</button></div>
+      <div class="cal" id="cal"></div>
+    </div>
+    <div class="sec">気持ちの分布（<span id="barScope">この月</span>）</div>
+    <div class="card bars" id="bars"></div>
+    <div class="sec">この月のことば</div>
+    <div id="monthList"></div>
+
+    <div class="sec">せってい</div>
+    <div class="card">
+      <details>
+        <summary>じぶんのお題を追加する</summary>
+        <div style="margin-top:10px;display:flex;gap:6px">
+          <input id="ctText" placeholder="例：駅のホームで聞こえた音">
+          <select id="ctRar" style="width:84px"><option>N</option><option>R</option><option>SR</option></select>
+        </div>
+        <button class="btn" id="ctAdd" style="margin-top:8px">追加</button>
+        <div id="ctList" style="margin-top:8px"></div>
+      </details>
+      <details>
+        <summary>バックアップ（書き出し・読み込み）</summary>
+        <div class="hint">データはこの端末のブラウザの中だけに保存されているよ。ときどき書き出して、メモアプリなどに保管しておくと安心。</div>
+        <button class="btn" id="expBtn" style="margin-top:8px">書き出してコピー</button>
+        <textarea id="impText" placeholder="書き出したデータを貼りつけ" style="margin-top:8px"></textarea>
+        <button class="btn" id="impBtn" style="margin-top:8px">読み込む（いまのデータを置きかえ）</button>
+      </details>
+    </div>
+  </section>
+</main>
+
+<button class="fab" id="fab" aria-label="ことばを拾う">＋</button>
+
+<nav>
+  <button data-v="today" class="on"><span class="ic">🌙</span>きょう</button>
+  <button data-v="zukan"><span class="ic">📖</span>ずかん</button>
+  <button data-v="search"><span class="ic">🔍</span>さがす</button>
+  <button data-v="mix"><span class="ic">🧪</span>合成</button>
+  <button data-v="log"><span class="ic">✿</span>きろく</button>
+</nav>
+
+<!-- 入力シート -->
+<div class="ov" id="ov">
+  <div class="sheet">
+    <h2 id="shTitle">ことばを拾う</h2>
+    <div class="fld"><label>ことば</label><input id="fText" placeholder="例：自販機の灯り"></div>
+    <div class="fld"><label>よみ（ひらがな）</label><input id="fYomi" placeholder="じはんきのあかり">
+      <div class="preview" id="fPrev"></div></div>
+    <div class="fld"><label>どんな気持ちを運ぶ？</label><div class="tags" id="fTags"></div></div>
+    <div class="fld"><label>場面メモ（いつ・どこで・なにを感じた）</label><textarea id="fMemo" placeholder="仕事帰り、雨上がりの道で…"></textarea></div>
+    <div class="fld" id="fTopicWrap"><label><input type="checkbox" id="fTopic" checked style="width:auto;margin-right:6px;vertical-align:middle">きょうのお題として拾う</label></div>
+    <div class="acts">
+      <button class="btn" id="fCancel">やめる</button>
+      <button class="btn main" id="fSave">拾う</button>
     </div>
   </div>
 </div>
 
-<div class="sheet-backdrop" id="catEditorBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header"><strong id="catEditorTitle">カテゴリを編集</strong><button class="icon-btn" id="closeCatEditor">✕</button></div>
-    <div class="sheet-body">
-      <div id="catEditorList"></div>
-      <input class="name-input" id="newCatName" placeholder="新しいカテゴリ名" />
-      <div class="palette" id="newCatPalette"></div>
-      <button class="primary-btn" id="addCatBtn">追加</button>
-    </div>
-  </div>
-</div>
-
-<div class="sheet-backdrop" id="spaceEditorBackdrop">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header"><strong>大枠を編集</strong><button class="icon-btn" id="closeSpaceEditor">✕</button></div>
-    <div class="sheet-body">
-      <div id="spaceEditorList"></div>
-      <input class="name-input" id="newSpaceName" placeholder="新しい大枠名（例：仕事）" />
-      <div class="palette" id="newSpacePalette"></div>
-      <button class="primary-btn" id="addSpaceBtn">追加</button>
-    </div>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
+<div class="lvup" id="lvup"><div><span style="color:var(--sub)">LEVEL UP</span><b id="lvupN"></b><span id="lvupT" style="color:var(--pink)"></span></div></div>
 
 <script>
-(function(){
-  "use strict";
-  const PALETTE = ['#e2001a','#f2a65a','#5ecbb0','#6fa8dc','#e0c14c','#c07be0','#7fce6b','#4fe0ff'];
-  const STORAGE_KEY = 'memo-rack-data-v1';
-  const SLOTS_KEY = 'memo-rack-slots-v1';
-  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+// ===== データ =====
+const KEY='kotoba-atsume-v1';
+const TAGS=['さみしい','あたたかい','ひりつく','きらきら','ふわふわ','くるしい','なつかしい','こわい','いとしい','からっぽ','わくわく','ゆらぐ'];
+const BASE_TOPICS=[
+ ['青いもの','N'],['音がするもの','N'],['丸いもの','N'],['光っているもの','N'],['冷たいもの','N'],['あたたかいもの','N'],
+ ['古いもの','N'],['小さく動いているもの','N'],['帰り道で見たもの','N'],['窓から見えたもの','N'],['誰かの忘れもの','N'],
+ ['甘い匂いがするもの','N'],['白いもの','N'],['揺れているもの','N'],['数字が書いてあるもの','N'],['雨の気配','N'],
+ ['赤いもの','N'],['手ざわりが気になったもの','N'],['空にあったもの','N'],['足もとにあったもの','N'],
+ ['さみしそうなもの','R'],['時間が止まって見えたもの','R'],['言えなかったこと','R'],['ひとりで聞いた音','R'],
+ ['遠くにあるもの','R'],['なくなりそうなもの','R'],['夜にだけ見えるもの','R'],['誰かを思い出したもの','R'],
+ ['嘘っぽい色','R'],['昔の自分が好きだったもの','R'],['すれ違ったもの','R'],
+ ['名前のない気持ち','SR'],['もう戻らない景色','SR'],['世界の終わりっぽいもの','SR'],['心臓の音に似たもの','SR'],
+ ['誰かに見せたかったもの','SR'],['夢の続きみたいなもの','SR']
+];
+const TITLES=['ことばの見習い','道ばたの採集家','ポケットの詩人','夜歩きの収集家','ことばの庭師','きらめき拾い','言の葉の番人','ことばの魔法使い'];
+let D;
+function load(){
+  try{D=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){D={}}
+  D.words=D.words||[];D.days=D.days||{};D.custom=D.custom||[];D.seeds=D.seeds||[];D.lv=D.lv||1;
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){toast('保存できなかった…')}}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today=()=>dkey(new Date());
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
-  const ACCENTS = [
-    { id:'red',  name:'レッド', accent:'#e2001a', accent2:'#0a0a0c', onaccent:'#ffffff', glow:'rgba(226,0,26,0.4)' },
-    { id:'blue', name:'ブルー', accent:'#0d5fe0', accent2:'#4fe0ff', onaccent:'#ffffff', glow:'rgba(13,95,224,0.45)' },
-    { id:'yellow', name:'イエロー', accent:'#f4c400', accent2:'#fde98a', onaccent:'#1a1408', pink:'#ff5fa8', glow:'rgba(244,196,0,0.45)' },
-  ];
-
-  const THEMES = [
-    { id:'dark-void',   mode:'dark',  name:'Void',      bg:'#0d0d12', surface:'#17171f', surface2:'#1c1c26', border:'#2a2a35', text:'#e8e6f0', muted:'#8b8797', faint:'#5c5866', faintest:'#3f3d47' },
-    { id:'dark-navy',   mode:'dark',  name:'Navy',      bg:'#0a0f1a', surface:'#121a29', surface2:'#182234', border:'#22304a', text:'#e6ecf5', muted:'#7f8ba3', faint:'#54607a', faintest:'#38415a' },
-    { id:'dark-forest', mode:'dark',  name:'Forest',    bg:'#0c1310', surface:'#141d18', surface2:'#1a2620', border:'#243830', text:'#e3ede7', muted:'#7fa090', faint:'#526b5f', faintest:'#39493f' },
-    { id:'dark-wine',   mode:'dark',  name:'Wine',      bg:'#140b10', surface:'#1e131b', surface2:'#281a24', border:'#3a2230', text:'#f0e4ea', muted:'#a6849a', faint:'#6e5566', faintest:'#473642' },
-    { id:'dark-slate',  mode:'dark',  name:'Slate',     bg:'#101113', surface:'#1a1c1f', surface2:'#22252a', border:'#2f3237', text:'#e9eaec', muted:'#8f939a', faint:'#5f636b', faintest:'#3d4046' },
-    { id:'light-paper', mode:'light', name:'Paper',     bg:'#f7f5f1', surface:'#ffffff', surface2:'#efe9df', border:'#e4ded3', text:'#2b2822', muted:'#726c60', faint:'#a29c8e', faintest:'#c9c2b3' },
-    { id:'light-cool',  mode:'light', name:'Cool',      bg:'#f3f5f8', surface:'#ffffff', surface2:'#e7ecf2', border:'#dde3ea', text:'#232a33', muted:'#6b7684', faint:'#9aa4b0', faintest:'#c5cdd6' },
-    { id:'light-mint',  mode:'light', name:'Mint',      bg:'#f1f7f4', surface:'#ffffff', surface2:'#e3f0e9', border:'#dbeae2', text:'#20302a', muted:'#5f7d70', faint:'#8fa99c', faintest:'#bdd2c8' },
-    { id:'light-lav',   mode:'light', name:'Lavender',  bg:'#f6f3fa', surface:'#ffffff', surface2:'#ece3f5', border:'#e5dcf1', text:'#2c2438', muted:'#71667e', faint:'#a191ae', faintest:'#cabcd6' },
-    { id:'light-sand',  mode:'light', name:'Sand',      bg:'#faf4ec', surface:'#ffffff', surface2:'#f2e6d3', border:'#ecdcc4', text:'#332a1e', muted:'#7d6c55', faint:'#ab967b', faintest:'#d3c1a3' },
-  ];
-
-  let data = {
-    theme: 'dark-void',
-    accent: 'red',
-    autoMode: false,
-    lightThemeId: 'light-paper',
-    darkThemeId: 'dark-void',
-    uiState: { lastSpace: 'daily', lastCat: 'all' },
-    spaces: [
-      { id:'daily', name:'日常', color:'#f2a65a' },
-      { id:'study', name:'勉強', color:'#6fa8dc' },
-      { id:'music', name:'音楽', color:'#e2001a' },
-    ],
-    categories: [
-      { id:'idea', name:'アイデア', color:PALETTE[0], spaceId:'daily' },
-      { id:'todo', name:'TODO', color:PALETTE[1], spaceId:'daily' },
-      { id:'note', name:'ノート', color:PALETTE[2], spaceId:'study' },
-      { id:'ref', name:'参考', color:PALETTE[3], spaceId:'study' },
-      { id:'onsource', name:'音源', color:PALETTE[4], spaceId:'music' },
-      { id:'idea-m', name:'アイデア', color:PALETTE[5], spaceId:'music' },
-    ],
-    memos: [],
-  };
-
-  let state = {
-    activeSpace: 'daily',
-    activeCat: 'all',
-    query: '',
-    globalSearch: false,
-    sortMode: 'updated',
-    draft: null,
-    newCatColor: PALETTE[0],
-    newSpaceColor: PALETTE[0],
-    selectMode: false,
-    selectedIds: new Set(),
-  };
-
-  let toastTimer = null;
-  function showToast(msg){
-    const el = document.getElementById('toast');
-    el.innerHTML = '';
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 1500);
+// ===== 音数・母音 =====
+const VOW={};
+('あかさたなはまやらわがざだばぱぁゃゎ').split('').forEach(c=>VOW[c]='あ');
+('いきしちにひみりぎじぢびぴぃゐ').split('').forEach(c=>VOW[c]='い');
+('うくすつぬふむゆるぐずづぶぷぅゅゔ').split('').forEach(c=>VOW[c]='う');
+('えけせてねへめれげぜでべぺぇゑ').split('').forEach(c=>VOW[c]='え');
+('おこそとのほもよろをごぞどぼぽぉょ').split('').forEach(c=>VOW[c]='お');
+const SMALL='ぁぃぅぇぉゃゅょゎ';
+function toHira(s){return s.replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
+function analyze(yomi){
+  const s=toHira(yomi||'').replace(/\s/g,'');
+  const v=[];
+  for(const c of s){
+    if(SMALL.includes(c)&&v.length&&!['ん','っ'].includes(v[v.length-1])){v[v.length-1]=VOW[c];continue}
+    if(c==='ん'){v.push('ん');continue}
+    if(c==='っ'){v.push('っ');continue}
+    if(c==='ー'){v.push(v.length?v[v.length-1]:'ー');continue}
+    if(VOW[c]){v.push(VOW[c]);continue}
   }
-  function showUndoToast(msg, onUndo){
-    const el = document.getElementById('toast');
-    clearTimeout(toastTimer);
-    el.innerHTML = '';
-    const span = document.createElement('span');
-    span.textContent = msg;
-    const btn = document.createElement('button');
-    btn.textContent = '元に戻す';
-    btn.addEventListener('click', () => {
-      onUndo();
-      el.classList.remove('show');
-      clearTimeout(toastTimer);
-    }, { once:true });
-    el.appendChild(span);
-    el.appendChild(btn);
-    el.classList.add('show');
-    toastTimer = setTimeout(() => el.classList.remove('show'), 5000);
-  }
+  return {mora:v.length,vowels:v.join('')};
+}
 
-  function flashScreen(color){
-    const el = document.getElementById('flashOverlay');
-    el.style.background = color;
-    el.classList.remove('flash');
-    void el.offsetWidth;
-    el.classList.add('flash');
-  }
+// ===== お題 =====
+function allTopics(){return BASE_TOPICS.map(([t,r])=>({t,r})).concat(D.custom.map(c=>({t:c.t,r:c.r,c:1})))}
+function rng(seed){let h=2166136261;for(const c of seed){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%100000)/100000}}
+function drawTopic(seed){
+  const r=rng(seed),st=streak();
+  const sr=Math.min(.05+st*.02,.2), rr=Math.min(.25+st*.02,.4);
+  const x=r(); const rar=x<sr?'SR':x<sr+rr?'R':'N';
+  const pool=allTopics().filter(t=>t.r===rar);
+  const p=pool.length?pool:allTopics();
+  return p[Math.floor(r()*p.length)];
+}
+function todayInfo(){
+  const k=today();
+  if(!D.days[k]){const t=drawTopic(k);D.days[k]={t:t.t,r:t.r,re:0};save()}
+  return D.days[k];
+}
+function reroll(){
+  const k=today(),d=todayInfo();
+  if(d.re||todayTopicWords().length)return;
+  let t,i=0;do{t=drawTopic(k+'#'+(++i))}while(t.t===d.t&&i<20);
+  D.days[k]={t:t.t,r:t.r,re:1};save();render();toast('お題を引きなおしたよ');
+}
+const todayTopicWords=()=>D.words.filter(w=>w.date===today()&&w.topic===todayInfo().t);
 
-  // ---------- Custom confirm modal ----------
-  function showConfirm(message, okLabel, onConfirm){
-    document.getElementById('confirmMessage').textContent = message;
-    const okBtn = document.getElementById('confirmOkBtn');
-    const cancelBtn = document.getElementById('confirmCancelBtn');
-    okBtn.textContent = okLabel || '削除';
-    openSheet('confirmBackdrop');
-    function cleanup(){
-      okBtn.removeEventListener('click', onOk);
-      cancelBtn.removeEventListener('click', onCancel);
-    }
-    function onOk(){ cleanup(); closeSheet('confirmBackdrop'); onConfirm(); }
-    function onCancel(){ cleanup(); closeSheet('confirmBackdrop'); }
-    okBtn.addEventListener('click', onOk);
-    cancelBtn.addEventListener('click', onCancel);
-  }
+// ===== 進行 =====
+function clearedDays(){
+  const c={};D.words.forEach(w=>{if(w.topic&&D.days[w.date]&&w.topic===D.days[w.date].t)c[w.date]=(c[w.date]||0)+1});
+  return Object.keys(c).filter(k=>c[k]>=3);
+}
+function streak(){
+  const set=new Set(clearedDays());let d=new Date(),n=0;
+  if(!set.has(dkey(d)))d.setDate(d.getDate()-1);
+  while(set.has(dkey(d))){n++;d.setDate(d.getDate()-1)}
+  return n;
+}
+function bestStreak(){
+  const ks=clearedDays().sort();let best=0,cur=0,prev=null;
+  ks.forEach(k=>{const d=new Date(k+'T00:00');if(prev&&(d-prev)/864e5===1)cur++;else cur=1;best=Math.max(best,cur);prev=d});
+  return best;
+}
+function xp(){return D.words.length*10+clearedDays().length*30+D.seeds.length*5}
+function lvFromXp(x){let lv=1,need=60,acc=0;while(x>=acc+need){acc+=need;lv++;need=60+lv*20}return{lv,cur:x-acc,need}}
+function title(lv){return TITLES[Math.min(Math.floor((lv-1)/3),TITLES.length-1)]}
+function checkLv(){
+  const {lv}=lvFromXp(xp());
+  if(lv>D.lv){D.lv=lv;save();$('#lvupN').textContent='Lv.'+lv;$('#lvupT').textContent=title(lv);$('#lvup').classList.add('on');setTimeout(()=>$('#lvup').classList.remove('on'),1800)}
+  else if(lv<D.lv){D.lv=lv;save()}
+}
 
-  function migrateMemos(){
-    (data.memos || []).forEach(m => {
-      if (!Array.isArray(m.categories)) {
-        m.categories = m.category ? [m.category] : [];
-      }
-      delete m.category;
-    });
-  }
+// ===== 描画 =====
+function wordHTML(w,opt={}){
+  const a=analyze(w.yomi);
+  return `<div class="w"><div><span class="t">${esc(w.text)}</span>${w.yomi?`<span class="y">${esc(w.yomi)}</span>`:''}</div>
+  ${w.memo?`<div class="m">${esc(w.memo)}</div>`:''}
+  <div class="meta">
+    ${w.yomi?`<span class="chip v">${a.mora}音 ・ ${esc(a.vowels)}</span>`:''}
+    ${(w.tags||[]).map(t=>`<span class="chip tag">${esc(t)}</span>`).join('')}
+    ${opt.topic&&w.topic?`<span class="chip tp">${esc(w.topic)}</span>`:''}
+    ${opt.date?`<span class="chip">${w.date.slice(5).replace('-','/')}</span>`:''}
+    <span class="ops"><button onclick="editWord('${w.id}')">編集</button><button onclick="delWord('${w.id}')">削除</button></span>
+  </div></div>`;
+}
+function renderToday(){
+  const d=todayInfo(),got=todayTopicWords().length;
+  const c=$('#topicCard');c.className='topic '+d.r;
+  c.innerHTML=`<span class="rar ${d.r}">${d.r}</span>
+   <div class="lbl">${new Date().getMonth()+1}月${new Date().getDate()}日のお題</div>
+   <div class="ttl">${esc(d.t)}</div>
+   <div class="dots">${[0,1,2].map(i=>`<div class="dot ${i<got?'on':''}">${i<got?'✿':i+1}</div>`).join('')}
+     <span class="cleared" style="margin-left:6px">${got>=3?'クリア！ ＋30XP':''}</span></div>
+   <div class="row">
+     <button class="btn" id="rerollBtn" ${d.re||got?'disabled':''}>${d.re?'引きなおし済み':'🎴 1回だけ引きなおす'}</button>
+     <button class="btn main" onclick="openAdd()">拾いにいく</button>
+   </div>`;
+  const rb=$('#rerollBtn');if(rb)rb.onclick=reroll;
+  const list=D.words.filter(w=>w.date===today()).sort((a,b)=>b.ts-a.ts);
+  $('#todayList').innerHTML=list.length?list.map(w=>wordHTML(w,{topic:1})).join(''):
+   `<div class="empty">まだ何も拾ってないよ。<br>通勤中や帰り道、お題に合うものを見つけたら「＋」で拾ってね。</div>`;
+}
+function renderZukan(){
+  const met={};Object.values(D.days).forEach(d=>met[d.t]=1);
+  const cnt={};D.words.forEach(w=>{if(w.topic)cnt[w.topic]=(cnt[w.topic]||0)+1});
+  const ts=allTopics(),n=ts.filter(t=>met[t.t]).length;
+  $('#zkCount').textContent=`${n} / ${ts.length}`;$('#zkProg').style.width=(n/ts.length*100)+'%';
+  const order={SR:0,R:1,N:2};
+  $('#zkGrid').innerHTML=ts.slice().sort((a,b)=>(met[b.t]?1:0)-(met[a.t]?1:0)||order[a.r]-order[b.r]).map(t=>{
+    const m=met[t.t];
+    return `<button class="zc ${m?'':'lock'}" ${m?`data-t="${esc(t.t)}" onclick="showTopic(this.dataset.t)"`:''}>
+      <span class="rar ${t.r}" style="align-self:flex-start">${t.r}</span>
+      <span class="zt">${m?esc(t.t):'？？？？？'}</span>
+      <span class="zn">${m?`ことば ${cnt[t.t]||0}こ`:'まだ出会ってない'}</span></button>`}).join('');
+}
+function showTopic(t){
+  const ws=D.words.filter(w=>w.topic===t);
+  $('#zkGrid').innerHTML=`<div style="grid-column:1/-1"><button class="btn" onclick="renderZukan()">‹ もどる</button>
+   <div style="font-family:'Klee One',serif;font-size:22px;margin:12px 4px">${esc(t)}</div>
+   ${ws.length?ws.map(w=>wordHTML(w,{date:1})).join(''):'<div class="empty">このお題のことばはまだないよ</div>'}</div>`;
+}
+let qSel=new Set();
+function renderSearch(){
+  const ms=[...new Set(D.words.map(w=>analyze(w.yomi).mora).filter(Boolean))].sort((a,b)=>a-b);
+  const cur=$('#qMora').value;
+  $('#qMora').innerHTML='<option value="">すべて</option>'+ms.map(m=>`<option ${String(m)===cur?'selected':''}>${m}</option>`).join('');
+  $('#qTags').innerHTML=TAGS.map(t=>`<button class="tg ${qSel.has(t)?'on':''}" data-t="${t}">${t}</button>`).join('');
+  $('#qTags').querySelectorAll('.tg').forEach(b=>b.onclick=()=>{qSel.has(b.dataset.t)?qSel.delete(b.dataset.t):qSel.add(b.dataset.t);renderSearch()});
+  const q=$('#qText').value.trim(),m=$('#qMora').value,v=toHira($('#qVowel').value.trim());
+  const r=D.words.filter(w=>{
+    const a=analyze(w.yomi);
+    if(q&&!(w.text+w.memo+w.yomi).includes(q))return false;
+    if(m&&String(a.mora)!==m)return false;
+    if(v&&!a.vowels.endsWith(analyze(v).vowels||v))return false;
+    if(qSel.size&&![...qSel].every(t=>(w.tags||[]).includes(t)))return false;
+    return true}).sort((a,b)=>b.ts-a.ts);
+  $('#qCount').textContent=`${r.length}こ みつかったよ`;
+  $('#qList').innerHTML=r.length?r.map(w=>wordHTML(w,{topic:1,date:1})).join(''):'<div class="empty">条件に合うことばがないよ</div>';
+}
+const TPL=['{a}の{b}','{a}みたいな{b}','{b}に{a}','{a}と{b}のあいだ','{a}を{b}にして','{b}のなかの{a}','{a}だけが{b}','{a}、それから{b}'];
+let lastSeed=null;
+function mix(){
+  if(D.words.length<2){toast('ことばを2つ以上拾ってね');return}
+  const a=D.words[Math.floor(Math.random()*D.words.length)];
+  let b;do{b=D.words[Math.floor(Math.random()*D.words.length)]}while(b.id===a.id);
+  const tpl=TPL[Math.floor(Math.random()*TPL.length)];
+  const text=tpl.replace('{a}',a.text).replace('{b}',b.text);
+  lastSeed={text,a:a.text,b:b.text,ts:Date.now(),date:today()};
+  $('#seedText').textContent=text;$('#seedSrc').textContent=`${a.text} × ${b.text}`;$('#keepBtn').disabled=false;
+}
+function renderMix(){
+  $('#seedList').innerHTML=D.seeds.length?D.seeds.slice().reverse().map(s=>`<div class="w"><div class="t" style="font-family:'Klee One',serif">${esc(s.text)}</div>
+   <div class="meta"><span class="chip">${esc(s.a)} × ${esc(s.b)}</span><span class="ops"><button onclick="copySeed(${s.ts})">コピー</button><button onclick="delSeed(${s.ts})">削除</button></span></div></div>`).join(''):
+   '<div class="empty">まだタネはないよ</div>';
+}
+let calM=new Date();calM.setDate(1);
+function renderLog(){
+  const x=xp(),L=lvFromXp(x);
+  $('#lLv').textContent=L.lv;$('#lTitle').textContent=title(L.lv);$('#lXp').textContent=`${L.cur} / ${L.need} XP`;
+  $('#lBar').style.width=(L.cur/L.need*100)+'%';
+  $('#sWords').textContent=D.words.length;$('#sDays').textContent=clearedDays().length;$('#sBest').textContent=bestStreak();
+  const y=calM.getFullYear(),m=calM.getMonth();
+  $('#calTitle').textContent=`${y}年${m+1}月`;
+  const clr=new Set(clearedDays()),some=new Set(D.words.map(w=>w.date));
+  let h=['日','月','火','水','木','金','土'].map(d=>`<div class="h">${d}</div>`).join('');
+  const first=new Date(y,m,1).getDay(),dim=new Date(y,m+1,0).getDate();
+  for(let i=0;i<first;i++)h+='<div></div>';
+  for(let i=1;i<=dim;i++){const k=`${y}-${pad(m+1)}-${pad(i)}`;
+    h+=`<div class="d ${clr.has(k)?'clr':some.has(k)?'some':''} ${k===today()?'today':''}">${i}</div>`}
+  $('#cal').innerHTML=h;
+  const pre=`${y}-${pad(m+1)}`,mw=D.words.filter(w=>w.date.startsWith(pre));
+  const tc={};mw.forEach(w=>(w.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
+  const mx=Math.max(1,...Object.values(tc));
+  $('#barScope').textContent=`${m+1}月`;
+  $('#bars').innerHTML=Object.keys(tc).length?TAGS.filter(t=>tc[t]).sort((a,b)=>tc[b]-tc[a]).map(t=>`<div class="b"><span>${t}</span><span class="tr"><i style="width:${tc[t]/mx*100}%"></i></span><em>${tc[t]}</em></div>`).join(''):
+    '<div class="empty" style="padding:8px">この月はまだタグつきのことばがないよ</div>';
+  $('#monthList').innerHTML=mw.length?mw.sort((a,b)=>b.ts-a.ts).map(w=>wordHTML(w,{topic:1,date:1})).join(''):'<div class="empty">この月のことばはまだないよ</div>';
+  $('#ctList').innerHTML=D.custom.map((c,i)=>`<div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:14px"><span class="rar ${c.r}">${c.r}</span>${esc(c.t)}<button style="margin-left:auto;color:var(--dim);font-size:12px" onclick="delCustom(${i})">削除</button></div>`).join('');
+}
+function renderHeader(){$('#hLv').textContent=lvFromXp(xp()).lv;$('#hSt').textContent=streak()}
+let curView='today';
+function render(){
+  renderHeader();
+  ({today:renderToday,zukan:renderZukan,search:renderSearch,mix:renderMix,log:renderLog})[curView]();
+}
 
-  function persistUiState(){
-    data.uiState = { lastSpace: state.activeSpace, lastCat: state.activeCat };
-  }
+// ===== 操作 =====
+let editing=null,fSel=new Set();
+function drawFTags(){
+  $('#fTags').innerHTML=TAGS.map(t=>`<button class="tg ${fSel.has(t)?'on':''}" data-t="${t}">${t}</button>`).join('');
+  $('#fTags').querySelectorAll('.tg').forEach(b=>b.onclick=()=>{fSel.has(b.dataset.t)?fSel.delete(b.dataset.t):fSel.add(b.dataset.t);drawFTags()});
+}
+function upPrev(){const a=analyze($('#fYomi').value);$('#fPrev').textContent=a.mora?`${a.mora}音 ・ 母音 ${a.vowels}`:''}
+function openAdd(w){
+  editing=w||null;
+  $('#shTitle').textContent=w?'ことばを編集':'ことばを拾う';
+  $('#fText').value=w?w.text:'';$('#fYomi').value=w?w.yomi:'';$('#fMemo').value=w?w.memo:'';
+  fSel=new Set(w?w.tags:[]);drawFTags();upPrev();
+  $('#fTopicWrap').style.display=w?'none':'block';
+  const lbl=$('#fTopicWrap label');lbl.lastChild.textContent=`きょうのお題「${todayInfo().t}」として拾う`;
+  $('#fTopic').checked=true;
+  $('#ov').classList.add('on');setTimeout(()=>$('#fText').focus(),250);
+}
+function closeAdd(){$('#ov').classList.remove('on');editing=null}
+function saveWord(){
+  const text=$('#fText').value.trim();if(!text){toast('ことばを入れてね');return}
+  const o={text,yomi:toHira($('#fYomi').value.trim()),memo:$('#fMemo').value.trim(),tags:[...fSel]};
+  if(editing){Object.assign(editing,o);save();closeAdd();render();toast('なおしたよ');return}
+  const before=todayTopicWords().length;
+  const w={id:uid(),...o,date:today(),ts:Date.now(),topic:$('#fTopic').checked?todayInfo().t:''};
+  D.words.push(w);save();closeAdd();
+  const after=todayTopicWords().length;
+  toast(before<3&&after>=3?'✿ きょうのお題クリア！ +40XP':'拾った！ +10XP');
+  render();checkLv();
+}
+window.editWord=id=>openAdd(D.words.find(w=>w.id===id));
+window.delWord=id=>{const w=D.words.find(x=>x.id===id);if(!w)return;
+  confirmTap(id,()=>{D.words=D.words.filter(x=>x.id!==id);save();render();checkLv();toast('削除したよ')})};
+let pend=null;
+function confirmTap(key,fn){if(pend===key){pend=null;fn()}else{pend=key;toast('もう一度押すと削除するよ');setTimeout(()=>{if(pend===key)pend=null},2500)}}
+window.showTopic=showTopic;window.renderZukan=renderZukan;window.openAdd=openAdd;
+window.copySeed=ts=>{const s=D.seeds.find(x=>x.ts===ts);copy(s.text)};
+window.delSeed=ts=>confirmTap('s'+ts,()=>{D.seeds=D.seeds.filter(x=>x.ts!==ts);save();render();checkLv()});
+window.delCustom=i=>confirmTap('c'+i,()=>{D.custom.splice(i,1);save();render()});
+async function copy(t){try{await navigator.clipboard.writeText(t);toast('コピーしたよ')}catch(e){toast('コピーできなかった…')}}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1900)}
 
-  function goToSpace(spaceId, catId){
-    state.activeSpace = spaceId;
-    state.activeCat = catId || 'all';
-    state.globalSearch = false;
-    persistUiState();
-    save();
-  }
+// ===== イベント =====
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  curView=b.dataset.v;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+curView));
+  window.scrollTo(0,0);render();
+});
+$('#fab').onclick=()=>openAdd();
+$('#fCancel').onclick=closeAdd;$('#fSave').onclick=saveWord;
+$('#ov').onclick=e=>{if(e.target.id==='ov')closeAdd()};
+$('#fYomi').oninput=upPrev;
+['#qText','#qVowel'].forEach(s=>$(s).oninput=renderSearch);$('#qMora').onchange=renderSearch;
+$('#mixBtn').onclick=mix;
+$('#keepBtn').onclick=()=>{if(!lastSeed)return;D.seeds.push(lastSeed);lastSeed=null;$('#keepBtn').disabled=true;save();render();toast('とっておいたよ +5XP');checkLv()};
+$('#calPrev').onclick=()=>{calM.setMonth(calM.getMonth()-1);renderLog()};
+$('#calNext').onclick=()=>{calM.setMonth(calM.getMonth()+1);renderLog()};
+$('#ctAdd').onclick=()=>{const t=$('#ctText').value.trim();if(!t)return;
+  if(allTopics().some(x=>x.t===t)){toast('もうあるお題だよ');return}
+  D.custom.push({t,r:$('#ctRar').value});$('#ctText').value='';save();render();toast('お題を追加したよ')};
+$('#expBtn').onclick=()=>copy(JSON.stringify(D));
+$('#impBtn').onclick=()=>{try{const o=JSON.parse($('#impText').value);if(!Array.isArray(o.words))throw 0;
+  confirmTap('imp',()=>{D=o;load2();save();$('#impText').value='';render();toast('読み込んだよ')})}catch(e){toast('データの形がちがうみたい')}};
+function load2(){D.words=D.words||[];D.days=D.days||{};D.custom=D.custom||[];D.seeds=D.seeds||[];D.lv=D.lv||1}
 
-  function load(){
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed.theme) data.theme = parsed.theme;
-        if (parsed.accent) data.accent = parsed.accent;
-        if (typeof parsed.autoMode === 'boolean') data.autoMode = parsed.autoMode;
-        if (parsed.lightThemeId) data.lightThemeId = parsed.lightThemeId;
-        if (parsed.darkThemeId) data.darkThemeId = parsed.darkThemeId;
-        if (parsed.uiState) data.uiState = parsed.uiState;
-        if (parsed.spaces && parsed.spaces.length) data.spaces = parsed.spaces;
-        if (parsed.categories) data.categories = parsed.categories;
-        if (parsed.memos) data.memos = parsed.memos;
-      }
-    } catch(e) {}
-    migrateMemos();
-    const uiSpace = data.uiState && spaceById(data.uiState.lastSpace) ? data.uiState.lastSpace : (data.spaces[0] ? data.spaces[0].id : null);
-    state.activeSpace = uiSpace;
-    state.activeCat = (data.uiState && data.uiState.lastCat) || 'all';
-  }
-  function save(){
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch(e) {
-      showToast('⚠️ 保存に失敗しました');
-    }
-  }
-
-  function computeEffectiveThemeId(){
-    if (!data.autoMode) return data.theme;
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? (data.darkThemeId || 'dark-void') : (data.lightThemeId || 'light-paper');
-  }
-
-  function applyTheme(id){
-    const t = THEMES.find(x => x.id === id) || THEMES[0];
-    const root = document.documentElement.style;
-    root.setProperty('color-scheme', t.mode === 'light' ? 'light' : 'dark');
-    root.setProperty('--bg', t.bg);
-    root.setProperty('--surface', t.surface);
-    root.setProperty('--surface2', t.surface2);
-    root.setProperty('--border', t.border);
-    root.setProperty('--text', t.text);
-    root.setProperty('--muted', t.muted);
-    root.setProperty('--faint', t.faint);
-    root.setProperty('--faintest', t.faintest);
-    document.getElementById('themeColorMeta').setAttribute('content', t.bg);
-    data.theme = t.id;
-  }
-
-  function applyAccent(id){
-    const a = ACCENTS.find(x => x.id === id) || ACCENTS[0];
-    const root = document.documentElement.style;
-    root.setProperty('--accent', a.accent);
-    root.setProperty('--accent2', a.accent2);
-    root.setProperty('--onaccent', a.onaccent);
-    root.setProperty('--accent-glow', a.glow);
-    root.setProperty('--accent-pink', a.pink || a.accent);
-    data.accent = a.id;
-  }
-
-  if (window.matchMedia) {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = () => {
-      if (data.autoMode) {
-        applyTheme(computeEffectiveThemeId());
-        renderThemeSheet();
-      }
-    };
-    if (mq.addEventListener) mq.addEventListener('change', onChange);
-    else if (mq.addListener) mq.addListener(onChange);
-  }
-
-  function spaceById(id){ return data.spaces.find(s => s.id === id); }
-  function catById(id){ return data.categories.find(c => c.id === id); }
-  function spaceCategories(spaceId){ return data.categories.filter(c => c.spaceId === (spaceId || state.activeSpace)); }
-  function spaceMemos(){ return data.memos.filter(m => m.spaceId === state.activeSpace); }
-
-  function sortList(list){
-    return list.slice().sort((a,b) => {
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-      if (state.sortMode === 'created') return b.createdAt - a.createdAt;
-      if (state.sortMode === 'title') return (a.title||'').localeCompare(b.title||'', 'ja');
-      return b.updatedAt - a.updatedAt;
-    });
-  }
-
-  function filteredMemos(){
-    let list = state.globalSearch ? data.memos.slice() : spaceMemos();
-    if (!state.globalSearch && state.activeCat !== 'all') {
-      list = list.filter(m => (m.categories||[]).includes(state.activeCat));
-    }
-    if (state.query.trim()) {
-      const q = state.query.trim().toLowerCase();
-      list = list.filter(m => m.title.toLowerCase().includes(q) || m.content.toLowerCase().includes(q));
-    }
-    return sortList(list);
-  }
-
-  function esc(s){
-    return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-  function highlightText(text, query){
-    const escaped = esc(text);
-    const q = (query||'').trim();
-    if (!q) return escaped;
-    const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    try {
-      const re = new RegExp('(' + escapedQuery + ')', 'ig');
-      return escaped.replace(re, '<mark class="hl">$1</mark>');
-    } catch(e) { return escaped; }
-  }
-  function fmtDate(ts){
-    const d = new Date(ts);
-    return (d.getMonth()+1) + '月' + d.getDate() + '日';
-  }
-  function fmtDateTime(ts){
-    const d = new Date(ts);
-    const h = String(d.getHours()).padStart(2,'0');
-    const mi = String(d.getMinutes()).padStart(2,'0');
-    return (d.getMonth()+1) + '/' + d.getDate() + ' ' + h + ':' + mi;
-  }
-
-  const SORT_LABELS = { updated:'更新日時', created:'作成日', title:'タイトル' };
-  function cycleSort(){
-    const order = ['updated','created','title'];
-    const idx = order.indexOf(state.sortMode);
-    state.sortMode = order[(idx+1) % order.length];
-    document.getElementById('sortLabel').textContent = '並び順: ' + SORT_LABELS[state.sortMode];
-    renderList();
-  }
-
-  // ---------- Selection mode ----------
-  function enterSelectMode(firstId){
-    state.selectMode = true;
-    state.selectedIds = new Set(firstId ? [firstId] : []);
-    document.getElementById('fabBtn').style.display = 'none';
-    renderList();
-    updateSelectBar();
-  }
-  function exitSelectMode(){
-    state.selectMode = false;
-    state.selectedIds = new Set();
-    document.getElementById('fabBtn').style.display = 'flex';
-    document.getElementById('selectBar').classList.remove('show');
-    renderList();
-  }
-  function toggleSelect(id){
-    if (state.selectedIds.has(id)) state.selectedIds.delete(id);
-    else state.selectedIds.add(id);
-    if (state.selectedIds.size === 0) { exitSelectMode(); return; }
-    renderList();
-    updateSelectBar();
-  }
-  function updateSelectBar(){
-    const bar = document.getElementById('selectBar');
-    document.getElementById('selectCount').textContent = state.selectedIds.size + '件選択中';
-    bar.classList.toggle('show', state.selectMode && state.selectedIds.size > 0);
-  }
-
-  // ---------- Render ----------
-  function renderHeader(){
-    const sp = spaceById(state.activeSpace);
-    document.getElementById('spaceDot').style.background = sp ? sp.color : 'var(--faint)';
-    document.getElementById('spaceLabel').textContent = sp ? sp.name : '大枠がありません';
-
-    const catScroll = document.getElementById('catScroll');
-    document.getElementById('globalSearchBtn').classList.toggle('on', state.globalSearch);
-
-    if (state.globalSearch) {
-      catScroll.innerHTML = `<button class="chip ghost" data-action="exit-global"><span>✕ 全大枠を検索中</span></button>`;
-      catScroll.querySelector('[data-action="exit-global"]').addEventListener('click', () => {
-        state.globalSearch = false; renderAll();
-      });
-      return;
-    }
-
-    const cats = spaceCategories();
-    let html = `<button class="chip ${state.activeCat==='all'?'active':''}" data-cat="all"><span>すべて</span></button>`;
-    cats.forEach(c => {
-      html += `<button class="chip ${state.activeCat===c.id?'active':''}" data-cat="${c.id}"><span class="cdot" style="background:${c.color}"></span><span>${esc(c.name)}</span></button>`;
-    });
-    html += `<button class="chip add" data-action="edit-cats"><span>＋ カテゴリ</span></button>`;
-    catScroll.innerHTML = html;
-    catScroll.querySelectorAll('[data-cat]').forEach(btn => {
-      btn.addEventListener('click', () => { state.activeCat = btn.dataset.cat; persistUiState(); save(); renderAll(); });
-    });
-    catScroll.querySelector('[data-action="edit-cats"]').addEventListener('click', openCatEditor);
-  }
-
-  function renderList(){
-    const list = document.getElementById('list');
-    const cats = state.globalSearch ? [1] : spaceCategories();
-    const memos = filteredMemos();
-
-    if (!data.spaces.length) {
-      list.innerHTML = `<div class="empty">大枠がありません。まずは大枠を作成してください。<button class="cta-btn" id="ctaAddSpace">＋ 大枠を追加</button></div>`;
-      document.getElementById('ctaAddSpace').addEventListener('click', openSpaceEditor);
-      return;
-    }
-    if (!state.globalSearch && !cats.length) {
-      list.innerHTML = `<div class="empty">このスペースにカテゴリがありません。<button class="cta-btn" id="ctaAddCat">＋ カテゴリを追加</button></div>`;
-      document.getElementById('ctaAddCat').addEventListener('click', openCatEditor);
-      return;
-    }
-    if (!memos.length) {
-      list.innerHTML = `<div class="empty">${state.query ? '見つかりませんでした' : 'メモがありません。右下の＋から追加してください。'}</div>`;
-      return;
-    }
-    const q = state.query.trim();
-    list.innerHTML = memos.map((m, idx) => {
-      const memoCats = (m.categories||[]).map(catById).filter(Boolean);
-      const primary = memoCats[0];
-      const sp = state.globalSearch ? spaceById(m.spaceId) : null;
-      const catDots = memoCats.slice(0,3).map(c => `<span class="dot" style="width:8px;height:8px;background:${c.color}" title="${esc(c.name)}"></span>`).join('');
-      const extra = memoCats.length > 3 ? `<span style="font-size:10px;color:var(--faint);font-weight:800;">+${memoCats.length-3}</span>` : '';
-      const delay = Math.min(idx * 30, 240);
-      const titleText = m.title || '(無題)';
-      const titleHtml = q ? highlightText(titleText, q) : esc(titleText);
-      const bodyHtml = m.content ? (q ? highlightText(m.content, q) : esc(m.content)) : '';
-      const selected = state.selectedIds.has(m.id);
-      return `<div class="card-wrap ${selected?'selected':''}" data-wrap="${m.id}">
-        ${!state.selectMode ? `<div class="card-swipe-actions"><button data-swipedel="${m.id}">🗑</button></div>` : ''}
-        <div class="card ${state.selectMode?'selectable':''}" data-id="${m.id}" style="border-left-color:${primary ? primary.color : 'var(--accent)'};animation-delay:${delay}ms">
-          ${state.selectMode ? `<div class="select-badge">${selected?'✓':''}</div>` : ''}
-          ${sp ? `<div class="card-space-tag"><span class="dot" style="background:${sp.color}"></span>${esc(sp.name)}</div>` : ''}
-          <div class="card-top">
-            <div class="card-title-row">
-              <div class="card-cats">${catDots}${extra}</div>
-              <span class="card-title">${titleHtml}</span>
-            </div>
-            ${!state.selectMode ? `<button class="pin-btn ${m.pinned?'pinned':''}" data-pin="${m.id}">${m.pinned ? '📌' : '📍'}</button>` : ''}
-          </div>
-          ${bodyHtml ? `<div class="card-body">${bodyHtml}</div>` : ''}
-          <div class="card-date">${fmtDate(m.updatedAt)}</div>
-        </div>
-      </div>`;
-    }).join('');
-
-    list.querySelectorAll('.card-wrap').forEach(wrap => {
-      const id = wrap.dataset.wrap;
-      const card = wrap.querySelector('.card');
-      attachCardGestures(wrap, card, id);
-    });
-    list.querySelectorAll('[data-pin]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const m = data.memos.find(x => x.id === btn.dataset.pin);
-        if (m) {
-          m.pinned = !m.pinned;
-          save();
-          btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
-          setTimeout(renderList, 260);
-        }
-      });
-    });
-    list.querySelectorAll('[data-swipedel]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        instantDeleteMemo(btn.dataset.swipedel);
-      });
-    });
-  }
-
-  function instantDeleteMemo(id){
-    const removed = data.memos.find(m => m.id === id);
-    if (!removed) return;
-    data.memos = data.memos.filter(m => m.id !== id);
-    save();
-    renderAll();
-    showUndoToast('削除しました', () => {
-      data.memos.push(removed);
-      save();
-      renderAll();
-    });
-  }
-
-  // ---------- Card touch: tap / swipe / long-press ----------
-  function attachCardGestures(wrap, card, id){
-    let startX = 0, startY = 0, dx = 0, dragging = false, decided = false, horizontal = false;
-    let openSwipe = false;
-    let longPressTimer = null;
-    let longPressFired = false;
-
-    function clearLP(){ clearTimeout(longPressTimer); longPressTimer = null; }
-
-    card.addEventListener('touchstart', (e) => {
-      if (state.selectMode) return;
-      const t = e.touches[0];
-      startX = t.clientX; startY = t.clientY; dx = 0; dragging = true; decided = false; horizontal = false;
-      longPressFired = false;
-      card.style.transition = 'none';
-      longPressTimer = setTimeout(() => {
-        longPressFired = true;
-        if (navigator.vibrate) navigator.vibrate(12);
-        enterSelectMode(id);
-      }, 550);
-    }, { passive: true });
-
-    card.addEventListener('touchmove', (e) => {
-      if (state.selectMode || !dragging) return;
-      const t = e.touches[0];
-      const ndx = t.clientX - startX;
-      const ndy = t.clientY - startY;
-      if (!decided) {
-        if (Math.abs(ndx) > 6 || Math.abs(ndy) > 6) {
-          decided = true;
-          horizontal = Math.abs(ndx) > Math.abs(ndy);
-          if (horizontal || Math.abs(ndy) > 6) clearLP();
-        } else return;
-      }
-      if (!horizontal) return;
-      dx = ndx;
-      const base = openSwipe ? -64 : 0;
-      const pos = Math.min(0, Math.max(-64, base + dx));
-      card.style.transform = `translateX(${pos}px)`;
-    }, { passive: true });
-
-    function onTouchEnd(){
-      clearLP();
-      if (!dragging) return;
-      dragging = false;
-      card.style.transition = 'transform 0.2s ease';
-      if (horizontal) {
-        const base = openSwipe ? -64 : 0;
-        const pos = Math.min(0, Math.max(-64, base + dx));
-        openSwipe = pos < -32;
-        card.style.transform = openSwipe ? 'translateX(-64px)' : 'translateX(0)';
-      }
-    }
-    card.addEventListener('touchend', onTouchEnd);
-    card.addEventListener('touchcancel', onTouchEnd);
-
-    card.addEventListener('click', () => {
-      if (longPressFired) { longPressFired = false; return; }
-      if (horizontal && Math.abs(dx) > 6) return;
-      if (state.selectMode) { toggleSelect(id); return; }
-      const m = data.memos.find(x => x.id === id);
-      if (state.globalSearch && m) {
-        state.globalSearch = false;
-        goToSpace(m.spaceId, 'all');
-      }
-      openEditor(id);
-    });
-  }
-
-  function renderAll(){ renderHeader(); renderList(); }
-
-  // ---------- Theme / Accent sheet ----------
-  function renderThemeGrids(){
-    const lightGrid = document.getElementById('lightThemeGrid');
-    const darkGrid = document.getElementById('darkThemeGrid');
-    function swatchHtml(t){
-      const isSelected = (t.mode === 'light' ? data.lightThemeId : data.darkThemeId) === t.id;
-      return `<button class="theme-swatch" data-theme="${t.id}">
-        <span class="theme-preview ${isSelected?'selected':''}">
-          <span class="half l" style="background:${t.bg}"></span>
-          <span class="half r" style="background:${t.surface}"></span>
-        </span>
-        <span class="theme-label">${t.name}</span>
-      </button>`;
-    }
-    lightGrid.innerHTML = THEMES.filter(t=>t.mode==='light').map(swatchHtml).join('');
-    darkGrid.innerHTML = THEMES.filter(t=>t.mode==='dark').map(swatchHtml).join('');
-    [...lightGrid.querySelectorAll('[data-theme]'), ...darkGrid.querySelectorAll('[data-theme]')].forEach(btn => {
-      btn.addEventListener('click', () => {
-        const t = THEMES.find(x => x.id === btn.dataset.theme);
-        if (!t) return;
-        if (t.mode === 'light') data.lightThemeId = t.id; else data.darkThemeId = t.id;
-        if (!data.autoMode) applyTheme(t.id);
-        else applyTheme(computeEffectiveThemeId());
-        save();
-        renderThemeGrids();
-        flashScreen(t.bg);
-      });
-    });
-  }
-  function renderAccentGrid(){
-    const grid = document.getElementById('accentGrid');
-    grid.innerHTML = ACCENTS.map(a => {
-      const stops = a.pink
-        ? `${a.accent} 0 34%, ${a.accent2} 34% 67%, ${a.pink} 67% 100%`
-        : `${a.accent} 0 50%, ${a.accent2} 50% 100%`;
-      return `<button class="theme-swatch" data-accent="${a.id}">
-        <span class="theme-preview ${data.accent===a.id?'selected':''}" style="background:linear-gradient(90deg, ${stops})"></span>
-        <span class="theme-label">${a.name}</span>
-      </button>`;
-    }).join('');
-    grid.querySelectorAll('[data-accent]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const a = ACCENTS.find(x => x.id === btn.dataset.accent);
-        applyAccent(btn.dataset.accent);
-        save();
-        renderAccentGrid();
-        if (a) flashScreen(a.accent);
-      });
-    });
-  }
-  function renderThemeSheet(){
-    renderAccentGrid();
-    renderThemeGrids();
-    document.getElementById('autoModeLabel').textContent = '🔗 端末設定に自動追従：' + (data.autoMode ? 'ON' : 'OFF');
-    document.getElementById('autoModeToggle').classList.toggle('active', data.autoMode);
-  }
-  function openThemePicker(){ renderThemeSheet(); openSheet('themeBackdrop'); }
-
-  function openSpacePicker(){
-    const listEl = document.getElementById('spacePickerList');
-    listEl.innerHTML = data.spaces.map(s => `
-      <div class="list-row" data-pick="${s.id}">
-        <span class="dot" style="background:${s.color}"></span>
-        <span class="name">${esc(s.name)}</span>
-      </div>`).join('');
-    listEl.querySelectorAll('[data-pick]').forEach(row => {
-      row.addEventListener('click', () => {
-        goToSpace(row.dataset.pick, 'all');
-        closeSheet('spacePickerBackdrop');
-        renderAll();
-      });
-    });
-    openSheet('spacePickerBackdrop');
-  }
-
-  // ---------- Memo editor ----------
-  function openEditor(id){
-    let memo;
-    if (id) {
-      memo = data.memos.find(m => m.id === id);
-    } else {
-      memo = { id: null, title:'', content:'', categories: [], spaceId: state.activeSpace, pinned:false };
-    }
-    state.draft = { id: memo.id, title: memo.title, content: memo.content, categories: (memo.categories||[]).slice(), spaceId: memo.spaceId, pinned: memo.pinned };
-
-    document.getElementById('titleInput').value = state.draft.title || '';
-    document.getElementById('contentInput').value = state.draft.content || '';
-    document.getElementById('pinBtn').classList.toggle('pinned', !!state.draft.pinned);
-    document.getElementById('deleteBtn').style.display = state.draft.id ? 'flex' : 'none';
-    document.getElementById('dupBtn').hidden = !state.draft.id;
-
-    renderEditorSpaceChips();
-    renderEditorCatChips();
-
-    openSheet('editorBackdrop');
-    setTimeout(() => document.getElementById('titleInput').focus(), 250);
-  }
-
-  function renderEditorSpaceChips(){
-    const el = document.getElementById('editorSpaceChips');
-    el.innerHTML = data.spaces.map(s => `
-      <button type="button" class="chip ${state.draft.spaceId===s.id?'active':''}" data-espace="${s.id}">
-        <span class="cdot" style="background:${s.color}"></span><span>${esc(s.name)}</span>
-      </button>`).join('');
-    el.querySelectorAll('[data-espace]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (state.draft.spaceId === btn.dataset.espace) return;
-        state.draft.spaceId = btn.dataset.espace;
-        state.draft.categories = [];
-        renderEditorSpaceChips();
-        renderEditorCatChips();
-      });
-    });
-  }
-
-  function renderEditorCatChips(){
-    const el = document.getElementById('editorCatChips');
-    const cats = spaceCategories(state.draft.spaceId);
-    if (!cats.length) {
-      el.innerHTML = `<button type="button" class="chip ghost" id="editorAddCatShortcut"><span>＋ カテゴリを作成</span></button>`;
-      document.getElementById('editorAddCatShortcut').addEventListener('click', () => {
-        state.activeSpace = state.draft.spaceId;
-        openCatEditor();
-      });
-      return;
-    }
-    el.innerHTML = cats.map(c => `
-      <button type="button" class="chip ${state.draft.categories.includes(c.id)?'active':''}" data-ecat="${c.id}">
-        <span class="cdot" style="background:${c.color}"></span><span>${esc(c.name)}</span>
-      </button>`).join('');
-    el.querySelectorAll('[data-ecat]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cid = btn.dataset.ecat;
-        const i = state.draft.categories.indexOf(cid);
-        if (i === -1) state.draft.categories.push(cid); else state.draft.categories.splice(i,1);
-        renderEditorCatChips();
-      });
-    });
-  }
-
-  function saveDraftAndClose(){
-    const title = document.getElementById('titleInput').value.trim();
-    const content = document.getElementById('contentInput').value.trim();
-    if (!title && !content) { closeSheet('editorBackdrop'); return; }
-    const now = Date.now();
-    if (state.draft.id) {
-      const m = data.memos.find(x => x.id === state.draft.id);
-      Object.assign(m, {
-        title: document.getElementById('titleInput').value,
-        content: document.getElementById('contentInput').value,
-        categories: state.draft.categories.slice(),
-        spaceId: state.draft.spaceId,
-        pinned: state.draft.pinned,
-        updatedAt: now,
-      });
-    } else {
-      data.memos.push({
-        id: uid(),
-        title: document.getElementById('titleInput').value,
-        content: document.getElementById('contentInput').value,
-        categories: state.draft.categories.slice(),
-        spaceId: state.draft.spaceId,
-        pinned: state.draft.pinned,
-        createdAt: now,
-        updatedAt: now,
-      });
-    }
-    save();
-    showToast('保存しました');
-    closeSheet('editorBackdrop');
-    if (state.draft.spaceId !== state.activeSpace) {
-      goToSpace(state.draft.spaceId, 'all');
-    }
-    renderAll();
-  }
-
-  function deleteDraft(){
-    if (!state.draft.id) { closeSheet('editorBackdrop'); return; }
-    const id = state.draft.id;
-    closeSheet('editorBackdrop');
-    instantDeleteMemo(id);
-  }
-
-  function duplicateDraft(){
-    if (!state.draft.id) return;
-    const original = data.memos.find(m => m.id === state.draft.id);
-    if (!original) return;
-    const now = Date.now();
-    const copy = {
-      id: uid(),
-      title: original.title ? original.title + ' のコピー' : '',
-      content: original.content || '',
-      categories: (original.categories||[]).slice(),
-      spaceId: original.spaceId,
-      pinned: false,
-      createdAt: now,
-      updatedAt: now,
-    };
-    data.memos.push(copy);
-    save();
-    showToast('複製しました');
-    closeSheet('editorBackdrop');
-    renderAll();
-    setTimeout(() => openEditor(copy.id), 260);
-  }
-
-  // ---------- Category editor ----------
-  function renderCatEditorList(){
-    const el = document.getElementById('catEditorList');
-    const cats = spaceCategories();
-    el.innerHTML = cats.map((c,i) => `
-      <div class="list-row" data-catrow="${c.id}">
-        <div class="row-arrows">
-          <button data-catup="${c.id}" ${i===0?'disabled':''}>▲</button>
-          <button data-catdown="${c.id}" ${i===cats.length-1?'disabled':''}>▼</button>
-        </div>
-        <span class="dot" style="background:${c.color}"></span>
-        <span class="name">${esc(c.name)}</span>
-        <button class="icon-btn danger" data-delcat="${c.id}">🗑</button>
-      </div>`).join('') || `<div style="color:var(--faint);font-size:13px;padding:6px 0;">まだカテゴリがありません</div>`;
-    el.querySelectorAll('[data-delcat]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.delcat;
-        const cat = catById(id);
-        showConfirm(`カテゴリ「${cat ? cat.name : ''}」を削除しますか？\nこのカテゴリが付いたメモは残りますが、タグが外れます。`, '削除', () => {
-          data.categories = data.categories.filter(c => c.id !== id);
-          data.memos.forEach(m => { m.categories = (m.categories||[]).filter(cid => cid !== id); });
-          if (state.activeCat === id) state.activeCat = 'all';
-          save();
-          showToast('カテゴリを削除しました');
-          renderCatEditorList();
-          renderAll();
-        });
-      });
-    });
-    el.querySelectorAll('[data-catup]').forEach(btn => btn.addEventListener('click', () => { moveCategory(btn.dataset.catup, -1); }));
-    el.querySelectorAll('[data-catdown]').forEach(btn => btn.addEventListener('click', () => { moveCategory(btn.dataset.catdown, 1); }));
-  }
-  function moveCategory(id, dir){
-    const subset = spaceCategories();
-    const pos = subset.findIndex(c => c.id === id);
-    const swapPos = pos + dir;
-    if (pos === -1 || swapPos < 0 || swapPos >= subset.length) return;
-    const neighborId = subset[swapPos].id;
-    const iA = data.categories.findIndex(c => c.id === id);
-    const iB = data.categories.findIndex(c => c.id === neighborId);
-    [data.categories[iA], data.categories[iB]] = [data.categories[iB], data.categories[iA]];
-    save();
-    renderCatEditorList();
-    renderHeader();
-  }
-  function openCatEditor(){
-    document.getElementById('catEditorTitle').textContent = 'カテゴリを編集 — ' + (spaceById(state.activeSpace)||{}).name;
-    renderCatEditorList();
-    const pal = document.getElementById('newCatPalette');
-    state.newCatColor = PALETTE[0];
-    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
-    updateCatPaletteSelection();
-    pal.querySelectorAll('[data-color]').forEach(sw => {
-      sw.addEventListener('click', () => { state.newCatColor = sw.dataset.color; updateCatPaletteSelection(); });
-    });
-    document.getElementById('newCatName').value = '';
-    openSheet('catEditorBackdrop');
-  }
-  function updateCatPaletteSelection(){
-    document.querySelectorAll('#newCatPalette .swatch').forEach(sw => {
-      sw.classList.toggle('selected', sw.dataset.color === state.newCatColor);
-    });
-  }
-  function addCategory(){
-    const input = document.getElementById('newCatName');
-    const name = input.value.trim();
-    if (!name) return;
-    data.categories.push({ id: uid(), name, color: state.newCatColor, spaceId: state.activeSpace });
-    save();
-    showToast('カテゴリを追加しました');
-    input.value = '';
-    state.newCatColor = PALETTE[data.categories.length % PALETTE.length];
-    updateCatPaletteSelection();
-    renderCatEditorList();
-    renderAll();
-  }
-
-  // ---------- Space editor ----------
-  function renderSpaceEditorList(){
-    const el = document.getElementById('spaceEditorList');
-    el.innerHTML = data.spaces.map((s,i) => `
-      <div class="list-row" data-spacerow="${s.id}">
-        <div class="row-arrows">
-          <button data-spup="${s.id}" ${i===0?'disabled':''}>▲</button>
-          <button data-spdown="${s.id}" ${i===data.spaces.length-1?'disabled':''}>▼</button>
-        </div>
-        <span class="dot" style="background:${s.color}"></span>
-        <span class="name">${esc(s.name)}</span>
-        <button class="icon-btn danger" data-delspace="${s.id}" ${data.spaces.length<=1?'disabled style="opacity:.3"':''}>🗑</button>
-      </div>`).join('');
-    el.querySelectorAll('[data-delspace]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (data.spaces.length <= 1) return;
-        const id = btn.dataset.delspace;
-        const sp = spaceById(id);
-        const catIds = data.categories.filter(c => c.spaceId === id).map(c => c.id);
-        const memoCount = data.memos.filter(m => m.spaceId === id).length;
-        showConfirm(`大枠「${sp ? sp.name : ''}」を削除しますか？\nカテゴリ${catIds.length}件・メモ${memoCount}件も一緒に削除されます。この操作は取り消せません。`, '削除', () => {
-          data.categories = data.categories.filter(c => c.spaceId !== id);
-          data.memos = data.memos.filter(m => m.spaceId !== id);
-          data.spaces = data.spaces.filter(s => s.id !== id);
-          if (state.activeSpace === id) {
-            state.activeSpace = data.spaces[0] ? data.spaces[0].id : null;
-            state.activeCat = 'all';
-            persistUiState();
-          }
-          save();
-          showToast('大枠を削除しました');
-          renderSpaceEditorList();
-          renderAll();
-        });
-      });
-    });
-    el.querySelectorAll('[data-spup]').forEach(btn => btn.addEventListener('click', () => moveSpace(btn.dataset.spup, -1)));
-    el.querySelectorAll('[data-spdown]').forEach(btn => btn.addEventListener('click', () => moveSpace(btn.dataset.spdown, 1)));
-  }
-  function moveSpace(id, dir){
-    const i = data.spaces.findIndex(s => s.id === id);
-    const j = i + dir;
-    if (i === -1 || j < 0 || j >= data.spaces.length) return;
-    [data.spaces[i], data.spaces[j]] = [data.spaces[j], data.spaces[i]];
-    save();
-    renderSpaceEditorList();
-  }
-  function openSpaceEditor(){
-    renderSpaceEditorList();
-    const pal = document.getElementById('newSpacePalette');
-    state.newSpaceColor = PALETTE[0];
-    pal.innerHTML = PALETTE.map(c => `<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('');
-    updateSpacePaletteSelection();
-    pal.querySelectorAll('[data-color]').forEach(sw => {
-      sw.addEventListener('click', () => { state.newSpaceColor = sw.dataset.color; updateSpacePaletteSelection(); });
-    });
-    document.getElementById('newSpaceName').value = '';
-    openSheet('spaceEditorBackdrop');
-  }
-  function updateSpacePaletteSelection(){
-    document.querySelectorAll('#newSpacePalette .swatch').forEach(sw => {
-      sw.classList.toggle('selected', sw.dataset.color === state.newSpaceColor);
-    });
-  }
-  function addSpace(){
-    const input = document.getElementById('newSpaceName');
-    const name = input.value.trim();
-    if (!name) return;
-    const id = uid();
-    data.spaces.push({ id, name, color: state.newSpaceColor });
-    save();
-    showToast('大枠を追加しました');
-    goToSpace(id, 'all');
-    input.value = '';
-    state.newSpaceColor = PALETTE[data.spaces.length % PALETTE.length];
-    updateSpacePaletteSelection();
-    renderSpaceEditorList();
-    renderAll();
-  }
-
-  // ---------- Save / Load slots ----------
-  function loadSlots(){
-    try {
-      const raw = localStorage.getItem(SLOTS_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch(e) {}
-    return [];
-  }
-  function saveSlots(slots){
-    try {
-      localStorage.setItem(SLOTS_KEY, JSON.stringify(slots));
-    } catch(e) {
-      showToast('⚠️ 保存に失敗しました');
-    }
-  }
-  function memoCountOf(d){ return (d.memos || []).length; }
-
-  function renderSlotList(){
-    const el = document.getElementById('slotList');
-    const slots = loadSlots();
-    if (!slots.length) {
-      el.innerHTML = `<div style="color:var(--faint);font-size:13px;padding:6px 0 14px;">まだセーブデータがありません</div>`;
-      return;
-    }
-    el.innerHTML = slots.slice().sort((a,b)=>b.savedAt-a.savedAt).map(s => `
-      <div class="slot-row" data-slotrow="${s.id}">
-        <div class="slot-info">
-          <div class="slot-name">${esc(s.name)}</div>
-          <div class="slot-meta">${fmtDateTime(s.savedAt)} ・ ${memoCountOf(s.data)}件</div>
-        </div>
-        <div class="slot-actions">
-          <button class="icon-btn" data-loadslot="${s.id}" title="呼び出す">📥</button>
-          <button class="icon-btn" data-overwriteslot="${s.id}" title="上書き保存">💾</button>
-          <button class="icon-btn danger" data-delslot="${s.id}" title="削除">🗑</button>
-        </div>
-      </div>`).join('');
-
-    el.querySelectorAll('[data-loadslot]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const slot = loadSlots().find(s => s.id === btn.dataset.loadslot);
-        if (!slot) return;
-        showConfirm(`「${slot.name}」を呼び出します。現在の内容は上書きされます。`, '呼び出す', () => {
-          data = JSON.parse(JSON.stringify(slot.data));
-          migrateMemos();
-          const uiSpace = data.uiState && spaceById(data.uiState.lastSpace) ? data.uiState.lastSpace : (data.spaces[0] ? data.spaces[0].id : null);
-          state.activeSpace = uiSpace;
-          state.activeCat = (data.uiState && data.uiState.lastCat) || 'all';
-          state.globalSearch = false;
-          applyTheme(computeEffectiveThemeId());
-          applyAccent(data.accent);
-          save();
-          showToast('呼び出しました');
-          closeSheet('saveLoadBackdrop');
-          renderAll();
-        });
-      });
-    });
-    el.querySelectorAll('[data-overwriteslot]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const slots = loadSlots();
-        const slot = slots.find(s => s.id === btn.dataset.overwriteslot);
-        if (!slot) return;
-        showConfirm(`「${slot.name}」を現在の内容で上書き保存しますか？`, '上書き保存', () => {
-          slot.data = JSON.parse(JSON.stringify(data));
-          slot.savedAt = Date.now();
-          saveSlots(slots);
-          showToast('上書き保存しました');
-          renderSlotList();
-        });
-      });
-    });
-    el.querySelectorAll('[data-delslot]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const slots = loadSlots();
-        const slot = slots.find(s => s.id === btn.dataset.delslot);
-        if (!slot) return;
-        showConfirm(`「${slot.name}」を削除しますか？`, '削除', () => {
-          saveSlots(slots.filter(s => s.id !== slot.id));
-          showToast('セーブデータを削除しました');
-          renderSlotList();
-        });
-      });
-    });
-  }
-
-  function saveCurrentAsSlot(){
-    const input = document.getElementById('newSlotName');
-    const name = input.value.trim();
-    if (!name) return;
-    const slots = loadSlots();
-    slots.push({ id: uid(), name, savedAt: Date.now(), data: JSON.parse(JSON.stringify(data)) });
-    saveSlots(slots);
-    showToast('セーブしました');
-    input.value = '';
-    renderSlotList();
-  }
-
-  function openSaveLoad(){ renderSlotList(); openSheet('saveLoadBackdrop'); }
-
-  // ---------- Backup export / import ----------
-  function exportData(){
-    const payload = JSON.stringify(data, null, 2);
-    const filename = 'memo-rack-backup-' + new Date().toISOString().slice(0,10) + '.json';
-    const blob = new Blob([payload], { type: 'application/json' });
-    if (navigator.canShare && navigator.share) {
-      try {
-        const file = new File([blob], filename, { type: 'application/json' });
-        if (navigator.canShare({ files: [file] })) {
-          navigator.share({ files: [file], title: 'Memo Rack Backup' }).catch(() => {});
-          return;
-        }
-      } catch(e) {}
-    }
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 4000);
-    showToast('書き出しました');
-  }
-
-  function importDataFromFile(file){
-    const reader = new FileReader();
-    reader.onload = () => {
-      let parsed;
-      try {
-        parsed = JSON.parse(reader.result);
-      } catch(e) {
-        showToast('⚠️ 読み込みに失敗しました');
-        return;
-      }
-      if (!parsed || !Array.isArray(parsed.spaces)) {
-        showToast('⚠️ 形式が正しくありません');
-        return;
-      }
-      showConfirm('バックアップを読み込みます。現在の内容は上書きされます。', '読み込む', () => {
-        data = parsed;
-        migrateMemos();
-        if (typeof data.autoMode !== 'boolean') data.autoMode = false;
-        data.lightThemeId = data.lightThemeId || 'light-paper';
-        data.darkThemeId = data.darkThemeId || 'dark-void';
-        const uiSpace = data.uiState && spaceById(data.uiState.lastSpace) ? data.uiState.lastSpace : (data.spaces[0] ? data.spaces[0].id : null);
-        state.activeSpace = uiSpace;
-        state.activeCat = (data.uiState && data.uiState.lastCat) || 'all';
-        state.globalSearch = false;
-        applyTheme(computeEffectiveThemeId());
-        applyAccent(data.accent || 'red');
-        save();
-        showToast('読み込みました');
-        closeSheet('saveLoadBackdrop');
-        renderAll();
-      });
-    };
-    reader.readAsText(file);
-  }
-
-  // ---------- Sheet helpers ----------
-  function openSheet(id){ document.getElementById(id).classList.add('open'); }
-  function closeSheet(id){ document.getElementById(id).classList.remove('open'); }
-
-  // ---------- Wire up ----------
-  document.getElementById('themeBtn').addEventListener('click', openThemePicker);
-  document.getElementById('closeThemePicker').addEventListener('click', () => closeSheet('themeBackdrop'));
-  document.getElementById('themeBackdrop').addEventListener('click', (e) => { if (e.target.id==='themeBackdrop') closeSheet('themeBackdrop'); });
-  document.getElementById('autoModeToggle').addEventListener('click', () => {
-    data.autoMode = !data.autoMode;
-    if (data.autoMode) applyTheme(computeEffectiveThemeId());
-    save();
-    renderThemeSheet();
-  });
-
-  document.getElementById('saveLoadBtn').addEventListener('click', openSaveLoad);
-  document.getElementById('closeSaveLoad').addEventListener('click', () => closeSheet('saveLoadBackdrop'));
-  document.getElementById('saveLoadBackdrop').addEventListener('click', (e) => { if (e.target.id==='saveLoadBackdrop') closeSheet('saveLoadBackdrop'); });
-  document.getElementById('saveSlotBtn').addEventListener('click', saveCurrentAsSlot);
-  document.getElementById('exportBtn').addEventListener('click', exportData);
-  document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFileInput').click());
-  document.getElementById('importFileInput').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) importDataFromFile(file);
-    e.target.value = '';
-  });
-
-  document.getElementById('spaceSwitchBtn').addEventListener('click', openSpacePicker);
-  document.getElementById('closeSpacePicker').addEventListener('click', () => closeSheet('spacePickerBackdrop'));
-  document.getElementById('spacePickerBackdrop').addEventListener('click', (e) => { if (e.target.id==='spacePickerBackdrop') closeSheet('spacePickerBackdrop'); });
-  document.getElementById('editSpacesBtn').addEventListener('click', () => { closeSheet('spacePickerBackdrop'); openSpaceEditor(); });
-
-  document.getElementById('fabBtn').addEventListener('click', (e) => {
-    e.currentTarget.classList.remove('pulse');
-    void e.currentTarget.offsetWidth;
-    e.currentTarget.classList.add('pulse');
-    openEditor(null);
-  });
-  document.getElementById('closeEditor').addEventListener('click', saveDraftAndClose);
-  document.getElementById('editorBackdrop').addEventListener('click', (e) => { if (e.target.id==='editorBackdrop') saveDraftAndClose(); });
-  document.getElementById('pinBtn').addEventListener('click', (e) => {
-    state.draft.pinned = !state.draft.pinned;
-    e.currentTarget.classList.toggle('pinned', state.draft.pinned);
-    e.currentTarget.classList.remove('pop'); void e.currentTarget.offsetWidth; e.currentTarget.classList.add('pop');
-  });
-  document.getElementById('deleteBtn').addEventListener('click', deleteDraft);
-  document.getElementById('dupBtn').addEventListener('click', duplicateDraft);
-
-  document.getElementById('closeCatEditor').addEventListener('click', () => closeSheet('catEditorBackdrop'));
-  document.getElementById('catEditorBackdrop').addEventListener('click', (e) => { if (e.target.id==='catEditorBackdrop') closeSheet('catEditorBackdrop'); });
-  document.getElementById('addCatBtn').addEventListener('click', addCategory);
-
-  document.getElementById('closeSpaceEditor').addEventListener('click', () => closeSheet('spaceEditorBackdrop'));
-  document.getElementById('spaceEditorBackdrop').addEventListener('click', (e) => { if (e.target.id==='spaceEditorBackdrop') closeSheet('spaceEditorBackdrop'); });
-  document.getElementById('addSpaceBtn').addEventListener('click', addSpace);
-
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    state.query = e.target.value;
-    renderList();
-  });
-  document.getElementById('globalSearchBtn').addEventListener('click', () => {
-    state.globalSearch = !state.globalSearch;
-    renderAll();
-  });
-  document.getElementById('sortBtn').addEventListener('click', cycleSort);
-
-  document.getElementById('selectCancelBtn').addEventListener('click', exitSelectMode);
-  document.getElementById('selectPinBtn').addEventListener('click', () => {
-    const ids = [...state.selectedIds];
-    const allPinned = ids.every(id => { const m = data.memos.find(x=>x.id===id); return m && m.pinned; });
-    ids.forEach(id => { const m = data.memos.find(x=>x.id===id); if (m) m.pinned = !allPinned; });
-    save();
-    showToast(allPinned ? 'ピン留めを解除しました' : 'ピン留めしました');
-    exitSelectMode();
-  });
-  document.getElementById('selectDeleteBtn').addEventListener('click', () => {
-    const ids = [...state.selectedIds];
-    showConfirm(`選択した${ids.length}件のメモを削除しますか？この操作は取り消せません。`, '削除', () => {
-      data.memos = data.memos.filter(m => !ids.includes(m.id));
-      save();
-      showToast(ids.length + '件削除しました');
-      exitSelectMode();
-    });
-  });
-
-  load();
-  applyTheme(computeEffectiveThemeId());
-  applyAccent(data.accent);
-  document.getElementById('sortLabel').textContent = '並び順: ' + SORT_LABELS[state.sortMode];
-  renderAll();
-})();
+load();todayInfo();D.lv=Math.max(D.lv,lvFromXp(xp()).lv);render();
 </script>
 </body>
 </html>
